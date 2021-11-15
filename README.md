@@ -7,9 +7,8 @@ For now it will be a ''main.cpp'' file containing the description of the robot t
 
 ## Available joints
 
- - Ball joint
- - Slide joint
- - Cilinder joint
+ - Prismatic joint
+ - Revolute joint
 
 ## Available functions
 
