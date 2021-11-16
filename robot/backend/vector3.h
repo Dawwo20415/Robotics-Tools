@@ -26,9 +26,12 @@ class Vector3 {
         float GetY();
         float GetZ();
         //Operators
+        //Vector3 operator=(const Vector3& vec);
         Vector3 operator+(const Vector3& vec);
-
-        
+        Vector3 operator-(const Vector3& vec);
+        Vector3 operator*(const Vector3& vec);
+        Vector3 operator*(float val);  
+        float DotProduct(Vector3 vec);      
 };
 
 #endif

@@ -35,9 +35,12 @@ int main()
     Vector3 vec8 = Vector3();
     */
 
-    std::unique_ptr<Vector3> vec1 (new Vector3(1.0f, 5.5f, 2.7f));
-    std::unique_ptr<Vector3> vec2 (new Vector3(1.0f, 5.5f, 2.7f)); 
-    Vector3 vec3 = vec1 + vec2;  
+    Vector3 vec1(1.0f, 5.5f, 2.7f);
+    Vector3 vec2(7.5f, 8.1f, 1.0f);
+    Vector3 vec3 = vec2 * vec1;
+    vec3.Println();
+    float tmp = vec1.DotProduct(vec2);
+    printf("%f\n", tmp);
 
     return 0;
 }
