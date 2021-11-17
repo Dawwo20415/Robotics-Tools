@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "./robot/robot.cpp"
-#include "./robot/backend/vector3.cpp"
+#include "./robot/backend/matrix.cpp"
 
 using namespace std;
 
@@ -35,12 +35,16 @@ int main()
     Vector3 vec8 = Vector3();
     */
 
+    /*
     Vector3 vec1(1.0f, 5.5f, 2.7f);
     Vector3 vec2(7.5f, 8.1f, 1.0f);
     Vector3 vec3 = vec2 * vec1;
     vec3.Println();
     float tmp = vec1.DotProduct(vec2);
     printf("%f\n", tmp);
+    */
+
+    Matrix<3> mat;
 
     return 0;
 }
