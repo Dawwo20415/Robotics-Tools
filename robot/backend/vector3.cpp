@@ -81,3 +81,13 @@ Vector3 Vector3::operator*(const Vector3& vec) {
 }
 
 float Vector3::DotProduct(Vector3 vec) { return (*v)[0]*(*vec.v)[0] + (*v)[1]*(*vec.v)[1] + (*v)[2]*(*vec.v)[2]; }
+
+//Statics
+
+Vector3 Vector3::UnitVector() {
+    return Vector3(1.0f, 1.0f, 1.0f);
+}
+
+Vector3 Vector3::NullVector() {
+    return Vector3(0.0f, 0.0f, 0.0f);
+}

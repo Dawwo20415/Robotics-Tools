@@ -31,7 +31,12 @@ class Vector3 {
         Vector3 operator-(const Vector3& vec);
         Vector3 operator*(const Vector3& vec);
         Vector3 operator*(float val);  
-        float DotProduct(Vector3 vec);      
+        float DotProduct(Vector3 vec);  
+        //Statics
+        static Vector3 UnitVector();
+        static Vector3 NullVector();    
 };
+
+
 
 #endif
