@@ -1,5 +1,5 @@
 #ifndef MATRIX_CLASS
-#define MATRIC_CLASS
+#define MATRIX_CLASS
 
 #include <iostream>
 #include <array>
@@ -11,6 +11,8 @@ class Matrix {
 
     private:
         std::array<Vector3,N> *matrix;
+        static int counter;
+        int index;
 
     public:
         //Constructors
@@ -24,5 +26,8 @@ class Matrix {
 
 
 };
+
+template <>
+int Matrix<3>::counter = 0;
 
 #endif

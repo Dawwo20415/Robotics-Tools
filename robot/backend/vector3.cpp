@@ -4,21 +4,27 @@
 //Constructors
 Vector3::Vector3() {
     printf("Created no arguments\n");
+    index = counter;
+    counter++;
     v = new std::vector<float>({0,0,0});
 }
 
 Vector3::Vector3(float x, float y, float z) {
     printf("Created floats\n");
+    index = counter;
+    counter++;
     v = new std::vector<float>({x,y,z});
 }
 
 Vector3::Vector3(const Vector3 &vec) {
     printf("Created Copy Constructor\n");
+    index = counter;
+    counter++;
     v = vec.v;
 }
 
 //Destructor
-Vector3::~Vector3() { printf("Destructed\n"); }
+Vector3::~Vector3() { printf("Destructed Vector3 %d\n", index); counter--; }
 
 //Functions
 std::vector<float> Vector3::Get() { return *v; }

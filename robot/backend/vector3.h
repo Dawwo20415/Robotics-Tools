@@ -8,6 +8,8 @@ class Vector3 {
 
     private:
         std::vector<float> *v; 
+        static int counter;
+        int index;
 
     public:
         //Default Constructors
@@ -37,6 +39,6 @@ class Vector3 {
         static Vector3 NullVector();    
 };
 
-
+int Vector3::counter = 0;
 
 #endif
