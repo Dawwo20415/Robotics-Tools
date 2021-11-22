@@ -4,7 +4,8 @@
 #include <vector>
 #include <memory>
 
-class Vector3 {
+template <int N>
+class VectorN {
 
     private:
         std::vector<float> *v; 
@@ -13,13 +14,13 @@ class Vector3 {
 
     public:
         //Default Constructors
-        Vector3();
+        VectorN();
         //Copy Constructor
-        Vector3 (const Vector3 &vec);
+        VectorN (const VectorN &vec);
         //Float Constructor
-        Vector3(float x, float y, float z);
+        VectorN(float arr[]);
         //Destructor
-        ~Vector3();
+        ~VectorN();
         //Functions
         std::vector<float> Get();
         void Print();
@@ -29,16 +30,17 @@ class Vector3 {
         float GetZ();
         //Operators
         //Vector3 operator=(const Vector3& vec);
-        Vector3 operator+(const Vector3& vec);
-        Vector3 operator-(const Vector3& vec);
-        Vector3 operator*(const Vector3& vec);
-        Vector3 operator*(float val);  
-        float DotProduct(Vector3 vec);  
+        VectorN operator+(const VectorN<N>& vec);
+        VectorN operator-(const VectorN<N>& vec);
+        VectorN operator*(const VectorN<N>& vec);
+        VectorN operator*(float val);  
+        float DotProduct(VectorN<N> vec);  
         //Statics
-        static Vector3 UnitVector();
-        static Vector3 NullVector();    
+        static VectorN UnitVector();
+        static VectorN NullVector();    
 };
 
-int Vector3::counter = 0;
+template <int N>
+int VectorN<N>::counter = 0;
 
 #endif

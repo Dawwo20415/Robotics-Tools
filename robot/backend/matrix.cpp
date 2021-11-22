@@ -1,25 +1,25 @@
 #include "matrix.h"
 
 //Constructors
-template <int N>
-Matrix<N>::Matrix() {
+template <int N, int M>
+Matrix<N,M>::Matrix() {
     index = counter;
     counter++;
-    matrix = new std::array<Vector3,N>{{Vector3::NullVector(), Vector3::NullVector(), Vector3::NullVector()}};
+    matrix = new std::array<VectorN<M>,N>{{VectorN<M>::NullVector(), VectorN<M>::NullVector(), VectorN<M>::NullVector()}};
 }
 
-template <int N>
-Matrix<N>::Matrix(std::array<Vector3,N> &mtx) {
+template <int N, int M>
+Matrix<N,M>::Matrix(std::array<VectorN<M>,N> &mtx) {
     index = counter;
     counter++;
     matrix = mtx;
 }
 
-template <int N>
-Matrix<N>::Matrix(std::list<Vector3> lst) {
+template <int N, int M>
+Matrix<N,M>::Matrix(std::list<VectorN<M>> lst) {
     index = counter;
     counter++;
-    std::array<Vector3,N> tmp;
+    std::array<VectorN<M>,N> tmp;
     if (lst.size() == N) {
         int j = 0;
         for (auto i : lst) {
@@ -27,13 +27,13 @@ Matrix<N>::Matrix(std::list<Vector3> lst) {
             j++;
         }
     } else {
-        tmp = {Vector3::NullVector(), Vector3::NullVector(), Vector3::NullVector()};
+        tmp = {VectorN<M>::NullVector(), VectorN<M>::NullVector(), VectorN<M>::NullVector()};
     }
     matrix = tmp;
 }
 
-template <int N>
-Matrix<N>::~Matrix() {
+template <int N, int M>
+Matrix<N,M>::~Matrix() {
     delete matrix;
     counter--;
     printf("Destructed Matrix %d\n", index);   

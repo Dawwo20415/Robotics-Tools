@@ -4,21 +4,22 @@
 #include <iostream>
 #include <array>
 #include <list>
+#include <iterator>
 #include "vector3.cpp"
 
-template <int N>
+template <int N, int M>
 class Matrix {
 
     private:
-        std::array<Vector3,N> *matrix;
+        std::array<VectorN<M>,N> *matrix;
         static int counter;
         int index;
 
     public:
         //Constructors
         Matrix();
-        Matrix(std::array<Vector3,N> &mtx);
-        Matrix(std::list<Vector3> lst);
+        Matrix(std::array<VectorN<M>,N> &mtx);
+        Matrix(std::list<VectorN<M>> lst);
         //Destructors
         ~Matrix();
         //Functions
@@ -28,6 +29,6 @@ class Matrix {
 };
 
 template <>
-int Matrix<3>::counter = 0;
+int Matrix<3,3>::counter = 0;
 
 #endif

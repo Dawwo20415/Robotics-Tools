@@ -2,21 +2,25 @@
 #include <iostream>
 
 //Constructors
-Vector3::Vector3() {
+template <int N>
+VectorN<N>::VectorN() {
     printf("Created no arguments\n");
     index = counter;
     counter++;
-    v = new std::vector<float>({0,0,0});
+    float tmp[N];
+    v = new std::vector<float>(N, 0.0f);
 }
 
-Vector3::Vector3(float x, float y, float z) {
+template <int N>
+VectorN<N>::VectorN(float arr[]) {
     printf("Created floats\n");
     index = counter;
     counter++;
-    v = new std::vector<float>({x,y,z});
+    v = new std::vector<float>(arr, arr + N);
 }
 
-Vector3::Vector3(const Vector3 &vec) {
+template <int N>
+VectorN<N>::VectorN(const VectorN<N> &vec) {
     printf("Created Copy Constructor\n");
     index = counter;
     counter++;
@@ -24,42 +28,56 @@ Vector3::Vector3(const Vector3 &vec) {
 }
 
 //Destructor
-Vector3::~Vector3() { printf("Destructed Vector3 %d\n", index); counter--; }
+template <int N>
+VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); counter--; }
 
 //Functions
-std::vector<float> Vector3::Get() { return *v; }
+template <int N>
+std::vector<float> VectorN<N>::Get() { return *v; }
 
-void Vector3::Print() {
-    std::cout << "[x:" << (*v)[0] << 
-                 "|y:" << (*v)[1] << 
-                 "|z:" << (*v)[2] << "]";
+template <int N>
+void VectorN<N>::Print() {
+    std::string tmp;
+    tmp += "[";
+    for (int i = 0; i < N; i++) {
+        tmp += std::to_string(i) + ":" + std::to_string((*v)[i]) + "|";
+    }
+    tmp += "]";
+    std::cout << tmp;
 }
 
-void Vector3::Println() {
-    std::cout << "[x:" << (*v)[0] << 
-                 "|y:" << (*v)[1] << 
-                 "|z:" << (*v)[2] << "]" << std::endl;
+template <int N>
+void VectorN<N>::Println() {
+    std::string tmp;
+    tmp += "[";
+    for (int i = 0; i < N; i++) {
+        tmp += "|" + std::to_string(i) + ":" + std::to_string((*v)[i]);
+    }
+    tmp += "|]\n";
+    std::cout << tmp;
 }
 
-float Vector3::GetX() { return (*v)[0]; }
+template <int N> float VectorN<N>::GetX() { return (*v)[0]; }
 
-float Vector3::GetY() { return (*v)[1]; }
+template <int N> float VectorN<N>::GetY() { return (*v)[1]; }
 
-float Vector3::GetZ() { return (*v)[2]; }
+template <int N> float VectorN<N>::GetZ() { return (*v)[2]; }
 
 //Operators
 
-Vector3 Vector3::operator+(const Vector3& vec) {
-    Vector3 tmp;
-    for (int i = 0; i < 3; i++) {
+template <int N>
+VectorN<N> VectorN<N>::operator+(const VectorN<N>& vec) {
+    VectorN<N> tmp;
+    for (int i = 0; i < N; i++) {
         (*tmp.v)[i] = (*v)[i] + (*vec.v)[i];
     }
     return tmp;
 }
 
-Vector3 Vector3::operator-(const Vector3& vec) {
-    Vector3 tmp;
-    for (int i = 0; i < 3; i++) {
+template <int N>
+VectorN<N> VectorN<N>::operator-(const VectorN<N>& vec) {
+    VectorN<N> tmp;
+    for (int i = 0; i < N; i++) {
         (*tmp.v)[i] = (*v)[i] - (*vec.v)[i];
     }
     return tmp;
@@ -70,30 +88,50 @@ Vector3 Vector3::operator=(const Vector3& vec) {
     return vec;
 }*/
 
-Vector3 Vector3::operator*(float val) {
-    Vector3 tmp;
-    for (int i = 0; i < 3; i++) {
+template <int N>
+VectorN<N> VectorN<N>::operator*(float val) {
+    VectorN<N> tmp;
+    for (int i = 0; i < N; i++) {
         (*tmp.v)[i] = (*v)[i] * val;
     }
     return tmp;
 }
 
-Vector3 Vector3::operator*(const Vector3& vec) {
-    Vector3 tmp;
+template <int N>
+VectorN<N> VectorN<N>::operator*(const VectorN<N>& vec) {
+    if (N == 3) {
+        VectorN<N> tmp;
         (*tmp.v)[0] = (*v)[1] * (*vec.v)[2] - (*v)[2] * (*vec.v)[1];
         (*tmp.v)[1] = (*v)[2] * (*vec.v)[0] - (*v)[0] * (*vec.v)[2];
         (*tmp.v)[2] = (*v)[0] * (*vec.v)[1] - (*v)[1] * (*vec.v)[0];
+        return tmp;
+    } else {
+        return VectorN<N>::NullVector();
+    }
+    
+}
+
+template <int N>
+float VectorN<N>::DotProduct(VectorN<N> vec) { 
+    float tmp = 0.0f;
+    for (int i = 0; i < N; i++) {
+        tmp += (*v)[i]*(*vec.v)[i];
+    }
     return tmp;
 }
 
-float Vector3::DotProduct(Vector3 vec) { return (*v)[0]*(*vec.v)[0] + (*v)[1]*(*vec.v)[1] + (*v)[2]*(*vec.v)[2]; }
-
 //Statics
 
-Vector3 Vector3::UnitVector() {
-    return Vector3(1.0f, 1.0f, 1.0f);
+template <int N>
+VectorN<N> VectorN<N>::UnitVector() {
+    float tmp[N];
+    for (int i = 0; i < N; i++) {
+        tmp[i] = 1.0f;
+    }
+    return VectorN<N>(tmp);
 }
 
-Vector3 Vector3::NullVector() {
-    return Vector3(0.0f, 0.0f, 0.0f);
+template <int N>
+VectorN<N> VectorN<N>::NullVector() {
+    return VectorN<N>();
 }

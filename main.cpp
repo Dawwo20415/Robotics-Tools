@@ -44,7 +44,29 @@ int main()
     printf("%f\n", tmp);
     */
 
-    Matrix<3> mat;
+    //Matrix<3,3> mat;
+    float tmp[3] = {1.1f,1.2f,1.3f};
+    float tmp2[3] = {1.4f,1.5f,1.6f};
+    VectorN<3> vec1(tmp);
+    VectorN<3> vec2(tmp2);
+    vec1.Println();
+    vec2.Println();
+    VectorN<5> vec3;
+    vec3.Println();
+    VectorN<3> vec4 = vec1 * vec2;
+    vec4.Println();
+    printf("%f\n", vec1.DotProduct(vec2));
+
+    vec4 = vec1 * VectorN<3>::NullVector();
+    vec4.Println();
+    vec4 = vec1 - VectorN<3>::UnitVector();
+    vec4.Println();
+
+    vec4 = vec1 * 1.5f;
+    vec4.Println();
+
+    VectorN<5> vec5(vec3);
+    vec5.Println();
 
     return 0;
 }
