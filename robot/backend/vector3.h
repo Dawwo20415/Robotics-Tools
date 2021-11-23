@@ -28,8 +28,10 @@ class VectorN {
         float GetX();
         float GetY();
         float GetZ();
+        float GetN(int index);
         //Operators
         //Vector3 operator=(const Vector3& vec);
+        VectorN& operator=(const VectorN<N>& vec);
         VectorN operator+(const VectorN<N>& vec);
         VectorN operator-(const VectorN<N>& vec);
         VectorN operator*(const VectorN<N>& vec);

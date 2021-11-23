@@ -1,5 +1,5 @@
 //launch code g++:
-//g++ main.cpp -o main.out && ./main.out
+//clear && g++ main.cpp -o main.out && ./main.out
 
 #include <iostream>
 #include <memory>
@@ -45,6 +45,7 @@ int main()
     */
 
     //Matrix<3,3> mat;
+    /*
     float tmp[3] = {1.1f,1.2f,1.3f};
     float tmp2[3] = {1.4f,1.5f,1.6f};
     VectorN<3> vec1(tmp);
@@ -67,6 +68,20 @@ int main()
 
     VectorN<5> vec5(vec3);
     vec5.Println();
+    */
+    float tmp[3] = {1.1f,1.2f,1.3f};
+    float tmp2[3] = {1.4f,1.5f,1.6f};
+    float tmp3[3] = {1.7f,1.8f,1.9f};
+    //std::array <VectorN<3>,3> *arr1 = new std::array<VectorN<3>,3>({VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)});
+    //std::array <VectorN<3>,3> arr2 = {VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)};
+    //std::list <VectorN<3>> *list1 = new std::list <VectorN<3>>({VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)});
+    std::list <VectorN<3>> list2 = {VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)};
+    //Matrix<3,3> mat;
+    //mat.Println();
+    //Matrix<3,3> mat2(arr1);
+    Matrix<3,3> mat3(list2);
+
+    //mat2.Println();
 
     return 0;
 }

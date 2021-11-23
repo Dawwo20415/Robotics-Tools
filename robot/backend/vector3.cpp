@@ -4,32 +4,32 @@
 //Constructors
 template <int N>
 VectorN<N>::VectorN() {
-    printf("Created no arguments\n");
     index = counter;
     counter++;
+    printf("Created no arguments Vector%d index: %d\n", N, index);
     float tmp[N];
     v = new std::vector<float>(N, 0.0f);
 }
 
 template <int N>
 VectorN<N>::VectorN(float arr[]) {
-    printf("Created floats\n");
     index = counter;
     counter++;
+    printf("Created floats Vector%d index: %d\n", N, index);
     v = new std::vector<float>(arr, arr + N);
 }
 
 template <int N>
 VectorN<N>::VectorN(const VectorN<N> &vec) {
-    printf("Created Copy Constructor\n");
-    index = counter;
+    this->index = counter;
     counter++;
-    v = vec.v;
+    printf("Created Copy Constructor Vector%d index: %d\n", N, this->index);
+    this->v = vec.v;
 }
 
 //Destructor
 template <int N>
-VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); counter--; }
+VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); }
 
 //Functions
 template <int N>
@@ -83,10 +83,13 @@ VectorN<N> VectorN<N>::operator-(const VectorN<N>& vec) {
     return tmp;
 }
 
-/*
-Vector3 Vector3::operator=(const Vector3& vec) {
-    return vec;
-}*/
+
+template<int N>
+VectorN<N>& VectorN<N>::operator=(const VectorN<N>& vec) {
+    printf("Used operator = on i:%d for i:%d\n",this->index, vec.index);
+    this->v = vec.v;
+    return *this;
+}
 
 template <int N>
 VectorN<N> VectorN<N>::operator*(float val) {
@@ -118,6 +121,11 @@ float VectorN<N>::DotProduct(VectorN<N> vec) {
         tmp += (*v)[i]*(*vec.v)[i];
     }
     return tmp;
+}
+
+template <int N>
+float VectorN<N>::GetN(int index) {
+    return (*v)[index];
 }
 
 //Statics
