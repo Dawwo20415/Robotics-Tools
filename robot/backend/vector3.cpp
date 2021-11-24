@@ -2,6 +2,7 @@
 #include <iostream>
 
 #pragma region Constructors
+//Default Constructor
 template <int N>
 VectorN<N>::VectorN() {
     index = counter;
@@ -11,6 +12,30 @@ VectorN<N>::VectorN() {
     v = new std::vector<float>(N, 0.0f);
 }
 
+//Copy Constructor
+template <int N>
+VectorN<N>::VectorN(const VectorN<N> &vec) {
+    this->index = counter;
+    counter++;
+    printf("Created Copy Constructor Vector%d index: %d\n", N, this->index);
+    this->v = vec.v;
+}
+
+//Move constructor
+template <int N>
+VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
+    this->index = counter;
+    counter++;
+    printf("Created Move Constructor Vector%d index: %d\n", N, this->index);
+    if (this != &other) {
+        delete v;
+
+        this->v = other.v;
+        other.v = nullptr;
+    }
+}
+
+
 template <int N>
 VectorN<N>::VectorN(float arr[]) {
     index = counter;
@@ -19,13 +44,7 @@ VectorN<N>::VectorN(float arr[]) {
     v = new std::vector<float>(arr, arr + N);
 }
 
-template <int N>
-VectorN<N>::VectorN(const VectorN<N> &vec) {
-    this->index = counter;
-    counter++;
-    printf("Created Copy Constructor Vector%d index: %d\n", N, this->index);
-    this->v = vec.v;
-}
+
 
 #pragma endregion
 
@@ -76,34 +95,50 @@ float VectorN<N>::GetN(int index) {
 #pragma endregion
 
 #pragma region Operators
+
 template <int N>
-VectorN<N> VectorN<N>::operator+(const VectorN<N>& vec) {
+//Addition operator
+VectorN<N> VectorN<N>::operator+(const VectorN<N>& other) {
     VectorN<N> tmp;
     for (int i = 0; i < N; i++) {
-        (*tmp.v)[i] = (*v)[i] + (*vec.v)[i];
+        (*tmp.v)[i] = (*v)[i] + (*other.v)[i];
     }
     return tmp;
 }
 
+//Subtraction operator
 template <int N>
-VectorN<N> VectorN<N>::operator-(const VectorN<N>& vec) {
+VectorN<N> VectorN<N>::operator-(const VectorN<N>& other) {
     VectorN<N> tmp;
     for (int i = 0; i < N; i++) {
-        (*tmp.v)[i] = (*v)[i] - (*vec.v)[i];
+        (*tmp.v)[i] = (*v)[i] - (*other.v)[i];
     }
     return tmp;
 }
 
-
+//Copy Assignment operator
 template<int N>
-VectorN<N>& VectorN<N>::operator=(const VectorN<N>& vec) {
-    printf("Used operator = on i:%d for i:%d\n",this->index, vec.index);
-    this->v = vec.v;
+VectorN<N>& VectorN<N>::operator=(const VectorN<N>& other) {
+    printf("Used copy assignment operator = on i:%d for i:%d\n",this->index, other.index);
+    this->v = other.v;
     return *this;
 }
 
+//Move Assignment operator
+template<int N>
+VectorN<N>& VectorN<N>::operator=(VectorN<N>&& other) noexcept {
+    printf("Used move operator = on i:%d for i:%d\n",this->index, other.index);
+    if (this != &other) {
+        delete v;
+        this->v = other.v;
+        other.v = nullptr;
+    }
+    return *this;
+}
+
+//Scalar Product operator
 template <int N>
-VectorN<N> VectorN<N>::operator*(float val) {
+VectorN<N> VectorN<N>::operator*(const float& val) {
     VectorN<N> tmp;
     for (int i = 0; i < N; i++) {
         (*tmp.v)[i] = (*v)[i] * val;
@@ -111,6 +146,7 @@ VectorN<N> VectorN<N>::operator*(float val) {
     return tmp;
 }
 
+//Cross Product operator
 template <int N>
 VectorN<N> VectorN<N>::operator*(const VectorN<N>& vec) {
     if (N == 3) {
@@ -125,8 +161,9 @@ VectorN<N> VectorN<N>::operator*(const VectorN<N>& vec) {
     
 }
 
+//Dot Product operator
 template <int N>
-float VectorN<N>::DotProduct(VectorN<N> vec) { 
+float VectorN<N>::DotProduct(const VectorN<N>& vec) { 
     float tmp = 0.0f;
     for (int i = 0; i < N; i++) {
         tmp += (*v)[i]*(*vec.v)[i];
@@ -149,20 +186,6 @@ VectorN<N> VectorN<N>::UnitVector() {
 template <int N>
 VectorN<N> VectorN<N>::NullVector() {
     return VectorN<N>();
-}
-
-template <int N>
-const VectorN<N>& VectorN<N>::UnitVectorPtr() {
-    float tmp[N];
-    for (int i = 0; i < N; i++) {
-        tmp[i] = 1.0f;
-    }
-    return std::move(new VectorN<N>(tmp));
-}
-
-template <int N>
-const VectorN<N>& VectorN<N>::NullVectorPtr() {
-    return std::move(new VectorN<N>());
 }
 
 #pragma endregion

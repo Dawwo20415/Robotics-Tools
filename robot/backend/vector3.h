@@ -16,7 +16,9 @@ class VectorN {
         //Default Constructors
         VectorN();
         //Copy Constructor
-        VectorN (const VectorN &vec);
+        VectorN (const VectorN& other);
+        //Move constructor
+        VectorN (VectorN&& other) noexcept;
         //Float Constructor
         VectorN(float arr[]);
         //Destructor
@@ -30,19 +32,23 @@ class VectorN {
         float GetZ();
         float GetN(int index);
         int GetIndex() { return index; };
+        bool isNull() { return (this->v == nullptr);};
         //Operators
-        //Vector3 operator=(const Vector3& vec);
-        VectorN& operator=(const VectorN<N>& vec);
-        VectorN operator+(const VectorN<N>& vec);
-        VectorN operator-(const VectorN<N>& vec);
-        VectorN operator*(const VectorN<N>& vec);
-        VectorN operator*(float val);  
-        float DotProduct(VectorN<N> vec);  
+        //Assignment operator
+        VectorN& operator=(const VectorN<N>& other);
+        VectorN& operator=(VectorN<N>&& other) noexcept;
+        //Addition operator
+        VectorN operator+(const VectorN<N>& other);
+        //Subtraction operator
+        VectorN operator-(const VectorN<N>& other);
+        //Cross Product operator
+        VectorN operator*(const VectorN<N>& other);
+        //Scalar Product operator
+        VectorN operator*(const float& val);  
+        float DotProduct(const VectorN<N>& other);  
         //Statics
         static VectorN UnitVector();
-        static VectorN NullVector();
-        static const VectorN &UnitVectorPtr();
-        static const VectorN &NullVectorPtr();     
+        static VectorN NullVector();    
 };
 
 template <int N>

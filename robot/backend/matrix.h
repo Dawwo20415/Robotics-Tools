@@ -47,7 +47,7 @@ class Matrix {
                 std::cout << std::endl;
             };
             void InsertValue(float value, int column) {
-                (*(*matrix)[column]) = (*(*matrix)[column]) + (VectorN<3>::UnitVector() * value);
+                //(*(*matrix)[column]) = (*(*matrix)[column]) + (VectorN<3>::UnitVector() * value);
             }
 
 
