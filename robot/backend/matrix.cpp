@@ -7,7 +7,9 @@ Matrix<Row,Column>::Matrix() {
     index = counter;
     counter++;
     printf("Default Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    matrix = new std::array<VectorN<Row>,Column>{{VectorN<Row>::NullVector(), VectorN<Row>::NullVector(), VectorN<Row>::NullVector()}};
+    std::array<VectorN<Row> *,Column> *tmp = new std::array<VectorN<Row> *,Column>{};
+    tmp->fill(new VectorN<3>());
+    matrix = std::move(tmp);
 }
 
 template <int Row, int Column>
@@ -61,6 +63,15 @@ Matrix<Row,Column>::Matrix(std::list<VectorN<Row>> lst) {
     }
     matrix = tmp;
 }
+
+template <int Row, int Column>
+Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
+    index = counter;
+    counter++;
+    printf("Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+    this->matrix = other.matrix; 
+}
+
 #pragma endregion
 
 #pragma region Destructors
@@ -128,9 +139,9 @@ void Matrix<Row,Column>::Println() {
         //Contents
         for (int j = 0; j < Column; j++) {
             if (j == Column - 1){
-                line += std::to_string((*matrix)[j].GetN(i));
+                line += std::to_string((*matrix)[j]->GetN(i));
             } else {
-                line += std::to_string((*matrix)[j].GetN(i)) + " | ";
+                line += std::to_string((*matrix)[j]->GetN(i)) + " | ";
             }      
         }
 

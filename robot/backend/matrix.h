@@ -11,7 +11,7 @@ template <int Row, int Column>
 class Matrix {
 
     private:
-        std::array<VectorN<Row>,Column> *matrix;
+        std::array<VectorN<Row> *,Column> *matrix = nullptr;
         static int counter;
         int index;
 
@@ -39,6 +39,16 @@ class Matrix {
             //Determinante
             void Print();
             void Println();
+            void PrintIndexes() {
+                std::cout << "Indexes of vectors in matrix " << std::to_string(index) << " are ";
+                for (auto i : *matrix) {
+                    std::cout << i->GetIndex() << " "; 
+                }
+                std::cout << std::endl;
+            };
+            void InsertValue(float value, int column) {
+                (*(*matrix)[column]) = (*(*matrix)[column]) + (VectorN<3>::UnitVector() * value);
+            }
 
 
         //Statics

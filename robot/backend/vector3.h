@@ -8,7 +8,7 @@ template <int N>
 class VectorN {
 
     private:
-        std::vector<float> *v; 
+        std::vector<float> *v = nullptr; 
         static int counter;
         int index;
 
@@ -29,6 +29,7 @@ class VectorN {
         float GetY();
         float GetZ();
         float GetN(int index);
+        int GetIndex() { return index; };
         //Operators
         //Vector3 operator=(const Vector3& vec);
         VectorN& operator=(const VectorN<N>& vec);
@@ -39,7 +40,9 @@ class VectorN {
         float DotProduct(VectorN<N> vec);  
         //Statics
         static VectorN UnitVector();
-        static VectorN NullVector();    
+        static VectorN NullVector();
+        static const VectorN &UnitVectorPtr();
+        static const VectorN &NullVectorPtr();     
 };
 
 template <int N>

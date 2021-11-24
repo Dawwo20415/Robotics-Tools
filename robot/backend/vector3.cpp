@@ -1,7 +1,7 @@
 #include "vector3.h"
 #include <iostream>
 
-//Constructors
+#pragma region Constructors
 template <int N>
 VectorN<N>::VectorN() {
     index = counter;
@@ -27,11 +27,16 @@ VectorN<N>::VectorN(const VectorN<N> &vec) {
     this->v = vec.v;
 }
 
+#pragma endregion
+
+#pragma region Destructors
 //Destructor
 template <int N>
 VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); }
 
-//Functions
+#pragma endregion
+
+#pragma region Functions
 template <int N>
 std::vector<float> VectorN<N>::Get() { return *v; }
 
@@ -63,8 +68,14 @@ template <int N> float VectorN<N>::GetY() { return (*v)[1]; }
 
 template <int N> float VectorN<N>::GetZ() { return (*v)[2]; }
 
-//Operators
+template <int N>
+float VectorN<N>::GetN(int index) {
+    return (*v)[index];
+}
 
+#pragma endregion
+
+#pragma region Operators
 template <int N>
 VectorN<N> VectorN<N>::operator+(const VectorN<N>& vec) {
     VectorN<N> tmp;
@@ -123,13 +134,9 @@ float VectorN<N>::DotProduct(VectorN<N> vec) {
     return tmp;
 }
 
-template <int N>
-float VectorN<N>::GetN(int index) {
-    return (*v)[index];
-}
+#pragma endregion
 
-//Statics
-
+#pragma region Statics
 template <int N>
 VectorN<N> VectorN<N>::UnitVector() {
     float tmp[N];
@@ -143,3 +150,19 @@ template <int N>
 VectorN<N> VectorN<N>::NullVector() {
     return VectorN<N>();
 }
+
+template <int N>
+const VectorN<N>& VectorN<N>::UnitVectorPtr() {
+    float tmp[N];
+    for (int i = 0; i < N; i++) {
+        tmp[i] = 1.0f;
+    }
+    return std::move(new VectorN<N>(tmp));
+}
+
+template <int N>
+const VectorN<N>& VectorN<N>::NullVectorPtr() {
+    return std::move(new VectorN<N>());
+}
+
+#pragma endregion

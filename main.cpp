@@ -74,12 +74,15 @@ int main()
     float tmp3[3] = {1.7f,1.8f,1.9f};
     //std::array <VectorN<3>,3> *arr1 = new std::array<VectorN<3>,3>({VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)});
     //std::array <VectorN<3>,3> arr2 = {VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)};
-    //std::list <VectorN<3>> *list1 = new std::list <VectorN<3>>({VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)});
-    std::list <VectorN<3>> list2 = {VectorN<3>(tmp), VectorN<3>(tmp2), VectorN<3>(tmp3)};
     //Matrix<3,3> mat;
     //mat.Println();
-    //Matrix<3,3> mat2(arr1);
-    Matrix<3,3> mat3(list2);
+    Matrix<3,3> mat2;
+    mat2.Println();
+    mat2.PrintIndexes();
+    mat2.InsertValue(3.0f, 2);
+    mat2.Println();
+
+
 
     //mat2.Println();
 
