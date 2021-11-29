@@ -37,12 +37,24 @@ class Matrix {
             //Translated of a Matrix
             //Is Symmetric
             //Determinante
-            VectorN<Row> GetColumn(int index) const;
+        float* GetColumn(int dex) const {
+            static float tmp[Row];
+            if (index < Column && index >= 0) { 
+                for (int i = 0; i < Row; i++) {
+                    tmp[i] = (*((*matrix)[dex])).GetN(i);
+                }
+            } else {
+                for (int i = 0; i < Row; i++) {
+                    tmp[i] = 0.0f;
+                }
+            }
+            return tmp;
+        };
             void Print();
             void Println();
             void AddX(float x) {
                 std::cout << "Adding" << std::endl;
-                *((*(this->matrix))[1]) = *((*(this->matrix))[0]) + (VectorN<Row>::UnitVector() * x);
+                *((*(this->matrix))[0]) = *((*(this->matrix))[1]) + (VectorN<Row>::UnitVector() * x);
             };
 
         //Statics

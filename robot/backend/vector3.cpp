@@ -119,7 +119,7 @@ VectorN<N> VectorN<N>::operator-(const VectorN<N>& other) {
 //Copy Assignment operator
 template<int N>
 VectorN<N>& VectorN<N>::operator=(const VectorN<N>& other) {
-    printf("Used copy assignment operator = on i:%d for i:%d\n",this->index, other.index);
+    printf("Vector N Used copy assignment operator = on i:%d for i:%d\n",this->index, other.index);
     this->v = other.v;
     return *this;
 }
@@ -127,7 +127,7 @@ VectorN<N>& VectorN<N>::operator=(const VectorN<N>& other) {
 //Move Assignment operator
 template<int N>
 VectorN<N>& VectorN<N>::operator=(VectorN<N>&& other) noexcept {
-    printf("Used move operator = on i:%d for i:%d\n",this->index, other.index);
+    printf("VectorN Used move operator = on i:%d for i:%d\n",this->index, other.index);
     if (this != &other) {
         delete v;
         this->v = other.v;
