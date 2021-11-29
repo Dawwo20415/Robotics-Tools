@@ -11,18 +11,18 @@ template <int Row, int Column>
 class Matrix {
 
     private:
-        std::array<VectorN<Row> *,Column> *matrix = nullptr;
+        std::unique_ptr<std::array<std::unique_ptr<VectorN<Row>>,Column>> matrix;
         static int counter;
         int index;
 
     public:
-        //Constructors
+        //Default Constructor
         Matrix();
-        Matrix(std::array<VectorN<Row>,Column> *mtx);
-        Matrix(std::array<VectorN<Row>,Column> mtx);
-        Matrix(std::list<VectorN<Row>> *lst);
-        Matrix(std::list<VectorN<Row>> lst);
+        //Copy Constructor
         Matrix(const Matrix<Row,Column>& other);
+        //Move constructor
+        Matrix(Matrix<Row,Column>&& other);
+        //Floart
         //Destructors
         ~Matrix();
         //Operators
@@ -37,19 +37,13 @@ class Matrix {
             //Translated of a Matrix
             //Is Symmetric
             //Determinante
+            VectorN<Row> GetColumn(int index) const;
             void Print();
             void Println();
-            void PrintIndexes() {
-                std::cout << "Indexes of vectors in matrix " << std::to_string(index) << " are ";
-                for (auto i : *matrix) {
-                    std::cout << i->GetIndex() << " "; 
-                }
-                std::cout << std::endl;
+            void AddX(float x) {
+                std::cout << "Adding" << std::endl;
+                *((*(this->matrix))[1]) = *((*(this->matrix))[0]) + (VectorN<Row>::UnitVector() * x);
             };
-            void InsertValue(float value, int column) {
-                //(*(*matrix)[column]) = (*(*matrix)[column]) + (VectorN<3>::UnitVector() * value);
-            }
-
 
         //Statics
             //Identity Matrix

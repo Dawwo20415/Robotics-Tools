@@ -1,91 +1,48 @@
 #include "matrix.h"
 
 #pragma region Constructors
-//Constructors
+//Default Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix() {
     index = counter;
     counter++;
+    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
     printf("Default Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    std::array<VectorN<Row> *,Column> *tmp = new std::array<VectorN<Row> *,Column>{};
-    tmp->fill(new VectorN<3>());
-    matrix = std::move(tmp);
-}
-
-template <int Row, int Column>
-Matrix<Row,Column>::Matrix(std::array<VectorN<Row>,Column> *mtx) {
-    index = counter;
-    counter++;
-    printf("Array Pointer Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    matrix = mtx;
-}
-
-template <int Row, int Column>
-Matrix<Row,Column>::Matrix(std::array<VectorN<Row>,Column> mtx) {
-    index = counter;
-    counter++;
-    printf("Array Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    matrix = new std::array<VectorN<Row>,Column>(mtx);
-}
-
-template <int Row, int Column>
-Matrix<Row,Column>::Matrix(std::list<VectorN<Row>> *lst) {
-    index = counter;
-    counter++;
-    printf("List Pointer Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    std::array<VectorN<Row>,Column> *tmp = new std::array<VectorN<Row>,Column>();
-    if (lst->size() == Column) {
-        int j = 0;
-        for (auto i : *lst) {
-            (*tmp)[j] = i;
-            j++;
-        }
-    } else {
-        *tmp = {VectorN<Row>::NullVector(), VectorN<Row>::NullVector(), VectorN<Row>::NullVector()};
+    for (int i = 0; i < Column; i++) {
+        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>();
+        (*matrix)[i] = std::move(tmp);
     }
-    matrix = tmp;
 }
 
-template <int Row, int Column>
-Matrix<Row,Column>::Matrix(std::list<VectorN<Row>> lst) {
-    index = counter;
-    counter++;
-    printf("List Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    std::array<VectorN<Row>,Column> *tmp = new std::array<VectorN<Row>,Column>();
-    if (lst.size() == Column) {
-        int j = 0;
-        for (auto i : lst) {
-            (*tmp)[j] = i;
-            j++;
-        }
-    } else {
-        *tmp = {VectorN<Row>::NullVector(), VectorN<Row>::NullVector(), VectorN<Row>::NullVector()};
-    }
-    matrix = tmp;
-}
-
+//Copy Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
     index = counter;
     counter++;
+    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
     printf("Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    this->matrix = other.matrix; 
+    for (int i = 0; i < Column; i++) {
+        VectorN<Row> vec = other.GetColumn(i);
+        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>(vec);
+        (*matrix)[i] = std::move(tmp);
+        std::cout << "Addresses of The pointers -------- "
+                << &((*matrix)[i]) << " || " << &(*((*(other.matrix))[i])) << std::endl;
+    }
 }
-
 #pragma endregion
 
 #pragma region Destructors
 //Destructor
+
 template <int Row, int Column>
 Matrix<Row,Column>::~Matrix() {
-    if (matrix != NULL) {
-        delete matrix;
-    }
     printf("Destructed Matrix %d\n", index);   
 }
 #pragma endregion
 
 #pragma region Prints & Display
+
+/*
 template <int Row, int Column>
 void Matrix<Row,Column>::Print() {
     std::string tmp;
@@ -120,7 +77,7 @@ void Matrix<Row,Column>::Print() {
         tmp += line;
     }
     std::cout << tmp;
-}
+}*/
 
 template <int Row, int Column>
 void Matrix<Row,Column>::Println() {
@@ -156,6 +113,28 @@ void Matrix<Row,Column>::Println() {
         tmp += line;
     }
     std::cout << tmp << std::endl;
+}
+
+#pragma endregion
+
+#pragma region Functions
+
+template <int Row, int Column>
+VectorN<Row> Matrix<Row,Column>::GetColumn(int index){
+    try {
+        if (index < Column && index >= 0) {
+            VectorN<Row> tmp = *((*matrix)[index]);
+            return tmp;
+        } else {
+            throw 0;
+        }   
+    }
+
+    catch (int e) {
+        if (e == 0) 
+            std::cout << "Invalid index in Vector request for Matrix: " << std::to_string(this->index) << std::endl;
+    }
+    
 }
 
 #pragma endregion
