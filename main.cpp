@@ -9,31 +9,26 @@
 
 using namespace std;
 
-void Func1(int (&&other)[5]) {
-    std::cout << "0:" << std::to_string(other[0])
-              << " 1:" << std::to_string(other[1])
-              << " 2:" << std::to_string(other[2])
-              << " 3:" << std::to_string(other[3])
-              << " 4:" << std::to_string(other[4])
-              << std::endl;
-}
-
-void Func2(int (&&other)[2][2]) {
-    std::cout << "0:" << std::to_string(other[0][0])
-              << " 1:" << std::to_string(other[0][1])
-              << " 2:" << std::to_string(other[1][0])
-              << " 3:" << std::to_string(other[1][1])
-              << std::endl;
-}
-
 int main()
 {
-    Func2({{1,2},{3,4}});
-
+    std::cout << "---- First Declaration ----" << std::endl;
     Matrix<3,3> c({{1.0f, 2.0f, 3.0f},
                    {4.0f, 5.0f, 6.0f},
                    {7.0f, 8.0f, 9.0f}});
+                   
+    Matrix<3,3> l({{1.0f, 2.0f, 3.0f},
+                   {4.0f, 5.0f, 6.0f},
+                   {7.0f, 8.0f, 9.0f}});
     c.Println();
+    l.Println();
+
+    std::cout << "---- After operator ----" << std::endl;
+
+    l = c + c;
+
+    c.Println();
+    l.Println();
+
 
     std::cin.get();
 }

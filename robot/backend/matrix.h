@@ -29,7 +29,11 @@ class Matrix {
         //Destructors
         ~Matrix();
         //Operators
+        //Copy Assignment Operator
+        Matrix& operator=(const Matrix<Row,Column>& other);
+        Matrix& operator=(Matrix<Row,Column>&& other) noexcept;
             //Matrix + Matrix ONLYSAME SIZE
+            Matrix operator+(const Matrix<Row,Column>& other);
             //Matrix - Matrix ONLY OF THE SAME SIZE
             //Matrix * Matrix AB =/ BA
             //Matrix * Scalar
@@ -50,6 +54,15 @@ class Matrix {
                 for (int i = 0; i < Row; i++) {
                     tmp[i] = 0.0f;
                 }
+            }
+            return tmp;
+        };
+        VectorN<Row> GetVector(int dex) const {
+            static VectorN<Row> tmp;
+            if (index < Column && index >= 0) { 
+                std::cout<< "Get Vector Function" << std::endl;
+                tmp = (*((*matrix)[dex])).Get();
+                std::cout<< "Finished Get Vector Function" << std::endl;
             }
             return tmp;
         };

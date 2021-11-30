@@ -21,6 +21,27 @@ VectorN<N>::VectorN(const VectorN<N> &vec) {
     this->v = vec.v;
 }
 
+//Copy Vector Constructor
+template <int N>
+VectorN<N>::VectorN(const std::vector<float> &other) {
+    this->index = counter;
+    counter++;
+    printf("Created Copy Vector Constructor Vector%d index: %d\n", N, this->index);
+    *(this->v) = other;
+}
+
+//Move Vector Constructor
+/*template <int N>
+VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
+    this->index = counter;
+    counter++;
+    printf("Created Move Vector Constructor Vector%d index: %d\n", N, this->index);
+    if (this->v != &other) {
+        delete this->v;
+        this->v = &other;
+    }
+}*/
+
 //Move constructor
 template <int N>
 VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
@@ -57,7 +78,12 @@ VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); }
 
 #pragma region Functions
 template <int N>
-std::vector<float> VectorN<N>::Get() { return *v; }
+std::vector<float> VectorN<N>::Get() { 
+    std::cout << "Vector Get" << std::endl; 
+    std::vector<float> tmp;
+    tmp = *v;
+    return tmp; 
+}
 
 template <int N>
 void VectorN<N>::Print() {
@@ -99,6 +125,7 @@ float VectorN<N>::GetN(int index) {
 template <int N>
 //Addition operator
 VectorN<N> VectorN<N>::operator+(const VectorN<N>& other) {
+    std::cout << "VectorN operator +" << std::endl;
     VectorN<N> tmp;
     for (int i = 0; i < N; i++) {
         (*tmp.v)[i] = (*v)[i] + (*other.v)[i];

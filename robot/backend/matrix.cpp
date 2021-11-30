@@ -161,12 +161,40 @@ void Matrix<Row,Column>::Println() {
 
 #pragma endregion
 
-#pragma region Functions
+#pragma region Operators
 
-/*
+//Copy Assignment operator
 template <int Row, int Column>
-VectorN<Row> Matrix<Row,Column>::GetColumn(int index){
-      
-}*/
+Matrix<Row,Column>& Matrix<Row,Column>::operator=(const Matrix<Row,Column>& other) {
+    std::unique_ptr<std::array<std::unique_ptr<VectorN<Row>>,Column>> tmp_arr = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+    for (int i = 0; i < Column; i++) {
+        (*(tmp_arr))[i] = std::make_unique<VectorN<Row>>(other.GetColumn(i));
+    }
+    printf("Matrix Used copy assignment operator = on i:%d for i:%d\n",this->index, other.index);
+    this->matrix = std::move(tmp_arr);
+    return *this;
+}
+
+//Move Assignment operator
+template <int Row, int Column>
+Matrix<Row,Column>& Matrix<Row,Column>::operator=(Matrix<Row,Column>&& other) noexcept {
+    printf("Matrix Used move assignment operator = on i:%d for i:%d\n",this->index, other.index);
+    if (this != &other) {
+        this->matrix = std::move(other.matrix);
+    }
+    return *this;
+}
+
+template <int Row, int Column>
+Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other) {
+    Matrix<Row,Column> tmp_mat;
+    for (int c = 0; c < Column; c++) {
+        VectorN<Row> tmp_vec;
+        tmp_vec = this->GetVector(c);
+        std::cout << "Arrived at after sum" << std::endl;
+        *((*(tmp_mat.matrix))[c]) = tmp_vec;
+    }
+    return tmp_mat;
+}
 
 #pragma endregion

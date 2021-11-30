@@ -19,6 +19,10 @@ class VectorN {
         VectorN (const VectorN& other);
         //Move constructor
         VectorN (VectorN&& other) noexcept;
+        //Vector Copy Constructor
+        VectorN (const std::vector<float>& other);
+        //Vector Move Constructor
+        //VectorN (std::vector<float>&& other) noexcept;
         //Float Constructor
         VectorN(float arr[]);
         //Destructor
