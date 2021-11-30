@@ -26,6 +26,53 @@ Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
         (*matrix)[i] = std::move(tmp);
     }
 }
+
+//Move Constructor
+template <int Row, int Column>
+Matrix<Row,Column>::Matrix(Matrix<Row,Column>&& other) noexcept {
+    index = counter;
+    counter++;
+    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+    printf("Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+    if (this != &other) {
+        this->matrix = std::move(other.matrix);
+    }
+}
+
+//Float Copy Constructor
+template <int Row, int Column>
+Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
+    index = counter;
+    counter++;
+    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+    printf("Float Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+    for (int c = 0; c < Column; c++){
+        float tmp_arr[Row];
+        for (int r = 0; r < Row; r++) {
+            tmp_arr[r] = other[r][c];
+        }
+        std::unique_ptr<VectorN<Row>> tmp_vec = std::make_unique<VectorN<Row>>(std::move(tmp_arr));
+        (*matrix)[c] = std::move(tmp_vec);
+    }
+}
+
+//Float Move Constructor
+template <int Row, int Column>
+Matrix<Row,Column>::Matrix(float (&&other)[Row][Column]) noexcept {
+    index = counter;
+    counter++;
+    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+    printf("Float Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+    for (int c = 0; c < Column; c++){
+        float tmp_arr[Row];
+        for (int r = 0; r < Row; r++) {
+            tmp_arr[r] = other[r][c];
+        }
+        std::unique_ptr<VectorN<Row>> tmp_vec = std::make_unique<VectorN<Row>>(std::move(tmp_arr));        
+        (*matrix)[c] = std::move(tmp_vec);
+    }
+}
+
 #pragma endregion
 
 #pragma region Destructors

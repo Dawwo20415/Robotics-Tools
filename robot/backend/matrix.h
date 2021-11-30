@@ -21,8 +21,11 @@ class Matrix {
         //Copy Constructor
         Matrix(const Matrix<Row,Column>& other);
         //Move constructor
-        Matrix(Matrix<Row,Column>&& other);
-        //Floart
+        Matrix(Matrix<Row,Column>&& other) noexcept;
+        //Float Array Copy Constructor
+        Matrix(const float (&other)[Row][Column]);
+        //Float Array Move Constructor
+        Matrix(float (&&other)[Row][Column]) noexcept;
         //Destructors
         ~Matrix();
         //Operators

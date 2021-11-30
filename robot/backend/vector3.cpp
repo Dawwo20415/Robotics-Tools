@@ -35,7 +35,7 @@ VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
     }
 }
 
-
+//Float constructor
 template <int N>
 VectorN<N>::VectorN(float arr[]) {
     index = counter;

@@ -28,15 +28,11 @@ void Func2(int (&&other)[2][2]) {
 
 int main()
 {
-    Func1({1,3,5,6,8});
     Func2({{1,2},{3,4}});
 
-    Matrix<3,3> m;
-    m.Println();
-    Matrix<3,3> c(m);
-    c.Println();
-    c.AddX(2.0f);
-    m.Println();
+    Matrix<3,3> c({{1.0f, 2.0f, 3.0f},
+                   {4.0f, 5.0f, 6.0f},
+                   {7.0f, 8.0f, 9.0f}});
     c.Println();
 
     std::cin.get();
