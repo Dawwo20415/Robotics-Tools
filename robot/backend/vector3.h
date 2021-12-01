@@ -22,9 +22,11 @@ class VectorN {
         //Vector Copy Constructor
         VectorN (const std::vector<float>& other);
         //Vector Move Constructor
-        //VectorN (std::vector<float>&& other) noexcept;
+        VectorN (std::vector<float>&& other) noexcept;
+        //Float Array Constructor
+        VectorN(const float (&other)[N]);
         //Float Constructor
-        VectorN(float arr[]);
+        VectorN(float (&&other)[N]) noexcept;
         //Destructor
         ~VectorN();
         //Functions
@@ -41,6 +43,9 @@ class VectorN {
         //Assignment operator
         VectorN& operator=(const VectorN<N>& other);
         VectorN& operator=(VectorN<N>&& other) noexcept;
+        //Float Array Assignment operators
+        VectorN& operator=(const float (&other)[N]);
+        VectorN& operator=(float (&&other)[N]) noexcept;
         //Addition operator
         VectorN operator+(const VectorN<N>& other);
         //Subtraction operator

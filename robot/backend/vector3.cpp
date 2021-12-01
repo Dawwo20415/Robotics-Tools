@@ -27,11 +27,11 @@ VectorN<N>::VectorN(const std::vector<float> &other) {
     this->index = counter;
     counter++;
     printf("Created Copy Vector Constructor Vector%d index: %d\n", N, this->index);
-    *(this->v) = other;
+    this->v = new std::vector<float>(other);
 }
 
 //Move Vector Constructor
-/*template <int N>
+template <int N>
 VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
     this->index = counter;
     counter++;
@@ -40,7 +40,7 @@ VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
         delete this->v;
         this->v = &other;
     }
-}*/
+}
 
 //Move constructor
 template <int N>
@@ -56,16 +56,23 @@ VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
     }
 }
 
-//Float constructor
+//Float Array Copy constructor
 template <int N>
-VectorN<N>::VectorN(float arr[]) {
+VectorN<N>::VectorN(const float (&other)[N]) {
     index = counter;
     counter++;
-    printf("Created floats Vector%d index: %d\n", N, index);
-    v = new std::vector<float>(arr, arr + N);
+    printf("Created Float Array Copy Vector%d index: %d\n", N, index);
+    v = new std::vector<float>(other, other + N);
 }
 
-
+//Float Array Move constructor
+template <int N>
+VectorN<N>::VectorN(float (&&other)[N]) noexcept {
+    index = counter;
+    counter++;
+    printf("Created Float Array Move Vector%d index: %d\n", N, index);
+    v = new std::vector<float>(other, other + N);
+}
 
 #pragma endregion
 
@@ -160,6 +167,23 @@ VectorN<N>& VectorN<N>::operator=(VectorN<N>&& other) noexcept {
         this->v = other.v;
         other.v = nullptr;
     }
+    return *this;
+}
+
+//Copy Assignment operator with float array
+template<int N>
+VectorN<N>& VectorN<N>::operator=(const float (&other)[N]) {
+    printf("Vector N Used copy float assignment operator = on i:%d",this->index);
+    this->v = new std::vector<float>(other, other + N);
+    return *this;
+}
+
+//Move assignment operator with float array
+template<int N>
+VectorN<N>& VectorN<N>::operator=(float (&&other)[N]) noexcept {
+    printf("VectorN Used float move operator = on i:%d",this->index);
+    delete v;
+    v = new std::vector<float>(other, other + N);
     return *this;
 }
 
