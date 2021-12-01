@@ -29,15 +29,8 @@ int main()
 */
 
     VectorN<3> vec;
-    Matrix<3,3> mat;
+    VectorN<3> vec1;
 
-    vec.Println();
-
-    vec = mat.GetVector(0);
-
-    vec.Println();
-
-    std::cin.get();
 }
 
 

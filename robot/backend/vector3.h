@@ -33,10 +33,6 @@ class VectorN {
         std::vector<float> Get();
         void Print();
         void Println();
-        float GetX();
-        float GetY();
-        float GetZ();
-        float GetN(int index);
         int GetIndex() { return index; };
         bool isNull() { return (this->v == nullptr);};
         //Operators
@@ -54,7 +50,10 @@ class VectorN {
         VectorN operator*(const VectorN<N>& other);
         //Scalar Product operator
         VectorN operator*(const float& val);  
-        float DotProduct(const VectorN<N>& other);  
+        float DotProduct(const VectorN<N>& other); 
+        //Selection operator
+        float& operator[](int _i);
+        const float& operator[](int _i) const; 
         //Statics
         static VectorN UnitVector();
         static VectorN NullVector();    

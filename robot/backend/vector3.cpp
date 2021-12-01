@@ -115,17 +115,6 @@ void VectorN<N>::Println() {
     std::cout << tmp;
 }
 
-template <int N> float VectorN<N>::GetX() { return (*v)[0]; }
-
-template <int N> float VectorN<N>::GetY() { return (*v)[1]; }
-
-template <int N> float VectorN<N>::GetZ() { return (*v)[2]; }
-
-template <int N>
-float VectorN<N>::GetN(int index) {
-    return (*v)[index];
-}
-
 #pragma endregion
 
 #pragma region Operators
@@ -185,7 +174,7 @@ template<int N>
 VectorN<N>& VectorN<N>::operator=(float (&&other)[N]) noexcept {
     //I don't actually know if this is the correct way to implement this move but I am not familiar enough with std::vector
     //And when I tried to do something else it didn't compile so eh;
-    printf("VectorN Used float move operator = on i:%d",this->index);
+    printf("VectorN Used float move operator = on i:%d\n",this->index);
     delete v;
     v = new std::vector<float>(other, other + N);
     return *this;
@@ -224,6 +213,17 @@ float VectorN<N>::DotProduct(const VectorN<N>& vec) {
         tmp += (*v)[i]*(*vec.v)[i];
     }
     return tmp;
+}
+
+//Selection operators
+template <int N>
+float& VectorN<N>::operator[](int _i) {
+    return (*v)[_i];
+}
+
+template <int N>
+const float& VectorN<N>::operator[](int _i) const {
+    return (*v)[_i];
 }
 
 #pragma endregion
