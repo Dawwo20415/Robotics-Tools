@@ -25,12 +25,7 @@ int main()
     std::cout << "---- After operator ----" << std::endl;
 
     c = c + l;
-
 */
-
-
-
-
 
 }
 

@@ -57,14 +57,15 @@ class Matrix {
             }
             return tmp;
         };
-        VectorN<Row> GetVector(int dex) const {
-            VectorN<Row> tmp;
+        const VectorN<Row>& GetVector(int dex) const {
+            /*VectorN<Row> tmp;
             if (index < Column && index >= 0) { 
                 std::cout << "Get Vector Function for " << std::to_string(tmp.GetIndex()) << std::endl;
                 tmp = (*((*matrix)[dex])).Get();
                 std::cout << "Finished Get Vector Function" << std::endl;
             }
-            return tmp;
+            return tmp;*/
+            return (*((*matrix)[dex])).Get();
         };
             void Print();
             void Println();

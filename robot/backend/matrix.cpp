@@ -140,9 +140,9 @@ void Matrix<Row,Column>::Println() {
         //Contents
         for (int j = 0; j < Column; j++) {
             if (j == Column - 1){
-                line += std::to_string((*matrix)[j]->GetN(i));
+                line += std::to_string((*((*matrix)[j]))[i]);
             } else {
-                line += std::to_string((*matrix)[j]->GetN(i)) + " | ";
+                line += std::to_string((*((*matrix)[j]))[i]) + " | ";
             }      
         }
 
@@ -192,7 +192,7 @@ Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other
         std::cout << "For cycle step " << c << " ---------------------" << std::endl;
         VectorN<Row> tmp_vec;
         std::cout << "Declared " << c << " ---------------------" << std::endl;
-        tmp_vec = other.GetVector(c);
+        tmp_vec = other.GetVector(c) + this->GetVector();
         std::cout << "Assigned " << c << " ---------------------" << std::endl;
         *((*(tmp_mat.matrix))[c]) = tmp_vec;
         std::cout << "Arrived at after sum ----------------------" << std::endl;
