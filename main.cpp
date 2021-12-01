@@ -28,8 +28,9 @@ int main()
 
 */
 
-    VectorN<3> vec;
-    VectorN<3> vec1;
+
+
+
 
 }
 

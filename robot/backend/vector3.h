@@ -30,7 +30,8 @@ class VectorN {
         //Destructor
         ~VectorN();
         //Functions
-        std::vector<float> Get();
+        std::vector<float>& Get();
+        const std::vector<float>& Get() const;
         void Print();
         void Println();
         int GetIndex() { return index; };

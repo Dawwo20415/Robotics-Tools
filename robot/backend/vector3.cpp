@@ -85,12 +85,15 @@ VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); }
 
 #pragma region Functions
 template <int N>
-std::vector<float> VectorN<N>::Get() { 
-    std::cout << "Vector Get" << std::endl; 
-    std::vector<float> tmp;
-    tmp = *v;
-    std::cout << "Vector Gotten" << std::endl; 
-    return tmp; 
+std::vector<float>& VectorN<N>::Get() { 
+    std::cout << "Used NOT CONST" << std::endl;
+    return *v; 
+}
+
+template <int N>
+const std::vector<float>& VectorN<N>::Get() const { 
+    std::cout << "Used CONST" << std::endl;
+    return *v; 
 }
 
 template <int N>
