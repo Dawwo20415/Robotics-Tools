@@ -189,10 +189,13 @@ template <int Row, int Column>
 Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other) {
     Matrix<Row,Column> tmp_mat;
     for (int c = 0; c < Column; c++) {
+        std::cout << "For cycle step " << c << " ---------------------" << std::endl;
         VectorN<Row> tmp_vec;
-        tmp_vec = this->GetVector(c);
-        std::cout << "Arrived at after sum" << std::endl;
+        std::cout << "Declared " << c << " ---------------------" << std::endl;
+        tmp_vec = other.GetVector(c);
+        std::cout << "Assigned " << c << " ---------------------" << std::endl;
         *((*(tmp_mat.matrix))[c]) = tmp_vec;
+        std::cout << "Arrived at after sum ----------------------" << std::endl;
     }
     return tmp_mat;
 }

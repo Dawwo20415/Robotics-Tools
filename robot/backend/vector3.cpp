@@ -89,6 +89,7 @@ std::vector<float> VectorN<N>::Get() {
     std::cout << "Vector Get" << std::endl; 
     std::vector<float> tmp;
     tmp = *v;
+    std::cout << "Vector Gotten" << std::endl; 
     return tmp; 
 }
 
@@ -174,6 +175,7 @@ VectorN<N>& VectorN<N>::operator=(VectorN<N>&& other) noexcept {
 template<int N>
 VectorN<N>& VectorN<N>::operator=(const float (&other)[N]) {
     printf("Vector N Used copy float assignment operator = on i:%d",this->index);
+    delete v;
     this->v = new std::vector<float>(other, other + N);
     return *this;
 }
@@ -181,6 +183,8 @@ VectorN<N>& VectorN<N>::operator=(const float (&other)[N]) {
 //Move assignment operator with float array
 template<int N>
 VectorN<N>& VectorN<N>::operator=(float (&&other)[N]) noexcept {
+    //I don't actually know if this is the correct way to implement this move but I am not familiar enough with std::vector
+    //And when I tried to do something else it didn't compile so eh;
     printf("VectorN Used float move operator = on i:%d",this->index);
     delete v;
     v = new std::vector<float>(other, other + N);
