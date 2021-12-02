@@ -246,4 +246,15 @@ VectorN<N> VectorN<N>::NullVector() {
     return VectorN<N>();
 }
 
+//Output stream operator
+template<int T>
+std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v){
+    os << "[";
+    for (int i = 0; i < T; i++) {
+        os << std::to_string(i) + ":" + std::to_string((*(_v.v))[i]) + "|";
+    }
+    os << "]";
+    return os;
+}
+
 #pragma endregion

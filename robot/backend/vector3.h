@@ -54,7 +54,9 @@ class VectorN {
         float DotProduct(const VectorN<N>& other); 
         //Selection operator
         float& operator[](int _i);
-        const float& operator[](int _i) const; 
+        const float& operator[](int _i) const;
+        //Output stream operator
+        template<int T> friend std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
         //Statics
         static VectorN UnitVector();
         static VectorN NullVector();    
@@ -62,5 +64,8 @@ class VectorN {
 
 template <int N>
 int VectorN<N>::counter = 0;
+
+template<int T>
+std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
 
 #endif

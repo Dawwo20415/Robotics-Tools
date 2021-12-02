@@ -26,8 +26,10 @@ int main()
 
     c = c + l;
 */
+    /*VectorN<3> v = {{1,2,3}};
+    std::cout << v << std::endl;*/
+
+    /*Matrix<2,2> m({{1,2}, {3,4}});
+    std::cout << m << std::endl;*/
 
 }
-
-
-
