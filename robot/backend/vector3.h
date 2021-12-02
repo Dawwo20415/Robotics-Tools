@@ -59,6 +59,11 @@ class VectorN {
         //Scalar Product operator
         VectorN operator*(const float& val);  
         float DotProduct(const VectorN<N>& other); 
+        //Selection operator
+        float& operator[](int _i);
+        const float& operator[](int _i) const;
+        //Output stream operator
+        template<int T> friend std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
         //Statics
         static VectorN UnitVector();
         static VectorN NullVector();    
@@ -79,5 +84,8 @@ VectorN<_N> operator-(VectorN<_N> _this, const VectorN<_N>& _other) {
     _this -= _other;
     return _this;
 }
+
+template<int T>
+std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
 
 #endif

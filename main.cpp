@@ -26,6 +26,8 @@ int main()
 
     c = c + l;
 */
+    /*VectorN<3> v = {{1,2,3}};
+    std::cout << v << std::endl;*/
 
     VectorN<3> vec1({1.0f,2.0f,3.0f});
     VectorN<3> vec2({1.1f,1.2f,1.3f});
@@ -70,7 +72,9 @@ int main()
     vec3.Println();
 
     return 1;
+
+
+    /*Matrix<2,2> m({{1,2}, {3,4}});
+    std::cout << m << std::endl;*/
+
 }
-
-
-

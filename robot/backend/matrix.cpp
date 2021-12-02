@@ -200,4 +200,47 @@ Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other
     return tmp_mat;
 }
 
+template<int Row, int Column>
+VectorN<Row>& Matrix<Row, Column>::operator[](int _i){
+    return matrix[_i];
+}
+
+template<int Row, int Column>
+const VectorN<Row>& Matrix<Row, Column>::operator[](int _i) const {
+    return matrix[_i];
+}
+
+template<int R, int C>
+std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m){
+    for (int i = 0; i < R; i++) {
+        //Left Wall
+        if (i == 0) {
+            os << "⎡ ";
+        } else if (i == R - 1) {
+            os << "⎣ ";
+        } else {
+            os << "⎢ ";
+        }
+
+        //Contents
+        for (int j = 0; j < C; j++) {
+            if (j == C - 1){
+                os << m[i]; 
+            } else {
+                os <<  m[i] << " | ";
+            }      
+        }
+
+        //Right Wall
+        if (i == 0) {
+            os << "⎤\n";
+        } else if (i == R - 1) {
+            os << "⎦";
+        } else {
+            os << "⎥\n";
+        }
+    }
+    return os;
+}
+
 #pragma endregion

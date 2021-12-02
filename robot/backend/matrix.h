@@ -32,18 +32,21 @@ class Matrix {
         //Copy Assignment Operator
         Matrix& operator=(const Matrix<Row,Column>& other);
         Matrix& operator=(Matrix<Row,Column>&& other) noexcept;
-            //Matrix + Matrix ONLYSAME SIZE
-            Matrix operator+(const Matrix<Row,Column>& other);
-            //Matrix - Matrix ONLY OF THE SAME SIZE
-            //Matrix * Matrix AB =/ BA
-            //Matrix * Scalar
-            //Matrix / Scalar
+        //Matrix + Matrix ONLYSAME SIZE
+        Matrix operator+(const Matrix<Row,Column>& other);
+        VectorN<Row>& operator[](int _i);
+        const VectorN<Row>& operator[](int _i)const;
+        //Matrix - Matrix ONLY OF THE SAME SIZE
+        //Matrix * Matrix AB =/ BA
+        //Matrix * Scalar
+        //Matrix / Scalar
+        template<int R, int C> friend std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
         //Functions
-            //Inverse of a Matrix
-            //Translated of a Matrix
-            //Is Symmetric
-            //Determinante
+        //Inverse of a Matrix
+        //Translated of a Matrix
+        //Is Symmetric
+        //Determinante
         float* GetColumn(int dex) const {
             static float tmp[Row];
             if (index < Column && index >= 0) { 
@@ -67,12 +70,12 @@ class Matrix {
             return tmp;*/
             return (*((*matrix)[dex])).Get();
         };
-            void Print();
-            void Println();
-            void AddX(float x) {
-                std::cout << "Adding" << std::endl;
-                *((*(this->matrix))[0]) = *((*(this->matrix))[1]) + (VectorN<Row>::UnitVector() * x);
-            };
+        void Print();
+        void Println();
+        void AddX(float x) {
+            std::cout << "Adding" << std::endl;
+            *((*(this->matrix))[0]) = *((*(this->matrix))[1]) + (VectorN<Row>::UnitVector() * x);
+        };
 
         //Statics
             //Identity Matrix
@@ -84,5 +87,8 @@ class Matrix {
 
 template <int Row, int Column>
 int Matrix<Row,Column>::counter = 0;
+
+template<int R, int C>
+std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
 #endif
