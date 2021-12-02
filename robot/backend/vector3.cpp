@@ -17,8 +17,8 @@ template <int N>
 VectorN<N>::VectorN(const VectorN<N> &vec) {
     this->index = counter;
     counter++;
-    printf("Created Copy Constructor Vector%d index: %d\n", N, this->index);
-    this->v = vec.v;
+    printf("Created Copy Constructor Vector%d index: %d from vector: %d\n", N, this->index, vec.index);
+    this->v = new std::vector<float>(*(vec.v));
 }
 
 //Copy Vector Constructor
@@ -47,7 +47,7 @@ template <int N>
 VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
     this->index = counter;
     counter++;
-    printf("Created Move Constructor Vector%d index: %d\n", N, this->index);
+    printf("Created Move Constructor Vector%d index: %d from Vector: %d\n", N, this->index, other.index);
     if (this != &other) {
         delete v;
 
@@ -122,27 +122,6 @@ void VectorN<N>::Println() {
 
 #pragma region Operators
 
-template <int N>
-//Addition operator
-VectorN<N> VectorN<N>::operator+(const VectorN<N>& other) {
-    std::cout << "VectorN operator +" << std::endl;
-    VectorN<N> tmp;
-    for (int i = 0; i < N; i++) {
-        (*tmp.v)[i] = (*v)[i] + (*other.v)[i];
-    }
-    return tmp;
-}
-
-//Subtraction operator
-template <int N>
-VectorN<N> VectorN<N>::operator-(const VectorN<N>& other) {
-    VectorN<N> tmp;
-    for (int i = 0; i < N; i++) {
-        (*tmp.v)[i] = (*v)[i] - (*other.v)[i];
-    }
-    return tmp;
-}
-
 //Copy Assignment operator
 template<int N>
 VectorN<N>& VectorN<N>::operator=(const VectorN<N>& other) {
@@ -183,6 +162,39 @@ VectorN<N>& VectorN<N>::operator=(float (&&other)[N]) noexcept {
     return *this;
 }
 
+//Selection operators
+template <int N>
+float& VectorN<N>::operator[](int _i) {
+    return (*v)[_i];
+}
+
+template <int N>
+const float& VectorN<N>::operator[](int _i) const {
+    return (*v)[_i];
+}
+
+template <int N>
+//Addition operator
+VectorN<N>& VectorN<N>::operator+=(const VectorN<N>& _other) {
+    std::cout << "VectorN operator +=" << std::endl;
+    for (int i = 0; i < N; i++) {
+        (*(this->v))[i] += _other[i];
+    }
+    return *this;
+}
+
+//Subtraction operator
+template <int N>
+VectorN<N>& VectorN<N>::operator-=(const VectorN<N>& _other) {
+    std::cout << "VectorN operator -=" << std::endl;
+    for (int i = 0; i < N; i++) {
+        (*(this->v))[i] -= _other[i];
+    }
+    return *this;
+}
+
+
+
 //Scalar Product operator
 template <int N>
 VectorN<N> VectorN<N>::operator*(const float& val) {
@@ -216,17 +228,6 @@ float VectorN<N>::DotProduct(const VectorN<N>& vec) {
         tmp += (*v)[i]*(*vec.v)[i];
     }
     return tmp;
-}
-
-//Selection operators
-template <int N>
-float& VectorN<N>::operator[](int _i) {
-    return (*v)[_i];
-}
-
-template <int N>
-const float& VectorN<N>::operator[](int _i) const {
-    return (*v)[_i];
 }
 
 #pragma endregion
