@@ -193,31 +193,30 @@ VectorN<N>& VectorN<N>::operator-=(const VectorN<N>& _other) {
     return *this;
 }
 
-
+//Cross Product operator
+template <int N>
+VectorN<N>& VectorN<N>::operator*=(const VectorN<N>& _other) {
+    if (N == 3) {
+        float tmp[3];
+        tmp[0] = ( (*this)[1] * _other[2] ) - ( (*this)[2] * _other[1] );
+        tmp[1] = ( (*this)[2] * _other[0] ) - ( (*this)[0] * _other[2] );
+        tmp[2] = ( (*this)[0] * _other[1] ) - ( (*this)[1] * _other[0] ); 
+        (*this)[0] = tmp[0];
+        (*this)[1] = tmp[1]; 
+        (*this)[2] = tmp[2];    
+        return *this;
+    } else {
+        return *this;
+    } 
+}
 
 //Scalar Product operator
 template <int N>
-VectorN<N> VectorN<N>::operator*(const float& val) {
-    VectorN<N> tmp;
+VectorN<N>& VectorN<N>::operator*=(const float& _value) {
     for (int i = 0; i < N; i++) {
-        (*tmp.v)[i] = (*v)[i] * val;
+        (*(this->v))[i] *= _value;
     }
-    return tmp;
-}
-
-//Cross Product operator
-template <int N>
-VectorN<N> VectorN<N>::operator*(const VectorN<N>& vec) {
-    if (N == 3) {
-        VectorN<N> tmp;
-        (*tmp.v)[0] = (*v)[1] * (*vec.v)[2] - (*v)[2] * (*vec.v)[1];
-        (*tmp.v)[1] = (*v)[2] * (*vec.v)[0] - (*v)[0] * (*vec.v)[2];
-        (*tmp.v)[2] = (*v)[0] * (*vec.v)[1] - (*v)[1] * (*vec.v)[0];
-        return tmp;
-    } else {
-        return VectorN<N>::NullVector();
-    }
-    
+    return *this;
 }
 
 //Dot Product operator

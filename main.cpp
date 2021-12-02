@@ -30,7 +30,7 @@ int main()
     std::cout << v << std::endl;*/
 
     VectorN<3> vec1({1.0f,2.0f,3.0f});
-    VectorN<3> vec2({1.1f,1.2f,1.3f});
+    VectorN<3> vec2({3.0f,4.0f,5.0f});
     VectorN<3> vec3;
 
     std::cout << "Declaration --------" << std::endl;
@@ -41,40 +41,12 @@ int main()
 
     std::cout << "Operation #1 --------" << std::endl;
 
-    vec3 = vec1 - vec2;
-
-    vec1.Println();
-    vec2.Println();
-    vec3.Println();
-
-    std::cout << "Operation #2 --------" << std::endl;
-
-    vec3 = {0.5f,0.5f,0.5f};
-
-    vec1.Println();
-    vec2.Println();
-    vec3.Println();
-
-    std::cout << "Operation #3 --------" << std::endl;
-
-    vec2 = {0.6f,0.6f,0.6f};
-
-    vec1.Println();
-    vec2.Println();
-    vec3.Println();
-
-    std::cout << "Operation #4 --------" << std::endl;
-
-    vec1 = {0.7f,0.7f,0.7f};
+    vec3 = vec1 * vec2;
 
     vec1.Println();
     vec2.Println();
     vec3.Println();
 
     return 1;
-
-
-    /*Matrix<2,2> m({{1,2}, {3,4}});
-    std::cout << m << std::endl;*/
 
 }

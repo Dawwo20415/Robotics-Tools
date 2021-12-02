@@ -52,16 +52,15 @@ class VectorN {
         //Subtraction operator
         VectorN& operator-=(const VectorN<N>& _other);
         template<int _N> friend VectorN<_N> operator-(VectorN<_N> _this, const VectorN<_N>& _other);
-
-        //Subtraction operator
-        //Cross Product operator
-        VectorN operator*(const VectorN<N>& other);
-        //Scalar Product operator
-        VectorN operator*(const float& val);  
+        //Multiplicative operators (Cross & Scalar Products)
+        VectorN& operator*=(const VectorN<N>& _other);
+        VectorN& operator*=(const float& _value);
+        template<int _N> friend VectorN<_N> operator*(VectorN<_N> _this, const VectorN<_N>& _other);
+        template<int _N> friend VectorN<_N> operator*(VectorN<_N> _this, const float& _value);
+        //DotProduct operator
         float DotProduct(const VectorN<N>& other); 
-        //Selection operator
-        float& operator[](int _i);
-        const float& operator[](int _i) const;
+
+        
         //Output stream operator
         template<int T> friend std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
         //Statics
@@ -82,6 +81,18 @@ VectorN<_N> operator+(VectorN<_N> _this, const VectorN<_N>& _other) {
 template <int _N>
 VectorN<_N> operator-(VectorN<_N> _this, const VectorN<_N>& _other) {
     _this -= _other;
+    return _this;
+}
+
+template <int _N>
+VectorN<_N> operator*(VectorN<_N> _this, const VectorN<_N>& _other) {
+    _this *= _other;
+    return _this;
+}
+
+template <int _N>
+VectorN<_N> operator*(VectorN<_N> _this, const float& _value) {
+    _this *= _value;
     return _this;
 }
 
