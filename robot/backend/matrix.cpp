@@ -228,18 +228,12 @@ const VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) const {
 }
 
 template <int Row, int Column>
-Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other) {
-    Matrix<Row,Column> tmp_mat;
-    for (int c = 0; c < Column; c++) {
-        std::cout << "For cycle step " << c << " ---------------------" << std::endl;
-        VectorN<Row> tmp_vec;
-        std::cout << "Declared " << c << " ---------------------" << std::endl;
-        tmp_vec = other.GetVector(c) + this->GetVector();
-        std::cout << "Assigned " << c << " ---------------------" << std::endl;
-        *((*(tmp_mat.matrix))[c]) = tmp_vec;
-        std::cout << "Arrived at after sum ----------------------" << std::endl;
+Matrix<Row,Column>& Matrix<Row,Column>::operator+=(const Matrix<Row,Column>& _other) {
+    std::cout << "Matrix operator +=" << std::endl;
+    for (int i = 0; i < Column; i++) {
+        (*((*(matrix.get()))[i])) += _other.GetColumn(i);
     }
-    return tmp_mat;
+    return *this;
 }
 
 template<int R, int C>
@@ -274,5 +268,9 @@ std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m){
     }
     return os;
 }
+
+#pragma endregion
+
+#pragma region Functions
 
 #pragma endregion

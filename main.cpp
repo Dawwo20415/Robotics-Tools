@@ -27,8 +27,28 @@ int main()
     c.Println();
     l.Println();
 
+    
+
     std::cout << "---- After operator ----" << std::endl;
 
+    l += c;
+
+    c.Println();
+    l.Println();
+
+    std::cout << "---- After Modification c ----" << std::endl;
+
+    l(1,1) = 0.0f;
+
+    c.Println();
+    l.Println();
+
+    std::cout << "---- After Modification l ----" << std::endl;
+
+    c(1,1) = 0.0f;
+
+    c.Println();
+    l.Println();
 
     return 1;
 

@@ -38,7 +38,9 @@ class Matrix {
         VectorN<Row> GetColumn(int _column);
         const VectorN<Row> GetColumn(int _column) const;
         //Matrix + Matrix ONLYSAME SIZE
-        Matrix operator+(const Matrix<Row,Column>& other);
+        Matrix& operator+=(const Matrix<Row,Column>& _other);
+        template <int _Row, int _Column> 
+        friend Matrix<_Row,_Column> operator+(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other);
         //Matrix - Matrix ONLY OF THE SAME SIZE
         //Matrix * Matrix AB =/ BA
         //Matrix * Scalar
