@@ -20,11 +20,9 @@ class Matrix {
         Matrix();
         //Copy Constructor
         Matrix(const Matrix<Row,Column>& other);
+        Matrix(const float (&other)[Row][Column]);
         //Move constructor
         Matrix(Matrix<Row,Column>&& other) noexcept;
-        //Float Array Copy Constructor
-        Matrix(const float (&other)[Row][Column]);
-        //Float Array Move Constructor
         Matrix(float (&&other)[Row][Column]) noexcept;
         //Destructors
         ~Matrix();
@@ -32,10 +30,15 @@ class Matrix {
         //Copy Assignment Operator
         Matrix& operator=(const Matrix<Row,Column>& other);
         Matrix& operator=(Matrix<Row,Column>&& other) noexcept;
+        //Selection operators
+        float& operator()(int _row, int _column);
+        const float& operator()(int _row, int _column) const;
+        VectorN<Column> GetRow(int _row);
+        const VectorN<Column> GetRow(int _row) const;
+        VectorN<Row> GetColumn(int _column);
+        const VectorN<Row> GetColumn(int _column) const;
         //Matrix + Matrix ONLYSAME SIZE
         Matrix operator+(const Matrix<Row,Column>& other);
-        VectorN<Row>& operator[](int _i);
-        const VectorN<Row>& operator[](int _i)const;
         //Matrix - Matrix ONLY OF THE SAME SIZE
         //Matrix * Matrix AB =/ BA
         //Matrix * Scalar
@@ -47,29 +50,6 @@ class Matrix {
         //Translated of a Matrix
         //Is Symmetric
         //Determinante
-        float* GetColumn(int dex) const {
-            static float tmp[Row];
-            if (index < Column && index >= 0) { 
-                for (int i = 0; i < Row; i++) {
-                    tmp[i] = (*((*matrix)[dex])).GetN(i);
-                }
-            } else {
-                for (int i = 0; i < Row; i++) {
-                    tmp[i] = 0.0f;
-                }
-            }
-            return tmp;
-        };
-        const VectorN<Row>& GetVector(int dex) const {
-            /*VectorN<Row> tmp;
-            if (index < Column && index >= 0) { 
-                std::cout << "Get Vector Function for " << std::to_string(tmp.GetIndex()) << std::endl;
-                tmp = (*((*matrix)[dex])).Get();
-                std::cout << "Finished Get Vector Function" << std::endl;
-            }
-            return tmp;*/
-            return (*((*matrix)[dex])).Get();
-        };
         void Print();
         void Println();
         void AddX(float x) {

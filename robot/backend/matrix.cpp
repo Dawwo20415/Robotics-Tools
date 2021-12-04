@@ -1,6 +1,7 @@
 #include "matrix.h"
 
 #pragma region Constructors
+
 //Default Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix() {
@@ -9,8 +10,7 @@ Matrix<Row,Column>::Matrix() {
     matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
     printf("Default Constructor Matrix %d*%d index:%d\n", Row, Column, index);
     for (int i = 0; i < Column; i++) {
-        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>();
-        (*matrix)[i] = std::move(tmp);
+        (*matrix)[i] = std::make_unique<VectorN<Row>>();
     }
 }
 
@@ -22,8 +22,24 @@ Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
     matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
     printf("Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
     for (int i = 0; i < Column; i++) {
-        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>(other.GetColumn(i));
+        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>((*(other.matrix))[i]);
         (*matrix)[i] = std::move(tmp);
+    }
+}
+
+//Float Array Copy Constructor
+template <int Row, int Column>
+Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
+    index = counter;
+    counter++;
+    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+    printf("Float Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+    for (int c = 0; c < Column; c++){
+        float tmp_arr[Row];
+        for (int r = 0; r < Row; r++) {
+            tmp_arr[r] = other[r][c];
+        }
+        (*matrix)[c] = std::make_unique<VectorN<Row>>(std::move(tmp_arr));
     }
 }
 
@@ -36,23 +52,6 @@ Matrix<Row,Column>::Matrix(Matrix<Row,Column>&& other) noexcept {
     printf("Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
     if (this != &other) {
         this->matrix = std::move(other.matrix);
-    }
-}
-
-//Float Copy Constructor
-template <int Row, int Column>
-Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
-    index = counter;
-    counter++;
-    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-    printf("Float Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    for (int c = 0; c < Column; c++){
-        float tmp_arr[Row];
-        for (int r = 0; r < Row; r++) {
-            tmp_arr[r] = other[r][c];
-        }
-        std::unique_ptr<VectorN<Row>> tmp_vec = std::make_unique<VectorN<Row>>(std::move(tmp_arr));
-        (*matrix)[c] = std::move(tmp_vec);
     }
 }
 
@@ -185,6 +184,49 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator=(Matrix<Row,Column>&& other) no
     return *this;
 }
 
+//Selection operators
+template <int Row, int Column>
+float& Matrix<Row,Column>::operator()(int _row, int _column) {
+    return (*((*(matrix))[_column]))[_row];
+}
+
+template <int Row, int Column>
+const float& Matrix<Row,Column>::operator()(int _row, int _column) const {
+    return (*((*(matrix))[_column]))[_row];
+}
+
+template <int Row, int Column>
+VectorN<Column> Matrix<Row,Column>::GetRow(int _row) {
+    VectorN<Column> tmp;
+    for (int i = 0; i < Column; i++) {
+        tmp[i] = (*((*(matrix))[i]))[_row];
+    }
+    return tmp;
+}
+
+template <int Row, int Column>
+const VectorN<Column> Matrix<Row,Column>::GetRow(int _row) const {
+    VectorN<Column> tmp;
+    for (int i = 0; i < Column; i++) {
+        tmp[i] = (*((*(matrix))[i]))[_row];
+    }
+    return tmp;
+}
+
+template <int Row, int Column>
+VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) {
+    VectorN<Row> tmp;
+    tmp = (*((*(matrix.get()))[_column]));
+    return tmp;
+}
+
+template <int Row, int Column>
+const VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) const {
+    VectorN<Row> tmp;
+    tmp = (*(matrix.get()))[_column];
+    return tmp;
+}
+
 template <int Row, int Column>
 Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other) {
     Matrix<Row,Column> tmp_mat;
@@ -198,16 +240,6 @@ Matrix<Row,Column> Matrix<Row,Column>::operator+(const Matrix<Row,Column>& other
         std::cout << "Arrived at after sum ----------------------" << std::endl;
     }
     return tmp_mat;
-}
-
-template<int Row, int Column>
-VectorN<Row>& Matrix<Row, Column>::operator[](int _i){
-    return matrix[_i];
-}
-
-template<int Row, int Column>
-const VectorN<Row>& Matrix<Row, Column>::operator[](int _i) const {
-    return matrix[_i];
 }
 
 template<int R, int C>
