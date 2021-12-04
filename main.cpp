@@ -18,12 +18,14 @@ int main()
                    
     c.Println();
 
-    VectorN<3> v1(c.GetColumn(0));
-    VectorN<3> v2(c.GetRow(0));
+    Matrix<3,3> l(c);
 
+    l.Println();
 
-    v1.Println();
-    v2.Println();
+    l(0,0) = 9.9f;
+
+    c.Println();
+    l.Println();
 
     std::cout << "---- After operator ----" << std::endl;
 

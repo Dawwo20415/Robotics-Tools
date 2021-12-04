@@ -22,7 +22,7 @@ Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
     matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
     printf("Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
     for (int i = 0; i < Column; i++) {
-        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>((*(other.matrix))[i]);
+        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>(other.GetColumn(i));
         (*matrix)[i] = std::move(tmp);
     }
 }
@@ -223,7 +223,7 @@ VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) {
 template <int Row, int Column>
 const VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) const {
     VectorN<Row> tmp;
-    tmp = (*(matrix.get()))[_column];
+    tmp = (*((*(matrix.get()))[_column]));
     return tmp;
 }
 
