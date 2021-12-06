@@ -31,14 +31,14 @@ int main()
 
     std::cout << "---- After operator ----" << std::endl;
 
-    l += c;
+    l = c * 2.2f;
 
     c.Println();
     l.Println();
 
     std::cout << "---- After Modification c ----" << std::endl;
 
-    l(1,1) = 0.0f;
+    l(1,1) = 1.0f;
 
     c.Println();
     l.Println();

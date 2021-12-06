@@ -236,6 +236,24 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator+=(const Matrix<Row,Column>& _ot
     return *this;
 }
 
+template <int Row, int Column>
+Matrix<Row,Column>& Matrix<Row,Column>::operator-=(const Matrix<Row,Column>& _other) {
+    std::cout << "Matrix operator +=" << std::endl;
+    for (int i = 0; i < Column; i++) {
+        (*((*(matrix.get()))[i])) -= _other.GetColumn(i);
+    }
+    return *this;
+}
+
+template <int Row, int Column>
+Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const float& _value) {
+    std::cout << "Matrix operator +=" << std::endl;
+    for (int i = 0; i < Column; i++) {
+        (*((*(matrix.get()))[i])) *= _value;
+    }
+    return *this;
+}
+
 template<int R, int C>
 std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m){
     for (int i = 0; i < R; i++) {

@@ -9,7 +9,6 @@
 
 template <int Row, int Column>
 class Matrix {
-
     private:
         std::unique_ptr<std::array<std::unique_ptr<VectorN<Row>>,Column>> matrix;
         static int counter;
@@ -37,13 +36,19 @@ class Matrix {
         const VectorN<Column> GetRow(int _row) const;
         VectorN<Row> GetColumn(int _column);
         const VectorN<Row> GetColumn(int _column) const;
-        //Matrix + Matrix ONLYSAME SIZE
+        //Matrix + Matrix ONLY SAME SIZE
         Matrix& operator+=(const Matrix<Row,Column>& _other);
         template <int _Row, int _Column> 
         friend Matrix<_Row,_Column> operator+(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other);
-        //Matrix - Matrix ONLY OF THE SAME SIZE
+        //Matrix - Matrix ONLY SAME SIZE
+        Matrix& operator-=(const Matrix<Row,Column>& _other);
+        template <int _Row, int _Column> 
+        friend Matrix<_Row,_Column> operator-(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other);
         //Matrix * Matrix AB =/ BA
         //Matrix * Scalar
+        Matrix& operator*=(const float& _value);
+        template <int _Row, int _Column> 
+        friend Matrix<_Row,_Column> operator*(Matrix<_Row,_Column> _this, const float& _value);
         //Matrix / Scalar
         template<int R, int C> friend std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
@@ -66,6 +71,25 @@ class Matrix {
 
 
 };
+
+//Friendly Operators
+template <int _Row, int _Column> 
+Matrix<_Row,_Column> operator+(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other) {
+    _this += _other;
+    return _this;
+}
+
+template <int _Row, int _Column> 
+Matrix<_Row,_Column> operator-(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other) {
+    _this -= _other;
+    return _this;
+}
+
+template <int _Row, int _Column> 
+Matrix<_Row,_Column> operator*(Matrix<_Row,_Column> _this, const float& _value) {
+    _this *= _value;
+    return _this;
+} 
 
 template <int Row, int Column>
 int Matrix<Row,Column>::counter = 0;
