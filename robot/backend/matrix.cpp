@@ -246,10 +246,37 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator-=(const Matrix<Row,Column>& _ot
 }
 
 template <int Row, int Column>
+Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const Matrix<Row,Column>& _other) {
+    std::cout << "Matrix operator *=" << std::endl;
+    Matrix<Row,Column> tmp;
+
+    for (int r = 0; r < Row; r++) {
+        for (int c = 0; c < Column; c++) {
+            for (int i = 0; i < Row; i++) {
+                tmp(r,c) += (*((*(matrix.get()))[i]))[r] * _other(i,c);
+            }
+        }
+    }
+
+    *this = std::move(tmp);
+
+    return *this;
+}
+
+template <int Row, int Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const float& _value) {
     std::cout << "Matrix operator +=" << std::endl;
     for (int i = 0; i < Column; i++) {
         (*((*(matrix.get()))[i])) *= _value;
+    }
+    return *this;
+}
+
+template <int Row, int Column>
+Matrix<Row,Column>& Matrix<Row,Column>::operator/=(const float& _value) {
+    std::cout << "Matrix operator +=" << std::endl;
+    for (int i = 0; i < Column; i++) {
+        (*((*(matrix.get()))[i])) *= ( 1 / _value );
     }
     return *this;
 }

@@ -12,43 +12,21 @@ using namespace std;
 int main()
 {
     std::cout << "---- First Declaration ----" << std::endl;
-    Matrix<3,3> c({{1.0f, 2.0f, 3.0f},
-                   {4.0f, 5.0f, 6.0f},
-                   {7.0f, 8.0f, 9.0f}});
+    Matrix<3,4> c({{1.0f,2.0f,3.0f,4.0f},{1.0f,2.0f,3.0f,4.0f},{1.0f,2.0f,3.0f,4.0f}});
+    Matrix<5,3> l({{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f}});
+    Matrix<5,4> f;
+
+    c.Println();
+    l.Println();
+    f.Println();
+
+    std::cout << "Operation --------------------" << std::endl;
+
+    f = l * c;
                    
     c.Println();
-
-    Matrix<3,3> l(c);
-
     l.Println();
-
-    l(0,0) = 9.9f;
-
-    c.Println();
-    l.Println();
-
-    
-
-    std::cout << "---- After operator ----" << std::endl;
-
-    l = c * 2.2f;
-
-    c.Println();
-    l.Println();
-
-    std::cout << "---- After Modification c ----" << std::endl;
-
-    l(1,1) = 1.0f;
-
-    c.Println();
-    l.Println();
-
-    std::cout << "---- After Modification l ----" << std::endl;
-
-    c(1,1) = 0.0f;
-
-    c.Println();
-    l.Println();
+    f.Println();
 
     return 1;
 

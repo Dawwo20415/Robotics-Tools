@@ -45,11 +45,18 @@ class Matrix {
         template <int _Row, int _Column> 
         friend Matrix<_Row,_Column> operator-(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other);
         //Matrix * Matrix AB =/ BA
+        Matrix<Row,Column>& operator*=(const Matrix<Row,Column>& _other);
+        template <int _Row, int _Column, int _Column2> 
+        friend Matrix<_Row,_Column2> operator*(const Matrix<_Row,_Column>& _this, const Matrix<_Column,_Column2>& _other);
         //Matrix * Scalar
         Matrix& operator*=(const float& _value);
         template <int _Row, int _Column> 
         friend Matrix<_Row,_Column> operator*(Matrix<_Row,_Column> _this, const float& _value);
         //Matrix / Scalar
+        Matrix& operator/=(const float& _value);
+        template <int _Row, int _Column> 
+        friend Matrix<_Row,_Column> operator/(Matrix<_Row,_Column> _this, const float& _value);
+        //Ostream operator
         template<int R, int C> friend std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
         //Functions
@@ -85,9 +92,31 @@ Matrix<_Row,_Column> operator-(Matrix<_Row,_Column> _this, const Matrix<_Row,_Co
     return _this;
 }
 
+template <int _Row, int _Column, int _Column2> 
+Matrix<_Row,_Column2> operator*(const Matrix<_Row,_Column>& _this, const Matrix<_Column,_Column2>& _other) {    
+    std::cout << "Matrix operator *" << std::endl;
+    Matrix<_Row,_Column2> tmp;
+
+    for (int r = 0; r < _Row; r++) {
+        for (int c = 0; c < _Column2; c++) {
+            for (int i = 0; i < _Column; i++) {
+                tmp(r,c) += _this(r,i) * _other(i,c);
+            }
+        }
+    }
+
+    return tmp;
+}
+
 template <int _Row, int _Column> 
 Matrix<_Row,_Column> operator*(Matrix<_Row,_Column> _this, const float& _value) {
     _this *= _value;
+    return _this;
+}
+
+template <int _Row, int _Column> 
+Matrix<_Row,_Column> operator/(Matrix<_Row,_Column> _this, const float& _value) {
+    _this /= _value;
     return _this;
 } 
 
