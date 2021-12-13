@@ -12,21 +12,10 @@ using namespace std;
 int main()
 {
     std::cout << "---- First Declaration ----" << std::endl;
-    Matrix<3,4> c({{1.0f,2.0f,3.0f,4.0f},{1.0f,2.0f,3.0f,4.0f},{1.0f,2.0f,3.0f,4.0f}});
-    Matrix<5,3> l({{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f}});
-    Matrix<4,3> f;
+    Matrix<5,5> c({{1.0f,-2.0f,0.0f,0.0f,0.0f},{-2.0f,-1.0f,3.0f,0.0f,0.0f},{0.0f,3.0f,0.0f,-1.0f,0.0f},{0.0f,0.0f,-1.0f,1.0f,4.0f},{0.0f,0.0f,2.0f,4.0f,3.0f}});
 
     c.Println();
-    l.Println();
-    f.Println();
-
-    std::cout << "Operation --------------------" << std::endl;
-
-    f = c.Traslate();
-                   
-    c.Println();
-    l.Println();
-    f.Println();
+    std::cout << "The previous matrix is Symmetric? " << std::to_string(c.isSymmetric()) << std::endl;
 
     return 1;
 

@@ -330,6 +330,24 @@ Matrix<Column,Row> Matrix<Row,Column>::Traslate() {
     return tmp;
 }
 
-
+template<int Row, int Column>
+bool Matrix<Row,Column>::isSymmetric() {
+    if (Row == Column) {
+        std::cout << "Column and Row are the same size" << std::endl;
+        bool result = false;
+        for (int i = 0; i < Column - 1; i++) {
+            for (int j = i + 1; j < Column; j++) {
+                if ((*this)(j,i) == (*this)(i,j)) {
+                    std::cout << "The two values are the same: " << (*this)(j,i) << " and " << (*this)(i,j) << std::endl;
+                    std::cout << "using i=" << i << " j=" << j << std::endl;
+                    result = true;
+                } else {
+                    std::cout << "The two values are not the same" << std::endl;
+                    return false;
+                }
+            }
+        } return result;
+    } return false;
+}
 
 #pragma endregion
