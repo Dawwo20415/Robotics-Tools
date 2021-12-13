@@ -60,12 +60,16 @@ class Matrix {
         template<int R, int C> friend std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
         //Functions
+        //SubMatrix
+        Matrix<Row-1,Column-1> Submatrix(int x, int y);
         //Inverse of a Matrix
+        Matrix<Row,Column> Inverse();
         //Traslated of a Matrix
         Matrix<Column,Row> Traslate();
         //Is Symmetric
         bool isSymmetric();
         //Determinante
+        float Determinante();
         void Print();
         void Println();
         void AddX(float x) {

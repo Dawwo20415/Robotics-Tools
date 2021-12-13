@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <math.h>
 
 #pragma region Constructors
 
@@ -348,6 +349,51 @@ bool Matrix<Row,Column>::isSymmetric() {
             }
         } return result;
     } return false;
+}
+
+template<int Row, int Column>
+Matrix<Row-1,Column-1> Matrix<Row,Column>::Submatrix(int x, int y) {
+    if (Row-1 > 1) {
+        Matrix<Row-1,Column-1> tmp;
+        for (int i = 0; i < Column - 1; i++) 
+            for (int j = 0; j < Row - 1; j++) 
+                tmp(j,i) = (*this)(j < y ? j : j+1, i < x ? i : i+1);
+        return tmp;
+    } 
+    Matrix<Row-1,Column-1> nullmat;
+    return nullmat;
+}
+
+template<int Row, int Column>
+float Matrix<Row,Column>::Determinante() {
+    if (Row == Column) {
+        std::cout << "Column = Row | Column = " << Column << " Row = " << Row << std::endl;
+
+        if (Row == 1) {
+            return (*this)(0,0);
+        } else if (Row == 2) {
+            return (*this)(0,0) * (*this)(1,1) - (*this)(1,0) * (*this)(0,1);
+        } else if (Row >= 3) {
+            int determinant = 0;
+            for ( int i = 0; i < Row; i++) {
+                Matrix<Row-1,Column-1> tmp;
+                tmp = (*this).Submatrix(i,0);
+                determinant += pow(-1, i) * (*this)(i,0);
+            }
+            return determinant;
+        } else {
+            return -2456;
+        }
+    } return -2456;
+}
+
+template<int Row, int Column>
+Matrix<Row,Column> Matrix<Row,Column>::Inverse() {
+    if (Row == Column) {
+        if (Determinante != 0) {
+
+        } return NULL;
+    } return NULL;
 }
 
 #pragma endregion
