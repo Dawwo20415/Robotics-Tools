@@ -61,8 +61,10 @@ class Matrix {
 
         //Functions
         //Inverse of a Matrix
-        //Translated of a Matrix
+        //Traslated of a Matrix
+        Matrix<Column,Row> Traslate();
         //Is Symmetric
+        bool isSymmetric();
         //Determinante
         void Print();
         void Println();

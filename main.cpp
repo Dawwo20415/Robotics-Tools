@@ -14,7 +14,7 @@ int main()
     std::cout << "---- First Declaration ----" << std::endl;
     Matrix<3,4> c({{1.0f,2.0f,3.0f,4.0f},{1.0f,2.0f,3.0f,4.0f},{1.0f,2.0f,3.0f,4.0f}});
     Matrix<5,3> l({{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f},{1.0f,2.0f,3.0f}});
-    Matrix<5,4> f;
+    Matrix<4,3> f;
 
     c.Println();
     l.Println();
@@ -22,7 +22,7 @@ int main()
 
     std::cout << "Operation --------------------" << std::endl;
 
-    f = l * c;
+    f = c.Traslate();
                    
     c.Println();
     l.Println();

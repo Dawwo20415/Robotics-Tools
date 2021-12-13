@@ -318,4 +318,18 @@ std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m){
 
 #pragma region Functions
 
+template<int Row, int Column>
+Matrix<Column,Row> Matrix<Row,Column>::Traslate() {
+    Matrix<Column,Row> tmp;
+    for (int i = 0; i < Row; i++) {
+        for (int j = 0; j < Column; j++) {
+            tmp(j,i) = (*this)(i,j);
+        }
+    }
+
+    return tmp;
+}
+
+
+
 #pragma endregion
