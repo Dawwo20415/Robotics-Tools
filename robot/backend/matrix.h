@@ -133,3 +133,4 @@ template<int R, int C>
 std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
 #endif
+

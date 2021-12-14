@@ -5,73 +5,136 @@
 //Default Constructor
 template <int N>
 VectorN<N>::VectorN() {
-    index = counter;
-    counter++;
-    printf("Created no arguments Vector%d index: %d\n", N, index);
-    float tmp[N];
-    v = new std::vector<float>(N, 0.0f);
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            index = counter;
+            counter++;
+            printf("Created no arguments Vector%d index: %d\n", N, index);
+            float tmp[N];
+            v = new std::vector<float>(N, 0.0f);
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
+    }   
 }
 
 //Copy Constructor
 template <int N>
 VectorN<N>::VectorN(const VectorN<N> &vec) {
-    this->index = counter;
-    counter++;
-    printf("Created Copy Constructor Vector%d index: %d from vector: %d\n", N, this->index, vec.index);
-    this->v = new std::vector<float>(*(vec.v));
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            this->index = counter;
+            counter++;
+            printf("Created Copy Constructor Vector%d index: %d from vector: %d\n", N, this->index, vec.index);
+            this->v = new std::vector<float>(*(vec.v));
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
+    }    
 }
 
 //Copy Vector Constructor
 template <int N>
 VectorN<N>::VectorN(const std::vector<float> &other) {
-    this->index = counter;
-    counter++;
-    printf("Created Copy Vector Constructor Vector%d index: %d\n", N, this->index);
-    this->v = new std::vector<float>(other);
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            this->index = counter;
+            counter++;
+            printf("Created Copy Vector Constructor Vector%d index: %d\n", N, this->index);
+            this->v = new std::vector<float>(other);
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
+    }
 }
 
 //Move Vector Constructor
 template <int N>
 VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
-    this->index = counter;
-    counter++;
-    printf("Created Move Vector Constructor Vector%d index: %d\n", N, this->index);
-    if (this->v != &other) {
-        delete this->v;
-        this->v = &other;
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            this->index = counter;
+            counter++;
+            printf("Created Move Vector Constructor Vector%d index: %d\n", N, this->index);
+            if (this->v != &other) {
+                delete this->v;
+                this->v = &other;
+            }
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
     }
 }
 
 //Move constructor
 template <int N>
 VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
-    this->index = counter;
-    counter++;
-    printf("Created Move Constructor Vector%d index: %d from Vector: %d\n", N, this->index, other.index);
-    if (this != &other) {
-        delete v;
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            this->index = counter;
+            counter++;
+            printf("Created Move Constructor Vector%d index: %d from Vector: %d\n", N, this->index, other.index);
+            if (this != &other) {
+                delete v;
 
-        this->v = other.v;
-        other.v = nullptr;
+                this->v = other.v;
+                other.v = nullptr;
+            }
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
     }
 }
 
 //Float Array Copy constructor
 template <int N>
 VectorN<N>::VectorN(const float (&other)[N]) {
-    index = counter;
-    counter++;
-    printf("Created Float Array Copy Vector%d index: %d\n", N, index);
-    v = new std::vector<float>(other, other + N);
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            index = counter;
+            counter++;
+            printf("Created Float Array Copy Vector%d index: %d\n", N, index);
+            v = new std::vector<float>(other, other + N);
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
+    }
 }
 
 //Float Array Move constructor
 template <int N>
 VectorN<N>::VectorN(float (&&other)[N]) noexcept {
-    index = counter;
-    counter++;
-    printf("Created Float Array Move Vector%d index: %d\n", N, index);
-    v = new std::vector<float>(other, other + N);
+    try {
+        if (N <= 0) {
+            throw std::invalid_argument("VectorN of unmanageable size ");
+        } else {
+            index = counter;
+            counter++;
+            printf("Created Float Array Move Vector%d index: %d\n", N, index);
+            v = new std::vector<float>(other, other + N);
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit;
+    } 
 }
 
 #pragma endregion

@@ -6,71 +6,117 @@
 //Default Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix() {
-    index = counter;
-    counter++;
-    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-    printf("Default Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    for (int i = 0; i < Column; i++) {
-        (*matrix)[i] = std::make_unique<VectorN<Row>>();
+    try {
+        if (Column <= 0 || Row <= 0) {
+            throw std::invalid_argument("Row and Column");
+        } else {
+            index = counter;
+            counter++;
+            matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+            printf("Default Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+            for (int i = 0; i < Column; i++) {
+                (*matrix)[i] = std::make_unique<VectorN<Row>>();
+            }
+        }    
+    } catch (std::exception& e) {
+        std::cout << "Exception catched in Matrix constructor, Column or row <= 0, program terminated" << std::endl;
+        exit;
     }
+    
 }
 
 //Copy Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
-    index = counter;
-    counter++;
-    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-    printf("Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    for (int i = 0; i < Column; i++) {
-        std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>(other.GetColumn(i));
-        (*matrix)[i] = std::move(tmp);
+    try {
+        if (Column <= 0 || Row <= 0) {
+            throw std::invalid_argument("Row and Column");
+        } else {
+            index = counter;
+            counter++;
+            matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+            printf("Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+            for (int i = 0; i < Column; i++) {
+                std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>(other.GetColumn(i));
+                (*matrix)[i] = std::move(tmp);
+            }
+        }
+    } catch (std::exception& e) {
+        std::cout << "Exception catched in Matrix constructor, Column or row <= 0, program terminated" << std::endl;
+        exit;
     }
 }
 
 //Float Array Copy Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
-    index = counter;
-    counter++;
-    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-    printf("Float Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    for (int c = 0; c < Column; c++){
-        float tmp_arr[Row];
-        for (int r = 0; r < Row; r++) {
-            tmp_arr[r] = other[r][c];
+    try {
+        if (Column <= 0 || Row <= 0) {
+            throw std::invalid_argument("Row and Column");
+        } else {
+            index = counter;
+            counter++;
+            matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+            printf("Float Copy Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+            for (int c = 0; c < Column; c++){
+                float tmp_arr[Row];
+                for (int r = 0; r < Row; r++) {
+                    tmp_arr[r] = other[r][c];
+                }
+                (*matrix)[c] = std::make_unique<VectorN<Row>>(std::move(tmp_arr));
+            }
         }
-        (*matrix)[c] = std::make_unique<VectorN<Row>>(std::move(tmp_arr));
-    }
+    } catch (std::exception& e) {
+        std::cout << "Exception catched in Matrix constructor, Column or row <= 0, program terminated" << std::endl;
+        exit;
+    }  
 }
 
 //Move Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix(Matrix<Row,Column>&& other) noexcept {
-    index = counter;
-    counter++;
-    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-    printf("Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    if (this != &other) {
-        this->matrix = std::move(other.matrix);
+    try {
+        if (Column <= 0 || Row <= 0) {
+            throw std::invalid_argument("Row and Column");
+        } else {
+            index = counter;
+            counter++;
+            matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+            printf("Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+            if (this != &other) {
+                this->matrix = std::move(other.matrix);
+            }
+        }
+    } catch (std::exception& e) {
+        std::cout << "Exception catched in Matrix constructor, Column or row <= 0, program terminated" << std::endl;
+        exit;
     }
 }
 
 //Float Move Constructor
 template <int Row, int Column>
 Matrix<Row,Column>::Matrix(float (&&other)[Row][Column]) noexcept {
-    index = counter;
-    counter++;
-    matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-    printf("Float Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
-    for (int c = 0; c < Column; c++){
-        float tmp_arr[Row];
-        for (int r = 0; r < Row; r++) {
-            tmp_arr[r] = other[r][c];
+    try {
+        if (Column <= 0 || Row <= 0) {
+            throw std::invalid_argument("Row and Column");
+        } else {
+            index = counter;
+            counter++;
+            matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
+            printf("Float Move Constructor Matrix %d*%d index:%d\n", Row, Column, index);
+            for (int c = 0; c < Column; c++){
+                float tmp_arr[Row];
+                for (int r = 0; r < Row; r++) {
+                    tmp_arr[r] = other[r][c];
+                }
+                std::unique_ptr<VectorN<Row>> tmp_vec = std::make_unique<VectorN<Row>>(std::move(tmp_arr));        
+                (*matrix)[c] = std::move(tmp_vec);
+            }
         }
-        std::unique_ptr<VectorN<Row>> tmp_vec = std::make_unique<VectorN<Row>>(std::move(tmp_arr));        
-        (*matrix)[c] = std::move(tmp_vec);
-    }
+    } catch (std::exception& e) {
+        std::cout << "Exception catched in Matrix constructor, Column or row <= 0, program terminated" << std::endl;
+        exit;
+    } 
 }
 
 #pragma endregion
@@ -353,38 +399,37 @@ bool Matrix<Row,Column>::isSymmetric() {
 
 template<int Row, int Column>
 Matrix<Row-1,Column-1> Matrix<Row,Column>::Submatrix(int x, int y) {
-    if (Row-1 > 1) {
-        Matrix<Row-1,Column-1> tmp;
-        for (int i = 0; i < Column - 1; i++) 
-            for (int j = 0; j < Row - 1; j++) 
-                tmp(j,i) = (*this)(j < y ? j : j+1, i < x ? i : i+1);
-        return tmp;
-    } 
-    Matrix<Row-1,Column-1> nullmat;
-    return nullmat;
+        if (Row <= 2) {
+            throw std::invalid_argument("Creating submatrix from invalid parent | x<=2");
+        } else {
+            Matrix<Row-1,Column-1> tmp;
+            for (int i = 0; i < Column - 1; i++) 
+                for (int j = 0; j < Row - 1; j++) 
+                    tmp(j,i) = (*this)(j < y ? j : j+1, i < x ? i : i+1);
+            return tmp;
+        }
 }
 
 template<int Row, int Column>
 float Matrix<Row,Column>::Determinante() {
-    if (Row == Column) {
-        std::cout << "Column = Row | Column = " << Column << " Row = " << Row << std::endl;
-
+        if (Row != Column) {
+            throw std::invalid_argument("Row and Column of Different Sizes");
+        }
+        if (Row < 1) {
+            throw std::invalid_argument("Length of Matrix < 1");
+        }
+        
         if (Row == 1) {
             return (*this)(0,0);
         } else if (Row == 2) {
             return (*this)(0,0) * (*this)(1,1) - (*this)(1,0) * (*this)(0,1);
-        } else if (Row >= 3) {
+        } else {
             int determinant = 0;
             for ( int i = 0; i < Row; i++) {
-                Matrix<Row-1,Column-1> tmp;
-                tmp = (*this).Submatrix(i,0);
-                determinant += pow(-1, i) * (*this)(i,0);
+                //determinant += pow(-1, i) * (*this)(i,0) * (*this).Submatrix(i,0).Determinante();
             }
             return determinant;
-        } else {
-            return -2456;
         }
-    } return -2456;
 }
 
 template<int Row, int Column>
