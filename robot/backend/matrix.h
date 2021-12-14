@@ -7,7 +7,7 @@
 #include <iterator>
 #include "vector3.cpp"
 
-template <int Row, int Column>
+template <size_t Row, size_t Column>
 class Matrix {
     private:
         std::unique_ptr<std::array<std::unique_ptr<VectorN<Row>>,Column>> matrix;
@@ -38,26 +38,26 @@ class Matrix {
         const VectorN<Row> GetColumn(int _column) const;
         //Matrix + Matrix ONLY SAME SIZE
         Matrix& operator+=(const Matrix<Row,Column>& _other);
-        template <int _Row, int _Column> 
+        template <size_t _Row, size_t _Column> 
         friend Matrix<_Row,_Column> operator+(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other);
         //Matrix - Matrix ONLY SAME SIZE
         Matrix& operator-=(const Matrix<Row,Column>& _other);
-        template <int _Row, int _Column> 
+        template <size_t _Row, size_t _Column> 
         friend Matrix<_Row,_Column> operator-(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other);
         //Matrix * Matrix AB =/ BA
         Matrix<Row,Column>& operator*=(const Matrix<Row,Column>& _other);
-        template <int _Row, int _Column, int _Column2> 
+        template <size_t _Row, size_t _Column, size_t _Column2> 
         friend Matrix<_Row,_Column2> operator*(const Matrix<_Row,_Column>& _this, const Matrix<_Column,_Column2>& _other);
         //Matrix * Scalar
         Matrix& operator*=(const float& _value);
-        template <int _Row, int _Column> 
+        template <size_t _Row, size_t _Column> 
         friend Matrix<_Row,_Column> operator*(Matrix<_Row,_Column> _this, const float& _value);
         //Matrix / Scalar
         Matrix& operator/=(const float& _value);
-        template <int _Row, int _Column> 
+        template <size_t _Row, size_t _Column> 
         friend Matrix<_Row,_Column> operator/(Matrix<_Row,_Column> _this, const float& _value);
         //Ostream operator
-        template<int R, int C> friend std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
+        template<size_t R, size_t C> friend std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
         //Functions
         //SubMatrix
@@ -86,19 +86,19 @@ class Matrix {
 };
 
 //Friendly Operators
-template <int _Row, int _Column> 
+template <size_t _Row, size_t _Column> 
 Matrix<_Row,_Column> operator+(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other) {
     _this += _other;
     return _this;
 }
 
-template <int _Row, int _Column> 
+template <size_t _Row, size_t _Column> 
 Matrix<_Row,_Column> operator-(Matrix<_Row,_Column> _this, const Matrix<_Row,_Column>& _other) {
     _this -= _other;
     return _this;
 }
 
-template <int _Row, int _Column, int _Column2> 
+template <size_t _Row, size_t _Column, size_t _Column2> 
 Matrix<_Row,_Column2> operator*(const Matrix<_Row,_Column>& _this, const Matrix<_Column,_Column2>& _other) {    
     std::cout << "Matrix operator *" << std::endl;
     Matrix<_Row,_Column2> tmp;
@@ -114,22 +114,22 @@ Matrix<_Row,_Column2> operator*(const Matrix<_Row,_Column>& _this, const Matrix<
     return tmp;
 }
 
-template <int _Row, int _Column> 
+template <size_t _Row, size_t _Column> 
 Matrix<_Row,_Column> operator*(Matrix<_Row,_Column> _this, const float& _value) {
     _this *= _value;
     return _this;
 }
 
-template <int _Row, int _Column> 
+template <size_t _Row, size_t _Column> 
 Matrix<_Row,_Column> operator/(Matrix<_Row,_Column> _this, const float& _value) {
     _this /= _value;
     return _this;
 } 
 
-template <int Row, int Column>
+template <size_t Row, size_t Column>
 int Matrix<Row,Column>::counter = 0;
 
-template<int R, int C>
+template<size_t R, size_t C>
 std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m);
 
 #endif
