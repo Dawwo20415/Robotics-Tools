@@ -426,7 +426,8 @@ float Matrix<Row,Column>::Determinante() {
         } else {
             int determinant = 0;
             for ( int i = 0; i < Row; i++) {
-                //determinant += pow(-1, i) * (*this)(i,0) * (*this).Submatrix(i,0).Determinante();
+                /* THE ERROR IS HERE!!!*/
+                determinant += pow(-1, i) * (*this)(i,0) * (*this).Submatrix(i,0).Determinante();
             }
             return determinant;
         }
