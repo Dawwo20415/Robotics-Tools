@@ -3,7 +3,7 @@
 
 #pragma region Constructors
 //Default Constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN() {
     try {
         if (N <= 0) {
@@ -11,7 +11,7 @@ VectorN<N>::VectorN() {
         } else {
             index = counter;
             counter++;
-            printf("Created no arguments Vector%ld index: %d\n", N, index);
+            printf("Created no arguments Vector index: %d\n", index);
             float tmp[N];
             v = new std::vector<float>(N, 0.0f);
         }
@@ -22,7 +22,7 @@ VectorN<N>::VectorN() {
 }
 
 //Copy Constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN(const VectorN<N> &vec) {
     try {
         if (N <= 0) {
@@ -30,7 +30,7 @@ VectorN<N>::VectorN(const VectorN<N> &vec) {
         } else {
             this->index = counter;
             counter++;
-            printf("Created Copy Constructor Vector%ld index: %d from vector: %d\n", N, this->index, vec.index);
+            printf("Created Copy Constructor Vector index: %d from vector: %d\n", this->index, vec.index);
             this->v = new std::vector<float>(*(vec.v));
         }
     } catch (std::exception& e) {
@@ -40,7 +40,7 @@ VectorN<N>::VectorN(const VectorN<N> &vec) {
 }
 
 //Copy Vector Constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN(const std::vector<float> &other) {
     try {
         if (N <= 0) {
@@ -48,7 +48,7 @@ VectorN<N>::VectorN(const std::vector<float> &other) {
         } else {
             this->index = counter;
             counter++;
-            printf("Created Copy Vector Constructor Vector%ld index: %d\n", N, this->index);
+            printf("Created Copy Vector Constructor Vector index: %d\n", this->index);
             this->v = new std::vector<float>(other);
         }
     } catch (std::exception& e) {
@@ -58,7 +58,7 @@ VectorN<N>::VectorN(const std::vector<float> &other) {
 }
 
 //Move Vector Constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
     try {
         if (N <= 0) {
@@ -66,7 +66,7 @@ VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
         } else {
             this->index = counter;
             counter++;
-            printf("Created Move Vector Constructor Vector%ld index: %d\n", N, this->index);
+            printf("Created Move Vector Constructor Vector index: %d\n", this->index);
             if (this->v != &other) {
                 delete this->v;
                 this->v = &other;
@@ -79,7 +79,7 @@ VectorN<N>::VectorN(std::vector<float> &&other) noexcept{
 }
 
 //Move constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
     try {
         if (N <= 0) {
@@ -87,7 +87,7 @@ VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
         } else {
             this->index = counter;
             counter++;
-            printf("Created Move Constructor Vector%ld index: %d from Vector: %d\n", N, this->index, other.index);
+            printf("Created Move Constructor Vector index: %d from Vector: %d\n", this->index, other.index);
             if (this != &other) {
                 delete v;
 
@@ -102,7 +102,7 @@ VectorN<N>::VectorN(VectorN<N>&& other) noexcept {
 }
 
 //Float Array Copy constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN(const float (&other)[N]) {
     try {
         if (N <= 0) {
@@ -110,7 +110,7 @@ VectorN<N>::VectorN(const float (&other)[N]) {
         } else {
             index = counter;
             counter++;
-            printf("Created Float Array Copy Vector%ld index: %d\n", N, index);
+            printf("Created Float Array Copy Vector index: %d\n", index);
             v = new std::vector<float>(other, other + N);
         }
     } catch (std::exception& e) {
@@ -120,7 +120,7 @@ VectorN<N>::VectorN(const float (&other)[N]) {
 }
 
 //Float Array Move constructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::VectorN(float (&&other)[N]) noexcept {
     try {
         if (N <= 0) {
@@ -128,7 +128,7 @@ VectorN<N>::VectorN(float (&&other)[N]) noexcept {
         } else {
             index = counter;
             counter++;
-            printf("Created Float Array Move Vector%ld index: %d\n", N, index);
+            printf("Created Float Array Move Vector index: %d\n", index);
             v = new std::vector<float>(other, other + N);
         }
     } catch (std::exception& e) {
@@ -141,25 +141,25 @@ VectorN<N>::VectorN(float (&&other)[N]) noexcept {
 
 #pragma region Destructors
 //Destructor
-template <size_t N>
+template <unsigned short N>
 VectorN<N>::~VectorN() { printf("Destructed Vector3 %d\n", index); }
 
 #pragma endregion
 
 #pragma region Functions
-template <size_t N>
+template <unsigned short N>
 std::vector<float>& VectorN<N>::Get() { 
     std::cout << "Used NOT CONST" << std::endl;
     return *v; 
 }
 
-template <size_t N>
+template <unsigned short N>
 const std::vector<float>& VectorN<N>::Get() const { 
     std::cout << "Used CONST" << std::endl;
     return *v; 
 }
 
-template <size_t N>
+template <unsigned short N>
 void VectorN<N>::Print() {
     std::string tmp;
     tmp += "[";
@@ -170,7 +170,7 @@ void VectorN<N>::Print() {
     std::cout << tmp;
 }
 
-template <size_t N>
+template <unsigned short N>
 void VectorN<N>::Println() {
     std::string tmp;
     tmp += "[";
@@ -186,7 +186,7 @@ void VectorN<N>::Println() {
 #pragma region Operators
 
 //Copy Assignment operator
-template<size_t N>
+template<unsigned short N>
 VectorN<N>& VectorN<N>::operator=(const VectorN<N>& other) {
     printf("Vector N Used copy assignment operator = on i:%d for i:%d\n",this->index, other.index);
     this->v = other.v;
@@ -194,7 +194,7 @@ VectorN<N>& VectorN<N>::operator=(const VectorN<N>& other) {
 }
 
 //Move Assignment operator
-template<size_t N>
+template<unsigned short N>
 VectorN<N>& VectorN<N>::operator=(VectorN<N>&& other) noexcept {
     printf("VectorN Used move operator = on i:%d for i:%d\n",this->index, other.index);
     if (this != &other) {
@@ -206,7 +206,7 @@ VectorN<N>& VectorN<N>::operator=(VectorN<N>&& other) noexcept {
 }
 
 //Copy Assignment operator with float array
-template<size_t N>
+template<unsigned short N>
 VectorN<N>& VectorN<N>::operator=(const float (&other)[N]) {
     printf("Vector N Used copy float assignment operator = on i:%d",this->index);
     delete v;
@@ -215,7 +215,7 @@ VectorN<N>& VectorN<N>::operator=(const float (&other)[N]) {
 }
 
 //Move assignment operator with float array
-template<size_t N>
+template<unsigned short N>
 VectorN<N>& VectorN<N>::operator=(float (&&other)[N]) noexcept {
     //I don't actually know if this is the correct way to implement this move but I am not familiar enough with std::vector
     //And when I tried to do something else it didn't compile so eh;
@@ -226,17 +226,17 @@ VectorN<N>& VectorN<N>::operator=(float (&&other)[N]) noexcept {
 }
 
 //Selection operators
-template <size_t N>
+template <unsigned short N>
 float& VectorN<N>::operator[](int _i) {
     return (*v)[_i];
 }
 
-template <size_t N>
+template <unsigned short N>
 const float& VectorN<N>::operator[](int _i) const {
     return (*v)[_i];
 }
 
-template <size_t N>
+template <unsigned short N>
 //Addition operator
 VectorN<N>& VectorN<N>::operator+=(const VectorN<N>& _other) {
     std::cout << "VectorN operator +=" << std::endl;
@@ -247,7 +247,7 @@ VectorN<N>& VectorN<N>::operator+=(const VectorN<N>& _other) {
 }
 
 //Subtraction operator
-template <size_t N>
+template <unsigned short N>
 VectorN<N>& VectorN<N>::operator-=(const VectorN<N>& _other) {
     std::cout << "VectorN operator -=" << std::endl;
     for (int i = 0; i < N; i++) {
@@ -257,7 +257,7 @@ VectorN<N>& VectorN<N>::operator-=(const VectorN<N>& _other) {
 }
 
 //Cross Product operator
-template <size_t N>
+template <unsigned short N>
 VectorN<N>& VectorN<N>::operator*=(const VectorN<N>& _other) {
     if (N == 3) {
         float tmp[3];
@@ -274,7 +274,7 @@ VectorN<N>& VectorN<N>::operator*=(const VectorN<N>& _other) {
 }
 
 //Scalar Product operator
-template <size_t N>
+template <unsigned short N>
 VectorN<N>& VectorN<N>::operator*=(const float& _value) {
     for (int i = 0; i < N; i++) {
         (*(this->v))[i] *= _value;
@@ -283,7 +283,7 @@ VectorN<N>& VectorN<N>::operator*=(const float& _value) {
 }
 
 //Dot Product operator
-template <size_t N>
+template <unsigned short N>
 float VectorN<N>::DotProduct(const VectorN<N>& vec) { 
     float tmp = 0.0f;
     for (int i = 0; i < N; i++) {
@@ -295,7 +295,7 @@ float VectorN<N>::DotProduct(const VectorN<N>& vec) {
 #pragma endregion
 
 #pragma region Statics
-template <size_t N>
+template <unsigned short N>
 VectorN<N> VectorN<N>::UnitVector() {
     float tmp[N];
     for (int i = 0; i < N; i++) {
@@ -304,13 +304,13 @@ VectorN<N> VectorN<N>::UnitVector() {
     return VectorN<N>(tmp);
 }
 
-template <size_t N>
+template <unsigned short N>
 VectorN<N> VectorN<N>::NullVector() {
     return VectorN<N>();
 }
 
 //Output stream operator
-template<size_t T>
+template<unsigned short T>
 std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v){
     os << "[";
     for (int i = 0; i < T; i++) {

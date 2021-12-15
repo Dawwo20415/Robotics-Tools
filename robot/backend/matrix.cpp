@@ -4,7 +4,7 @@
 #pragma region Constructors
 
 //Default Constructor
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>::Matrix() {
     try {
         if (Column <= 0 || Row <= 0) {
@@ -13,7 +13,7 @@ Matrix<Row,Column>::Matrix() {
             index = counter;
             counter++;
             matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-            printf("Default Constructor Matrix %ld*%ld index:%d\n", Row, Column, index);
+            printf("Default Constructor Matrix * index:%d\n", index);
             for (int i = 0; i < Column; i++) {
                 (*matrix)[i] = std::make_unique<VectorN<Row>>();
             }
@@ -26,7 +26,7 @@ Matrix<Row,Column>::Matrix() {
 }
 
 //Copy Constructor
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
     try {
         if (Column <= 0 || Row <= 0) {
@@ -35,7 +35,7 @@ Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
             index = counter;
             counter++;
             matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-            printf("Copy Constructor Matrix %ld*%ld index:%d\n", Row, Column, index);
+            printf("Copy Constructor Matrix * index:%d\n", index);
             for (int i = 0; i < Column; i++) {
                 std::unique_ptr<VectorN<Row>> tmp = std::make_unique<VectorN<Row>>(other.GetColumn(i));
                 (*matrix)[i] = std::move(tmp);
@@ -48,7 +48,7 @@ Matrix<Row,Column>::Matrix(const Matrix<Row,Column>& other) {
 }
 
 //Float Array Copy Constructor
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
     try {
         if (Column <= 0 || Row <= 0) {
@@ -57,7 +57,7 @@ Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
             index = counter;
             counter++;
             matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-            printf("Float Copy Constructor Matrix %ld*%ld index:%d\n", Row, Column, index);
+            printf("Float Copy Constructor Matrix  index:%d\n", index);
             for (int c = 0; c < Column; c++){
                 float tmp_arr[Row];
                 for (int r = 0; r < Row; r++) {
@@ -73,7 +73,7 @@ Matrix<Row,Column>::Matrix(const float (&other)[Row][Column]) {
 }
 
 //Move Constructor
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>::Matrix(Matrix<Row,Column>&& other) noexcept {
     try {
         if (Column <= 0 || Row <= 0) {
@@ -82,7 +82,7 @@ Matrix<Row,Column>::Matrix(Matrix<Row,Column>&& other) noexcept {
             index = counter;
             counter++;
             matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-            printf("Move Constructor Matrix %ld*%ld index:%d\n", Row, Column, index);
+            printf("Move Constructor Matrix  index:%d\n", index);
             if (this != &other) {
                 this->matrix = std::move(other.matrix);
             }
@@ -94,7 +94,7 @@ Matrix<Row,Column>::Matrix(Matrix<Row,Column>&& other) noexcept {
 }
 
 //Float Move Constructor
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>::Matrix(float (&&other)[Row][Column]) noexcept {
     try {
         if (Column <= 0 || Row <= 0) {
@@ -103,7 +103,7 @@ Matrix<Row,Column>::Matrix(float (&&other)[Row][Column]) noexcept {
             index = counter;
             counter++;
             matrix = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
-            printf("Float Move Constructor Matrix %ld*%ld index:%d\n", Row, Column, index);
+            printf("Float Move Constructor Matrix index:%d\n", index);
             for (int c = 0; c < Column; c++){
                 float tmp_arr[Row];
                 for (int r = 0; r < Row; r++) {
@@ -124,7 +124,7 @@ Matrix<Row,Column>::Matrix(float (&&other)[Row][Column]) noexcept {
 #pragma region Destructors
 //Destructor
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>::~Matrix() {
     printf("Destructed Matrix %d\n", index);   
 }
@@ -133,7 +133,7 @@ Matrix<Row,Column>::~Matrix() {
 #pragma region Prints & Display
 
 /*
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 void Matrix<Row,Column>::Print() {
     std::string tmp;
     for (int i = 0; i < Row; i++) {
@@ -169,7 +169,7 @@ void Matrix<Row,Column>::Print() {
     std::cout << tmp;
 }*/
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 void Matrix<Row,Column>::Println() {
     std::string tmp;
     for (int i = 0; i < Row; i++) {
@@ -210,7 +210,7 @@ void Matrix<Row,Column>::Println() {
 #pragma region Operators
 
 //Copy Assignment operator
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator=(const Matrix<Row,Column>& other) {
     std::unique_ptr<std::array<std::unique_ptr<VectorN<Row>>,Column>> tmp_arr = std::make_unique<std::array<std::unique_ptr<VectorN<Row>>,Column>>();
     for (int i = 0; i < Column; i++) {
@@ -222,7 +222,7 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator=(const Matrix<Row,Column>& othe
 }
 
 //Move Assignment operator
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator=(Matrix<Row,Column>&& other) noexcept {
     printf("Matrix Used move assignment operator = on i:%d for i:%d\n",this->index, other.index);
     if (this != &other) {
@@ -232,17 +232,17 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator=(Matrix<Row,Column>&& other) no
 }
 
 //Selection operators
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 float& Matrix<Row,Column>::operator()(int _row, int _column) {
     return (*((*(matrix))[_column]))[_row];
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 const float& Matrix<Row,Column>::operator()(int _row, int _column) const {
     return (*((*(matrix))[_column]))[_row];
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 VectorN<Column> Matrix<Row,Column>::GetRow(int _row) {
     VectorN<Column> tmp;
     for (int i = 0; i < Column; i++) {
@@ -251,7 +251,7 @@ VectorN<Column> Matrix<Row,Column>::GetRow(int _row) {
     return tmp;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 const VectorN<Column> Matrix<Row,Column>::GetRow(int _row) const {
     VectorN<Column> tmp;
     for (int i = 0; i < Column; i++) {
@@ -260,21 +260,21 @@ const VectorN<Column> Matrix<Row,Column>::GetRow(int _row) const {
     return tmp;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) {
     VectorN<Row> tmp;
     tmp = (*((*(matrix.get()))[_column]));
     return tmp;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 const VectorN<Row> Matrix<Row,Column>::GetColumn(int _column) const {
     VectorN<Row> tmp;
     tmp = (*((*(matrix.get()))[_column]));
     return tmp;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator+=(const Matrix<Row,Column>& _other) {
     std::cout << "Matrix operator +=" << std::endl;
     for (int i = 0; i < Column; i++) {
@@ -283,7 +283,7 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator+=(const Matrix<Row,Column>& _ot
     return *this;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator-=(const Matrix<Row,Column>& _other) {
     std::cout << "Matrix operator +=" << std::endl;
     for (int i = 0; i < Column; i++) {
@@ -292,7 +292,7 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator-=(const Matrix<Row,Column>& _ot
     return *this;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const Matrix<Row,Column>& _other) {
     std::cout << "Matrix operator *=" << std::endl;
     Matrix<Row,Column> tmp;
@@ -310,7 +310,7 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const Matrix<Row,Column>& _ot
     return *this;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const float& _value) {
     std::cout << "Matrix operator +=" << std::endl;
     for (int i = 0; i < Column; i++) {
@@ -319,7 +319,7 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator*=(const float& _value) {
     return *this;
 }
 
-template <size_t Row, size_t Column>
+template <unsigned short Row, unsigned short Column>
 Matrix<Row,Column>& Matrix<Row,Column>::operator/=(const float& _value) {
     std::cout << "Matrix operator +=" << std::endl;
     for (int i = 0; i < Column; i++) {
@@ -328,7 +328,7 @@ Matrix<Row,Column>& Matrix<Row,Column>::operator/=(const float& _value) {
     return *this;
 }
 
-template<size_t R, size_t C>
+template<unsigned short R, unsigned short C>
 std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m){
     for (int i = 0; i < R; i++) {
         //Left Wall
@@ -365,7 +365,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix<R,C>& m){
 
 #pragma region Functions
 
-template<size_t Row, size_t Column>
+template<unsigned short Row, unsigned short Column>
 Matrix<Column,Row> Matrix<Row,Column>::Traslate() {
     Matrix<Column,Row> tmp;
     for (int i = 0; i < Row; i++) {
@@ -377,7 +377,7 @@ Matrix<Column,Row> Matrix<Row,Column>::Traslate() {
     return tmp;
 }
 
-template<size_t Row, size_t Column>
+template<unsigned short Row, unsigned short Column>
 bool Matrix<Row,Column>::isSymmetric() {
     if (Row == Column) {
         std::cout << "Column and Row are the same size" << std::endl;
@@ -397,7 +397,7 @@ bool Matrix<Row,Column>::isSymmetric() {
     } return false;
 }
 
-template<size_t Row, size_t Column>
+template<unsigned short Row, unsigned short Column>
 Matrix<Row-1,Column-1> Matrix<Row,Column>::Submatrix(int x, int y) {
         if (Row <= 2) {
             throw std::invalid_argument("Creating submatrix from invalid parent | x<=2");
@@ -410,13 +410,13 @@ Matrix<Row-1,Column-1> Matrix<Row,Column>::Submatrix(int x, int y) {
         }
 }
 
-template<size_t Row, size_t Column>
-float Matrix<Row,Column>::Determinante() {
+template<unsigned short Row, unsigned short Column>
+float Matrix<Row,Column>::Determinant() {
         if (Row != Column) {
             throw std::invalid_argument("Row and Column of Different Sizes");
         }
         if (Row < 1) {
-            throw std::invalid_argument("Length of Matrix < 1");
+            throw std::invalid_argument("Size of Matrix < 1");
         }
         
         if (Row == 1) {
@@ -426,20 +426,10 @@ float Matrix<Row,Column>::Determinante() {
         } else {
             int determinant = 0;
             for ( int i = 0; i < Row; i++) {
-                /* THE ERROR IS HERE!!!*/
-                determinant += pow(-1, i) * (*this)(i,0) * (*this).Submatrix(i,0).Determinante();
+                determinant += pow(-1, i) * (*this)(i,0) * this->Submatrix(i,0).Determinant();
             }
             return determinant;
         }
-}
-
-template<size_t Row, size_t Column>
-Matrix<Row,Column> Matrix<Row,Column>::Inverse() {
-    if (Row == Column) {
-        if (Determinante != 0) {
-
-        } return NULL;
-    } return NULL;
 }
 
 #pragma endregion

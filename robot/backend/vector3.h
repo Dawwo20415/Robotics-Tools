@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-template <size_t N>
+template <unsigned short N>
 class VectorN {
 
     private:
@@ -48,55 +48,55 @@ class VectorN {
         const float& operator[](int _i) const;
         //Addition Operator 
         VectorN& operator+=(const VectorN<N>& _other);
-        template<size_t _N> friend VectorN<_N> operator+(VectorN<_N> _this, const VectorN<_N>& _other);
+        template<unsigned short _N> friend VectorN<_N> operator+(VectorN<_N> _this, const VectorN<_N>& _other);
         //Subtraction operator
         VectorN& operator-=(const VectorN<N>& _other);
-        template<size_t _N> friend VectorN<_N> operator-(VectorN<_N> _this, const VectorN<_N>& _other);
+        template<unsigned short _N> friend VectorN<_N> operator-(VectorN<_N> _this, const VectorN<_N>& _other);
         //Multiplicative operators (Cross & Scalar Products)
         VectorN& operator*=(const VectorN<N>& _other);
         VectorN& operator*=(const float& _value);
-        template<size_t _N> friend VectorN<_N> operator*(VectorN<_N> _this, const VectorN<_N>& _other);
-        template<size_t _N> friend VectorN<_N> operator*(VectorN<_N> _this, const float& _value);
+        template<unsigned short _N> friend VectorN<_N> operator*(VectorN<_N> _this, const VectorN<_N>& _other);
+        template<unsigned short _N> friend VectorN<_N> operator*(VectorN<_N> _this, const float& _value);
         //DotProduct operator
         float DotProduct(const VectorN<N>& other); 
 
         
         //Output stream operator
-        template<size_t T> friend std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
+        template<unsigned short T> friend std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
         //Statics
         static VectorN UnitVector();
         static VectorN NullVector();    
 };
 
-template <size_t N>
+template <unsigned short N>
 int VectorN<N>::counter = 0;
 
 //Friendly operators
-template <size_t _N>
+template <unsigned short _N>
 VectorN<_N> operator+(VectorN<_N> _this, const VectorN<_N>& _other) {
     _this += _other;
     return _this;
 }
 
-template <size_t _N>
+template <unsigned short _N>
 VectorN<_N> operator-(VectorN<_N> _this, const VectorN<_N>& _other) {
     _this -= _other;
     return _this;
 }
 
-template <size_t _N>
+template <unsigned short _N>
 VectorN<_N> operator*(VectorN<_N> _this, const VectorN<_N>& _other) {
     _this *= _other;
     return _this;
 }
 
-template <size_t _N>
+template <unsigned short _N>
 VectorN<_N> operator*(VectorN<_N> _this, const float& _value) {
     _this *= _value;
     return _this;
 }
 
-template<size_t T>
+template<unsigned short T>
 std::ostream& operator<<(std::ostream& os, const VectorN<T>& _v);
 
 #endif

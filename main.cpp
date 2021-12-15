@@ -17,12 +17,26 @@ int main()
 
     std::cout << " --------------------------------------" << std::endl;
 
+    /*
     try {
         std::cout << "Determinante : " << dd.Determinante() << std::endl;
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
     }
-    
+    */
+
+    Matrix<2,2> sub;
+    sub = dd.Submatrix(0,0);
+
+    dd.Println();
+    sub.Println();
+
+    sub *= 2.0f;
+
+    dd.Println();
+    sub.Println();
+
+    std::cout << "Determinante matrice sub = " << sub.Determinant() << std::endl;
     
     //std::cout << " ---------- Determinante matrice 5x5: " << dd.Determinante() << std::endl;
     std::cout << " --------------------------------------" << std::endl;
