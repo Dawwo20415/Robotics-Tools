@@ -6,7 +6,7 @@
 #include <list>
 #include <iterator>
 #include <math.h>
-#include "vector3.cpp"
+#include "vector3.h"
 
 template <unsigned short Row, unsigned short Column>
 class Matrix {
