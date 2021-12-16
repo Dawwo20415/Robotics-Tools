@@ -8,7 +8,7 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
-                "${workspaceFolder}/dependencies/backend/vector3.cpp",
+                "${workspaceFolder}/classes/algebric_backend/vectorn.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
