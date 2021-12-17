@@ -22,6 +22,8 @@ int main()
 
     Vectorn hello(5);
 
+    std::cout << hello[2] << std::endl;
+
     return 1;
 
 }
