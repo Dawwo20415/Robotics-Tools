@@ -1,27 +1,89 @@
 #include "vectorn.h"
 
+#pragma region Exeption_Handlers
+
+void Vectorn::constructorPreconditions(int dimension) {
+    try {
+        if (
+        //Conditions
+        dimension > pm_vector.max_size() || 
+        dimension == 0
+        ) {
+            //Exception
+            throw std::out_of_range(
+                "In creation of Vectorn: passed parameter dimension " +
+                std::to_string(dimension) + 
+                " out of range for std::vector<float>"); //Out of scope dimension
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+    
+}
+
+void Vectorn::constructorPreconditions(int selectedDimension, int originalDimension) {
+    try {
+        if (
+            //Conditions for selected dimension
+            selectedDimension > originalDimension || 
+            selectedDimension <= 0
+            ) {
+            throw std::out_of_range(
+                "In creation of Vectorn: passed parameter dimension " +
+                std::to_string(selectedDimension) + 
+                " out of range for std::vector<float>"); //Out of scope dimension
+        } 
+
+        if (
+            //Conditions for input vector type
+            selectedDimension > originalDimension || 
+            originalDimension <= 0) {
+            throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
+                    + std::to_string(originalDimension));
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
+void Vectorn::constructorPreconditions(int selectedBeginning, int selectedEnd, int originalDimension) {
+    try {
+        if ( //Conditions
+            selectedEnd > originalDimension || 
+            selectedBeginning < 0 || 
+            selectedBeginning > selectedEnd
+            ) {
+            throw std::out_of_range(
+                "In creation of Vectorn: passed parameter beginning=" +
+                std::to_string(selectedBeginning) + " or end=" + std::to_string(selectedEnd) +
+                " out of range for std::vector<float>"); //Out of scope dimension
+        } if (originalDimension <= 0) {
+            throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
+                    + std::to_string(originalDimension));
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
+#pragma endregion
+
 #pragma region Constructors
 
 //Default Constructor
 Vectorn::Vectorn(unsigned int dimension) {
-    //preconditions
-    if (dimension > pm_vector.max_size() || dimension == 0) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(dimension) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    }
+
+    constructorPreconditions(dimension);
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
+    counter++;
     std::cout << "| Default Constructor | Dimension " << dimension << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
@@ -32,170 +94,111 @@ Vectorn::Vectorn(unsigned int dimension) {
 
 //Copy Constructor | Other Vector | Specified dimension
 Vectorn::Vectorn(unsigned int dimension, const Vectorn& other) {
-    //preconditions
-    if (dimension > other.pm_dimension || dimension == 0) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(dimension) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    } if (dimension > other.pm_dimension || other.pm_dimension <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.pm_dimension));
-    }
+    
+    constructorPreconditions(dimension, other.pm_dimension);
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
+    counter++;
     std::cout << "| Default Constructor | Dimension " << dimension << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
     pm_dimension = dimension;
     for (int i = 0; i < dimension; i++)
-        pm_vector[i] = other[i];
+        pm_vector.push_back(other[i]);
 }
 
 //Copy Constructor | Other Vector | Index Range
 Vectorn::Vectorn(unsigned int beginning, unsigned int end, const Vectorn& other) {
-    //preconditions
-    if (end > other.pm_dimension || end < 0 || beginning < 0 || beginning > end) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(end - beginning) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    } if (other.pm_dimension <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.pm_dimension));
-    }
+
+    constructorPreconditions(beginning, end, other.pm_dimension);
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
-    std::cout << "| Default Constructor | Dimension " << end - beginning << " | Index " 
+    counter++;
+    std::cout << "| Default Constructor | Dimension " << end - beginning + 1 << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
-    pm_dimension = end - beginning;
-    for (int i = beginning; i < end; i++)
-        pm_vector[i] = other[i];
+    pm_dimension = end - beginning + 1;
+    for (int i = beginning; i <= end; i++)
+        pm_vector.push_back(other[i]);
 }
 
 //Copy Constructor | Other Vector | Whole Vector
 Vectorn::Vectorn(const Vectorn& other) {
-    //preconditions
-    if (other.pm_dimension <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.pm_dimension));
-    }
+    
+    constructorPreconditions(other.pm_dimension);
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
+    counter++;
     std::cout << "| Default Constructor | Dimension " << other.pm_dimension << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
     pm_dimension = other.pm_dimension;
     for (int i = 0; i < pm_dimension; i++)
-        pm_vector[i] = other[i];
+        pm_vector.push_back(other[i]);
 }
 
 //Copy Constructor | std::vector | Specified dimension
 Vectorn::Vectorn(unsigned int dimension, const std::vector<float>& other) {
-    //preconditions
-    if (dimension > other.size() || dimension == 0) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(dimension) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    } if (dimension > other.size() || other.size() <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.size()));
-    }
+
+    constructorPreconditions(dimension, other.size());
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
+    counter++;
     std::cout << "| Default Constructor | Dimension " << dimension << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
     pm_dimension = dimension;
     for (int i = 0; i < dimension; i++)
-        pm_vector[i] = other[i];
+        pm_vector.push_back(other[i]);
 }
 
 //Copy Constructor | std::vector | Index Range
 Vectorn::Vectorn(unsigned int beginning, unsigned int end, const std::vector<float>& other) {
-    //preconditions
-    if (end > other.size() || end < 0 || beginning < 0 || beginning > end) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(end - beginning) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    } if (other.size() <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.size()));
-    }
+
+    constructorPreconditions(beginning, end, other.size());
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
-    std::cout << "| Default Constructor | Dimension " << end - beginning << " | Index " 
+    counter++;
+    std::cout << "| Default Constructor | Dimension " << end - beginning + 1 << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
-    pm_dimension = end - beginning;
-    for (int i = beginning; i < end; i++)
-        pm_vector[i] = other[i];
+    pm_dimension = end - beginning + 1;
+    for (int i = beginning; i <= end; i++)
+        pm_vector.push_back(other[i]);
+        
 }
 
 //Copy Constructor | std::vector | Whole Vector
 Vectorn::Vectorn(const std::vector<float>& other) {
-    //preconditions
-    if (other.size() <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.size()));
-    }
+
+    constructorPreconditions(other.size());
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
+    counter++;
     std::cout << "| Default Constructor | Dimension " << other.size() << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
@@ -204,95 +207,24 @@ Vectorn::Vectorn(const std::vector<float>& other) {
         pm_vector = other;
 }
 
-//!!!!! HERE USE std::initializer_list<float> INSTEAD OF A RAW ARRAY POINTER !!!!!
-/*
-//Copy Constructor | float array | Specified dimension
-Vectorn::Vectorn(unsigned int dimension, const float (&other)[]) {
-    //preconditions
-    if (dimension > other.size() || dimension == 0) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(dimension) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    } if (dimension > other.size() || other.size() <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.size()));
-    }
+//Copy Constructor | initializer_list | Whole Vector
+Vectorn::Vectorn(const std::initializer_list<float>& other) {
+
+    constructorPreconditions(other.size());
 
     //Print Debug?
     #if DEBUG
-
     index = counter;
-    index++;
-
-    std::cout << "| Default Constructor | Dimension " << dimension << " | Index " 
-                << index << " |" << std::endl;
-
-    #endif
-
-    //Constructor
-    pm_dimension = dimension;
-    for (int i = 0; i < dimension; i++)
-        pm_vector[i] = other[i];
-}
-
-//Copy Constructor | float array | Index Range
-Vectorn::Vectorn(unsigned int beginning, unsigned int end, const float (&other)[]) {
-    //preconditions
-    if (end > other.size() || end < 0 || beginning < 0 || beginning > end) {
-        throw std::out_of_range(
-            "In creation of Vectorn: passed parameter dimension " +
-            std::to_string(end - beginning) + 
-            "out of range for std::vector<float> " +
-            std::to_string(pm_vector.max_size())); //Out of scope dimension
-    } if (other.size() <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.size()));
-    }
-
-    //Print Debug?
-    #if DEBUG
-
-    index = counter;
-    index++;
-
-    std::cout << "| Default Constructor | Dimension " << end - beginning << " | Index " 
-                << index << " |" << std::endl;
-
-    #endif
-
-    //Constructor
-    pm_dimension = end - beginning;
-    for (int i = beginning; i < end; i++)
-        pm_vector[i] = other[i];
-}
-
-//Copy Constructor | float array | Whole Vector
-Vectorn::Vectorn(const float (&other)[]) {
-    //preconditions
-    if (other.size() <= 0) {
-        throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
-                + std::to_string(other.size()));
-    }
-
-    //Print Debug?
-    #if DEBUG
-
-    index = counter;
-    index++;
-
+    counter++;
     std::cout << "| Default Constructor | Dimension " << other.size() << " | Index " 
                 << index << " |" << std::endl;
-
     #endif
 
     //Constructor
     pm_dimension = other.size();
-    for (int i = 0; i < pm_dimension; i++)
-        pm_vector = other;
+    pm_vector = other;
 }
-*/
+
 #pragma endregion
 
 #pragma region Operators

@@ -14,6 +14,11 @@ class Vectorn {
         unsigned int pm_dimension;
         std::vector<float> pm_vector;
 
+        //Constructors Exceptions Handlers
+        void constructorPreconditions(int dimension);
+        void constructorPreconditions(int selectedDimension, int originalDimension);
+        void constructorPreconditions(int selectedBeginning, int selectedEnd, int originalDimension);
+
         //Debug Controll
         #if DEBUG
 
@@ -38,9 +43,7 @@ class Vectorn {
         Vectorn(unsigned int beginning, unsigned int end, const std::vector<float>& other);
         Vectorn(const std::vector<float>& other);
 
-        Vectorn(unsigned int dimension, const float (&other)[]);
-        Vectorn(unsigned int beginning, unsigned int end, const float (&other)[]);
-        Vectorn(const float (&other)[]);
+        Vectorn(const std::initializer_list<float>& other);
 
         //Move Constructors
 

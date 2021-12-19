@@ -8,6 +8,7 @@ clear && g++ main.cpp ./robot/backend/* -g -o main.out
 
 #include <iostream>
 #include "classes/algebric_backend/vectorn.h"
+#include <vector>
 /*
 #include <memory>
 #include "dependencies/backend/vector3.h"
@@ -18,11 +19,19 @@ int main()
 {
     //Need to completely remake both classes without Templates
 
-    std::cout << "Hello World" << std::endl;
+    std::vector<float> vec({1,2,3,4,5});
 
-    Vectorn hello(5);
+    Vectorn vec0(20);
+    Vectorn vec1({1,2,3,4,5,6,7,8,9});
 
-    std::cout << hello[2] << std::endl;
+    Vectorn vec2(vec1);
+    Vectorn vec3(2,vec1);
+    Vectorn vec4(2,6,vec1);
+
+    Vectorn vec5(vec);
+    Vectorn vec6(2,vec);
+
+    std::cout << vec0[0] << std::endl;
 
     return 1;
 
