@@ -8,10 +8,11 @@ int main()
     //Need to completely remake both classes without Templates
 
 
-    Vectorn vec1({1,2,3,4,5,6,7,8,9});
-    Vectorn vec2({2,3,4,5});
+    Vectorn vec2({2,3,4});
+    Vectorn vec3({1,2,3});
+    Vectorn vec4(3);
 
-    std::cout << vec1[5] << std::endl;
+    vec4 = vec2 * {1,2,3};
 
     return 1;
 

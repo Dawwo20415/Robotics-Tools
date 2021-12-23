@@ -20,6 +20,7 @@ class Vectorn {
         void constructorPreconditions(const int& selectedBeginning, const int& selectedEnd, const int& originalDimension);
         void selectionOperatorPreconditions(const int& _index) const;
         void algebricOperatorPreconditions(const int& size1, const int& size2) const;
+        void crossProductPreconditions(const int& size) const;
 
         //Debug Controll
         #if DEBUG
@@ -72,6 +73,19 @@ class Vectorn {
         friend Vectorn operator-(Vectorn initial, const Vectorn& other);
         Vectorn& operator-=(const std::initializer_list<float>& other);
         friend Vectorn operator-(Vectorn initial, const std::initializer_list<float>& other);
+
+        //Vector * Scalar Operators
+        Vectorn& operator*=(const float& other);
+        friend Vectorn operator*(Vectorn initial, const float& other);
+
+        //Dot Product Operators
+        float dotProduct(const Vectorn& other);
+
+        //Cross Product
+        Vectorn& operator*=(const Vectorn& other);
+        friend Vectorn operator*(Vectorn initial, const Vectorn& other);
+        Vectorn& operator*=(const std::initializer_list<float>& other);
+        friend Vectorn operator*(Vectorn initial, const std::initializer_list<float>& other);
 
         //FUNCTIONS -------------------------------------------------
 };

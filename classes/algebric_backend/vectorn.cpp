@@ -94,6 +94,18 @@ void Vectorn::algebricOperatorPreconditions(const int& size1, const int& size2) 
     }
 }
 
+void Vectorn::crossProductPreconditions(const int& size) const {
+    try {
+        if (size != 3) {
+            throw std::invalid_argument ("Size of two vectors is differen than 3 and the operation cannot be accomplished | Size= " 
+            + std::to_string(size));
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit ( EXIT_FAILURE );
+    }
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -356,6 +368,71 @@ Vectorn operator-(Vectorn initial, const Vectorn& other) {
 
 Vectorn operator-(Vectorn initial, const std::initializer_list<float>& other) {
     initial -= other;
+    return initial;
+}
+
+//Vector * Scalar Operators
+Vectorn& Vectorn::operator*=(const float& value) {
+
+    for (int i = 0; i < pm_dimension; i++) {
+        pm_vector[i] *= value;
+    }
+
+    return *this;
+}
+
+Vectorn operator*(Vectorn initial, const float& value) {
+    initial *= value;
+    return initial;
+}
+
+//Dot Product Product Operator
+float Vectorn::dotProduct(const Vectorn& other) {
+    //Preconditions
+    algebricOperatorPreconditions(pm_dimension, other.pm_dimension);
+    
+    float tmp = 0;
+
+    for (int i = 0; i < pm_dimension; i++) {
+        tmp += pm_vector[i] * other[i];
+    }
+
+    return tmp;
+}
+
+//Cross Product Operators
+Vectorn& Vectorn::operator*=(const Vectorn& other) {
+    //Preconditions
+    crossProductPreconditions(pm_dimension);
+    crossProductPreconditions(other.pm_dimension);
+
+    float tmp[3];
+    tmp[0] = ( pm_vector[1] * other[2] ) - ( pm_vector[2] * other[1] );
+    tmp[1] = ( pm_vector[2] * other[0] ) - ( pm_vector[0] * other[2] );
+    tmp[2] = ( pm_vector[0] * other[1] ) - ( pm_vector[1] * other[0] ); 
+    pm_vector[0] = tmp[0];
+    pm_vector[1] = tmp[1]; 
+    pm_vector[2] = tmp[2];    
+
+    return *this;
+}
+
+Vectorn& Vectorn::operator*=(const std::initializer_list<float>& other) {
+
+    Vectorn tmp (other);
+
+    *this *= tmp;
+
+    return *this;
+}
+
+Vectorn operator*(Vectorn initial, const Vectorn& other) {
+    initial *= other;
+    return initial;
+}
+
+Vectorn operator*(Vectorn initial, const std::initializer_list<float>& other) {
+    initial *= other;
     return initial;
 }
 
