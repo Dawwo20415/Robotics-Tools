@@ -2,7 +2,7 @@
 
 #pragma region Exeption_Handlers
 
-void Vectorn::constructorPreconditions(int dimension) {
+void Vectorn::constructorPreconditions(const int& dimension) {
     try {
         if (
         //Conditions
@@ -22,7 +22,7 @@ void Vectorn::constructorPreconditions(int dimension) {
     
 }
 
-void Vectorn::constructorPreconditions(int selectedDimension, int originalDimension) {
+void Vectorn::constructorPreconditions(const int& selectedDimension, const int& originalDimension) {
     try {
         if (
             //Conditions for selected dimension
@@ -48,7 +48,7 @@ void Vectorn::constructorPreconditions(int selectedDimension, int originalDimens
     }
 }
 
-void Vectorn::constructorPreconditions(int selectedBeginning, int selectedEnd, int originalDimension) {
+void Vectorn::constructorPreconditions(const int& selectedBeginning, const int& selectedEnd, const int& originalDimension) {
     try {
         if ( //Conditions
             selectedEnd > originalDimension || 
@@ -66,6 +66,19 @@ void Vectorn::constructorPreconditions(int selectedBeginning, int selectedEnd, i
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
         exit( EXIT_FAILURE );
+    }
+}
+
+void Vectorn::selectionOperatorPreconditions(const int& _index) const {
+    try {
+        if (_index < 0 || _index >= pm_dimension) {
+            throw std::out_of_range(
+            "Vectorn call for operator [_i], value out of range | _i="
+            + std::to_string(_index)); //Out of scope dimension
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit ( EXIT_FAILURE );
     }
 }
 
@@ -232,22 +245,14 @@ Vectorn::Vectorn(const std::initializer_list<float>& other) {
 //Selection operators
 float& Vectorn::operator[](int _i) {
     //preconditions
-    if (_i < 0 || _i > pm_dimension) {
-        throw std::out_of_range(
-            "Vectorn call for operator [_i], value out of range | _i="
-            + std::to_string(_i)); //Out of scope dimension
-    }
+    selectionOperatorPreconditions(_i);
 
     return pm_vector[_i];
 }
 
 const float& Vectorn::operator[](int _i) const {
     //preconditions
-    if (_i < 0 || _i > pm_dimension) {
-        throw std::out_of_range(
-            "Vectorn call for operator [_i], value out of range | _i="
-            + std::to_string(_i)); //Out of scope dimension
-    }
+    selectionOperatorPreconditions(_i);
 
     return pm_vector[_i];
 }

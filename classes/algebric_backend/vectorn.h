@@ -15,9 +15,10 @@ class Vectorn {
         std::vector<float> pm_vector;
 
         //Constructors Exceptions Handlers
-        void constructorPreconditions(int dimension);
-        void constructorPreconditions(int selectedDimension, int originalDimension);
-        void constructorPreconditions(int selectedBeginning, int selectedEnd, int originalDimension);
+        void constructorPreconditions(const int& dimension);
+        void constructorPreconditions(const int& selectedDimension, const int& originalDimension);
+        void constructorPreconditions(const int& selectedBeginning, const int& selectedEnd, const int& originalDimension);
+        void selectionOperatorPreconditions(const int& _index) const;
 
         //Debug Controll
         #if DEBUG

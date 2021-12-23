@@ -19,19 +19,10 @@ int main()
 {
     //Need to completely remake both classes without Templates
 
-    std::vector<float> vec({1,2,3,4,5});
 
-    Vectorn vec0(20);
     Vectorn vec1({1,2,3,4,5,6,7,8,9});
 
-    Vectorn vec2(vec1);
-    Vectorn vec3(2,vec1);
-    Vectorn vec4(2,6,vec1);
-
-    Vectorn vec5(vec);
-    Vectorn vec6(2,vec);
-
-    std::cout << vec0[0] << std::endl;
+    std::cout << vec1[5] << std::endl;
 
     return 1;
 
