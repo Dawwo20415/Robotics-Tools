@@ -301,7 +301,25 @@ Vectorn& Vectorn::operator+=(const Vectorn& other) {
     return *this;
 }
 
+Vectorn& Vectorn::operator+=(const std::initializer_list<float>& other) {
+    //Preconditions
+    algebricOperatorPreconditions(pm_dimension, other.size());
+
+    int i = 0;
+    for (auto element : other) {
+        pm_vector[i] += element;
+        i++;
+    }
+
+    return *this;
+}
+
 Vectorn operator+(Vectorn initial, const Vectorn& other) {
+    initial += other;
+    return initial;
+}
+
+Vectorn operator+(Vectorn initial, const std::initializer_list<float>& other) {
     initial += other;
     return initial;
 }
@@ -318,7 +336,25 @@ Vectorn& Vectorn::operator-=(const Vectorn& other) {
     return *this;
 }
 
+Vectorn& Vectorn::operator-=(const std::initializer_list<float>& other) {
+    //Preconditions
+    algebricOperatorPreconditions(pm_dimension, other.size());
+
+    int i = 0;
+    for (auto element : other) {
+        pm_vector[i] -= element;
+        i++;
+    }
+
+    return *this;
+}
+
 Vectorn operator-(Vectorn initial, const Vectorn& other) {
+    initial -= other;
+    return initial;
+}
+
+Vectorn operator-(Vectorn initial, const std::initializer_list<float>& other) {
     initial -= other;
     return initial;
 }

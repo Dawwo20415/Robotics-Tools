@@ -64,10 +64,14 @@ class Vectorn {
         //Addition Operators
         Vectorn& operator+=(const Vectorn& other);
         friend Vectorn operator+(Vectorn initial, const Vectorn& other);
+        Vectorn& operator+=(const std::initializer_list<float>& other);
+        friend Vectorn operator+(Vectorn initial, const std::initializer_list<float>& other);
 
         //Subtraction Operators
         Vectorn& operator-=(const Vectorn& other);
         friend Vectorn operator-(Vectorn initial, const Vectorn& other);
+        Vectorn& operator-=(const std::initializer_list<float>& other);
+        friend Vectorn operator-(Vectorn initial, const std::initializer_list<float>& other);
 
         //FUNCTIONS -------------------------------------------------
 };
