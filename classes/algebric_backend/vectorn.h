@@ -65,6 +65,10 @@ class Vectorn {
         Vectorn& operator+=(const Vectorn& other);
         friend Vectorn operator+(Vectorn initial, const Vectorn& other);
 
+        //Subtraction Operators
+        Vectorn& operator-=(const Vectorn& other);
+        friend Vectorn operator-(Vectorn initial, const Vectorn& other);
+
         //FUNCTIONS -------------------------------------------------
 };
 

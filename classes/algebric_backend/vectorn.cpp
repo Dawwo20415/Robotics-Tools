@@ -301,13 +301,29 @@ Vectorn& Vectorn::operator+=(const Vectorn& other) {
     return *this;
 }
 
-#pragma endregion
-
-//Friendly Functions & Operators
 Vectorn operator+(Vectorn initial, const Vectorn& other) {
     initial += other;
     return initial;
 }
+
+//Subtraction Operator
+Vectorn& Vectorn::operator-=(const Vectorn& other) {
+    //Preconditions
+    algebricOperatorPreconditions(pm_dimension, other.pm_dimension);
+
+    for (int i = 0; i < pm_dimension; i++) {
+        pm_vector[i] -= other[i];
+    }
+
+    return *this;
+}
+
+Vectorn operator-(Vectorn initial, const Vectorn& other) {
+    initial -= other;
+    return initial;
+}
+
+#pragma endregion
 
 #if DEBUG
 unsigned int Vectorn::counter = 0;
