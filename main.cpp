@@ -21,6 +21,9 @@ int main()
 
 
     Vectorn vec1({1,2,3,4,5,6,7,8,9});
+    Vectorn vec2({2,3,4,5});
+
+    vec2 = vec2 + vec2;
 
     std::cout << vec1[5] << std::endl;
 

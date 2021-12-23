@@ -82,6 +82,18 @@ void Vectorn::selectionOperatorPreconditions(const int& _index) const {
     }
 }
 
+void Vectorn::algebricOperatorPreconditions(const int& size1, const int& size2) const {
+    try {
+        if (size1 != size2) {
+            throw std::invalid_argument ("Sizes of two vectors in algebric operator are not the same and the operation cannot be accomplished | Size1= " 
+            + std::to_string(size1) + " | Size2= " + std::to_string(size2));
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit ( EXIT_FAILURE );
+    }
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -238,6 +250,13 @@ Vectorn::Vectorn(const std::initializer_list<float>& other) {
     pm_vector = other;
 }
 
+//Destructor
+Vectorn::~Vectorn() {
+    #if DEBUG
+    std::cout << "| Default Destructor  | Dimension " << pm_dimension << " | Index " << index << " |" << std::endl;
+    #endif
+}
+
 #pragma endregion
 
 #pragma region Operators
@@ -257,7 +276,38 @@ const float& Vectorn::operator[](int _i) const {
     return pm_vector[_i];
 }
 
+//Assignment operators
+Vectorn& Vectorn::operator=(const Vectorn& other) {
+    pm_dimension = other.pm_dimension;
+    pm_vector = other.pm_vector;
+    return *this;
+}
+
+Vectorn& Vectorn::operator=(Vectorn&& other) {
+    pm_dimension = std::move(other.pm_dimension);
+    pm_vector = std::move(other.pm_vector);
+    return *this;
+}
+
+//Addition Operator
+Vectorn& Vectorn::operator+=(const Vectorn& other) {
+    //Preconditions
+    algebricOperatorPreconditions(pm_dimension, other.pm_dimension);
+
+    for (int i = 0; i < pm_dimension; i++) {
+        pm_vector[i] += other[i];
+    }
+
+    return *this;
+}
+
 #pragma endregion
+
+//Friendly Functions & Operators
+Vectorn operator+(Vectorn initial, const Vectorn& other) {
+    initial += other;
+    return initial;
+}
 
 #if DEBUG
 unsigned int Vectorn::counter = 0;

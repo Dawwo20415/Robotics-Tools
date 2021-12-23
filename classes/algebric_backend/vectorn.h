@@ -19,6 +19,7 @@ class Vectorn {
         void constructorPreconditions(const int& selectedDimension, const int& originalDimension);
         void constructorPreconditions(const int& selectedBeginning, const int& selectedEnd, const int& originalDimension);
         void selectionOperatorPreconditions(const int& _index) const;
+        void algebricOperatorPreconditions(const int& size1, const int& size2) const;
 
         //Debug Controll
         #if DEBUG
@@ -46,9 +47,9 @@ class Vectorn {
 
         Vectorn(const std::initializer_list<float>& other);
 
-        //Move Constructors
-
         //DESTRUCTORS -----------------------------------------------
+
+        ~Vectorn();
 
         //OPERATORS -------------------------------------------------
 
@@ -56,8 +57,15 @@ class Vectorn {
         float& operator[](int _i);
         const float& operator[](int _i) const;
 
+        //Assignment Operators
+        Vectorn& operator=(const Vectorn& other);
+        Vectorn& operator=(Vectorn&& other);
+
+        //Addition Operators
+        Vectorn& operator+=(const Vectorn& other);
+        friend Vectorn operator+(Vectorn initial, const Vectorn& other);
+
         //FUNCTIONS -------------------------------------------------
 };
-
 
 #endif
