@@ -12,7 +12,7 @@ int main()
     Vectorn vec3({1,2,3});
     Vectorn vec4(3);
 
-    vec4 = vec2 * {1,2,3};
+    vec2.println();
 
     return 1;
 

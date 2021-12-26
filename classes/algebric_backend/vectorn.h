@@ -88,6 +88,11 @@ class Vectorn {
         friend Vectorn operator*(Vectorn initial, const std::initializer_list<float>& other);
 
         //FUNCTIONS -------------------------------------------------
+
+        void print();
+        void println();
+        unsigned int getDimension();
+        
 };
 
 #endif

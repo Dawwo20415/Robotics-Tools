@@ -438,6 +438,28 @@ Vectorn operator*(Vectorn initial, const std::initializer_list<float>& other) {
 
 #pragma endregion
 
+#pragma region Functions
+
+void Vectorn::print() {
+    std::string output = "[|";
+    for (int i = 0; i < pm_dimension; i++) {
+        output += " " + std::to_string(pm_vector[i]) + " |";
+    }
+    output += "]"; 
+    std::cout << output;
+}
+
+void Vectorn::println() {
+    print();
+    std::cout << std::endl;
+}
+
+unsigned int Vectorn::getDimension() {
+    return pm_dimension;
+}
+
+#pragma endregion
+
 #if DEBUG
 unsigned int Vectorn::counter = 0;
 #endif
