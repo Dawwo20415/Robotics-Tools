@@ -1,5 +1,6 @@
 # Robotics-Tools
 Tools used for the "Introduction to Robotics" Class at Unitn, comprehensive of all formulas and instruction for jointed robotic arms, and maybe more...?
+This software has been made for the group project necessary to pass the class. This project is to be implemented in ROS, using simulation software. 
 
 ## Structure of the project
 
@@ -12,16 +13,9 @@ VectorN and Matrix allow for the easy creation and usage of Mathematical NxM mat
 
 ## Available joints
 
- - Prismatic joint
- - Revolute joint
+ - Prismatic joint [to be made]
+ - Revolute joint [to be made]
 
-## Available functions
+## Build and implementation instructions
 
-### VectorN
- - Algebrical sum of vectors;
- - Cross Product;
- - Dot Product;
- - Vector * scalar;
- - Null Vector & Unit Vector;
- 
-### Matrix
+To be written when software will be completed
