@@ -12,7 +12,9 @@ int main()
     Vectorn vec3({1,2,3});
     Vectorn vec4(3);
 
-    vec2.println();
+    vec4 = Vectorn::unitVector(3);
+
+    vec4.println();
 
     return 1;
 

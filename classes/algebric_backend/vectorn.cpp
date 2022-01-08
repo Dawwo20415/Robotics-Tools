@@ -129,6 +129,25 @@ Vectorn::Vectorn(unsigned int dimension) {
         pm_vector.push_back(0.0f);
 }
 
+//Single Value Constructor
+Vectorn::Vectorn(unsigned int dimension, float value) {
+
+    constructorPreconditions(dimension);
+
+    //Print Debug?
+    #if DEBUG
+    index = counter;
+    counter++;
+    std::cout << "| Default Constructor | Dimension " << dimension << " | Index " 
+                << index << " |" << std::endl;
+    #endif
+
+    //Constructor
+    pm_dimension = dimension;
+    for (int i = 0; i < dimension; i++)
+        pm_vector.push_back(value);
+}
+
 //Copy Constructor | Other Vector | Specified dimension
 Vectorn::Vectorn(unsigned int dimension, const Vectorn& other) {
     
@@ -456,6 +475,18 @@ void Vectorn::println() {
 
 unsigned int Vectorn::getDimension() {
     return pm_dimension;
+}
+
+#pragma endregion
+
+#pragma region Statics
+
+Vectorn Vectorn::unitVector(int dimension) {
+    return Vectorn(dimension, 1.0f);
+}
+
+Vectorn Vectorn::nullVector(int dimension) {
+    return Vectorn(dimension);
 }
 
 #pragma endregion

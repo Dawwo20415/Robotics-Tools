@@ -2,7 +2,7 @@
 #define VECTORN_CLASS
 
 //Print debug??
-#define DEBUG 1
+#define DEBUG 0
 
 #include <iostream>
 #include <vector>
@@ -36,6 +36,7 @@ class Vectorn {
         
         //Default Constructor
         Vectorn(unsigned int dimension);
+        Vectorn(unsigned int dimension, float value);
 
         //Copy Constructors
         Vectorn(unsigned int dimension, const Vectorn& other);
@@ -47,6 +48,9 @@ class Vectorn {
         Vectorn(const std::vector<float>& other);
 
         Vectorn(const std::initializer_list<float>& other);
+
+        //Move Constructor
+        Vectorn(Vectorn&& other) = default;
 
         //DESTRUCTORS -----------------------------------------------
 
@@ -92,7 +96,11 @@ class Vectorn {
         void print();
         void println();
         unsigned int getDimension();
-        
+
+        //STATICS ---------------------------------------------------
+
+        static Vectorn unitVector(int dimension);
+        static Vectorn nullVector(int dimension);
 };
 
 #endif
