@@ -9,6 +9,7 @@
                 "-g",
                 "${file}",
                 "${workspaceFolder}/classes/algebric_backend/vectorn.cpp",
+                "${workspaceFolder}/classes/algebric_backend/matrix.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
