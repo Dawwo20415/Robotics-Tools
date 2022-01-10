@@ -62,6 +62,29 @@ void Matrix::constructorPreconditions(const int row, const int column, const int
     }
 }
 
+void Matrix::constructorPreconditions(const int row1, const int row2, const int column1, const int column2, const int otherRow, const int otherColumn) const {
+    try {
+        if (
+        //Conditions
+        row1 < 0 ||
+        column1 < 0 ||
+        row2 - row1 + 1 <= 0 ||
+        column2 - column1 + 1 <= 0 ||
+        row2 - row1 + 1 > otherRow   || 
+        column2 - column1 + 1 > otherColumn
+        ) {
+            //Exception
+            throw std::out_of_range(
+                "In access of Matrix: passed parameter row:" +
+                std::to_string(row2 - row1) + " column:" + std::to_string(column2 - column1) +
+                " out of range"); //Out of scope dimension
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 void Matrix::constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const {
     try {
         int row = other.begin()->size();
@@ -163,7 +186,7 @@ Matrix::Matrix(unsigned int n_rows, unsigned int n_columns, const Matrix& other)
 
 Matrix::Matrix(unsigned int row1, unsigned int column1, unsigned int row2, unsigned int column2, const Matrix& other) {
     //Preconditions
-    constructorPreconditions(row2 - row1, column2 - column1, other.pm_row_dim - row1, other.pm_column_dim - column1);
+    constructorPreconditions(row1, row2, column1, column2, other.pm_row_dim, other.pm_column_dim);
     
     //Print Debug?
     #if DEBUG

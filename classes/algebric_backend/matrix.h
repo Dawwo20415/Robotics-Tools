@@ -15,6 +15,9 @@ class Matrix {
         //Constructors Exceptions Handlers
         void constructorPreconditions(const int row, const int column) const;
         void constructorPreconditions(const int row, const int column, const int otherRow, const int otherColumn) const;
+        void constructorPreconditions(const int row1, const int row2, 
+                                        const int column1, const int column2, 
+                                        const int otherRow, const int otherColumn) const;
         void constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const;
         void operatorPreconditions(const int row, const int column) const;
 
