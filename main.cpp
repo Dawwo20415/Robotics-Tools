@@ -7,10 +7,11 @@
 int main()
 {
     //Need to completely remake both classes without Templates
-    float fl = 4;
-    Matrix mat(3,3);
-    float fl1 = mat(2,2);
-    float fl2 = mat(0,0);
+    Matrix mat1({{1,2,3,4},
+                 {5,6,7,8},
+                 {9,10,11,12}});
+
+    Matrix mat2(1,1,2,3, mat1);
 
     return 1;
 

@@ -14,6 +14,8 @@ class Matrix {
 
         //Constructors Exceptions Handlers
         void constructorPreconditions(const int row, const int column) const;
+        void constructorPreconditions(const int row, const int column, const int otherRow, const int otherColumn) const;
+        void constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const;
         void operatorPreconditions(const int row, const int column) const;
 
         //Debug Controll
@@ -31,6 +33,14 @@ class Matrix {
         //Default Constructor
         Matrix(unsigned int row, unsigned int column);
 
+        //Copy Constructor
+        Matrix(const Matrix& other);
+        Matrix(unsigned int n_rows, unsigned int n_columns, const Matrix& other);
+        Matrix(unsigned int row1, unsigned int row2, 
+                unsigned int column1, unsigned int column2, 
+                const Matrix& other);
+
+        Matrix(const std::initializer_list<std::initializer_list<float>>& other);
 
         //DESTRUCTORS -----------------------------------------------
         //~Matrix();
