@@ -172,8 +172,8 @@ Matrix::Matrix(unsigned int n_rows, unsigned int n_columns, const Matrix& other)
     #endif
 
     //Constructor
-    pm_column_dim = n_rows;
-    pm_row_dim = n_columns;
+    pm_column_dim = n_columns;
+    pm_row_dim = n_rows;
 
     for (int c = 0; c < n_rows; c++) {
         Vectorn tmp(n_columns);
@@ -250,6 +250,46 @@ const float& Matrix::operator()(int row, int column) const{
 }
 
 #pragma endregion
+
+#pragma region Functions
+
+void Matrix::Println() const {
+    std::string tmp;
+    for (int i = 0; i < pm_row_dim; i++) {
+        std::string line;
+        //Left Wall
+        if (i == 0) {
+            line += "⎡ ";
+        } else if (i == pm_row_dim - 1) {
+            line += "⎣ ";
+        } else {
+            line += "⎢ ";
+        }
+
+        //Contents
+        for (int j = 0; j < pm_column_dim; j++) {
+            if (j == pm_column_dim - 1){
+                line += std::to_string((pm_matrix[i])[j]);
+            } else {
+                line += std::to_string((pm_matrix[i])[j]) + " | ";
+            }      
+        }
+
+        //Right Wall
+        if (i == 0) {
+            line += "⎤\n";
+        } else if (i == pm_row_dim - 1) {
+            line += "⎦";
+        } else {
+            line += "⎥\n";
+        }
+        tmp += line;
+    }
+    std::cout << tmp << std::endl;
+}
+
+#pragma endregion
+
 
 #if DEBUG
 unsigned int Vectorn::counter = 0;
