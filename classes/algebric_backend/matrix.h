@@ -59,6 +59,9 @@ class Matrix {
         Matrix& operator=(const Matrix& other);
         Matrix& operator=(Matrix&& other) noexcept;
 
+        //Addition operator
+        Matrix& operator+=(const Matrix& other);
+        friend Matrix operator+(Matrix first, const Matrix& second);
 
         //FUNCTIONS -------------------------------------------------
 
