@@ -281,6 +281,19 @@ Matrix operator+(Matrix first, const Matrix& second) {
     return first;
 }
 
+//Addition operators
+Matrix& Matrix::operator-=(const Matrix& other) {
+    for (int i = 0; i < pm_column_dim; i++) {
+        pm_matrix[i] -= other.pm_matrix[i];
+    }
+    return *this;
+}
+
+Matrix operator-(Matrix first, const Matrix& second) {
+    first -= second;
+    return first;
+}
+
 #pragma endregion
 
 #pragma region Functions

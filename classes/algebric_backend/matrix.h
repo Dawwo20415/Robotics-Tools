@@ -63,6 +63,10 @@ class Matrix {
         Matrix& operator+=(const Matrix& other);
         friend Matrix operator+(Matrix first, const Matrix& second);
 
+        //Subtraction operator
+        Matrix& operator-=(const Matrix& other);
+        friend Matrix operator-(Matrix first, const Matrix& second);
+
         //FUNCTIONS -------------------------------------------------
 
         void Println() const;

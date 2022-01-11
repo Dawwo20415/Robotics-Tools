@@ -17,7 +17,9 @@ int main()
 
     Matrix mat2(3,3);
 
-    mat2 = mat1 + mat3;
+    mat2 = mat3 - mat1;
+
+    mat2.Println();
 
     return 1;
 
