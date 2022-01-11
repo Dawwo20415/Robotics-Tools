@@ -249,6 +249,25 @@ const float& Matrix::operator()(int row, int column) const{
     return (pm_matrix[column])[row];
 }
 
+//Assignment operators
+Matrix& Matrix::operator=(const Matrix& other) {
+    pm_row_dim = other.pm_row_dim;
+    pm_column_dim = other.pm_column_dim;
+
+    pm_matrix = other.pm_matrix;
+
+    return *this;
+}
+
+Matrix& Matrix::operator=(Matrix&& other) noexcept{
+    pm_row_dim = other.pm_row_dim;
+    pm_column_dim = other.pm_column_dim;
+
+    pm_matrix = std::move(other.pm_matrix);
+
+    return *this;
+}
+
 #pragma endregion
 
 #pragma region Functions

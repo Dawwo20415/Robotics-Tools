@@ -55,6 +55,10 @@ class Matrix {
         float& operator()(int row, int column);
         const float& operator()(int row, int column) const;
 
+        //Assignment operators
+        Matrix& operator=(const Matrix& other);
+        Matrix& operator=(Matrix&& other) noexcept;
+
 
         //FUNCTIONS -------------------------------------------------
 
