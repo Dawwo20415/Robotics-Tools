@@ -11,13 +11,16 @@ int main()
                  {1,1,1,1},
                  {1,1,1,1}});
 
-    Matrix mat3({{2,2,2},
+    Matrix mat2({{2,2,2},
                  {3,3,3},
-                 {4,4,4}});
+                 {4,4,4},
+                 {5,5,5}});
 
-    mat1 = mat1 + mat3;
+    Matrix mat3(2,2);
 
-    mat1.Println();
+    mat3 = mat1 * mat2;
+
+    mat3.Println();
 
 
     return 1;

@@ -21,6 +21,7 @@ class Matrix {
         void constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const;
         void operatorPreconditions(const int row, const int column) const;
         void algebricSumPreconditions(const Matrix& other) const;
+        void multiplicationPreconditions(const Matrix& other) const;
 
         //Debug Controll
         #if DEBUG
@@ -75,6 +76,10 @@ class Matrix {
         //Division by a Scalar operator
         Matrix& operator/=(const float& value);
         friend Matrix operator/(Matrix mat, const float& value);
+
+        //Multiplication by a Matrix operator
+        Matrix& operator*=(const Matrix& other);
+        friend Matrix operator*(Matrix mat, const Matrix& other);
 
         //FUNCTIONS -------------------------------------------------
 

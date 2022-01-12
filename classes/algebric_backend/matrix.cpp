@@ -131,6 +131,22 @@ void Matrix::algebricSumPreconditions(const Matrix& other) const {
     }    
 }
 
+void Matrix::multiplicationPreconditions(const Matrix& other) const {
+    try {
+        if (
+        //Conditions
+        pm_column_dim != other.pm_row_dim
+        ) {
+            //Exception
+            throw std::invalid_argument(
+                "In algebric sum of 2 Matrixes: passed parameter row or colum that are not the same");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -342,6 +358,35 @@ Matrix operator/(Matrix mat, const float& value) {
     mat /= value;
     return mat;
 }
+
+//Multiplication by a Matrix operator
+Matrix& Matrix::operator*=(const Matrix& other) {
+    //Preconditions
+    multiplicationPreconditions(other);
+
+    Matrix tmp(pm_row_dim, other.pm_column_dim);
+
+    Println();
+    other.Println();
+
+    for (int r = 0; r < pm_row_dim; r++) {
+        for (int c = 0; c < other.pm_column_dim; c++) {
+            for (int i = 0; i < pm_column_dim; i++) {
+                tmp(r,c) += (pm_matrix[r])[i] * other(c,i);
+            }
+        }
+    }
+
+    *this = tmp;
+
+    return *this;
+}
+
+Matrix operator*(Matrix mat, const Matrix& other) {
+    mat *= other;
+    return mat;
+}
+
 
 #pragma endregion
 
