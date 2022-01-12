@@ -20,6 +20,7 @@ class Matrix {
                                         const int otherRow, const int otherColumn) const;
         void constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const;
         void operatorPreconditions(const int row, const int column) const;
+        void algebricSumPreconditions(const Matrix& other) const;
 
         //Debug Controll
         #if DEBUG

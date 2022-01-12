@@ -114,6 +114,23 @@ void Matrix::constructorPreconditions(const std::initializer_list<std::initializ
     }
 }
 
+void Matrix::algebricSumPreconditions(const Matrix& other) const {
+    try {
+        if (
+        //Conditions
+        pm_column_dim != other.pm_column_dim ||
+        pm_row_dim != other.pm_row_dim
+        ) {
+            //Exception
+            throw std::invalid_argument(
+                "In algebric sum of 2 Matrixes: passed parameter row or colum that are not the same");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }    
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -270,6 +287,9 @@ Matrix& Matrix::operator=(Matrix&& other) noexcept{
 
 //Addition operators
 Matrix& Matrix::operator+=(const Matrix& other) {
+    //Preconditions
+    algebricSumPreconditions(other);
+    
     for (int i = 0; i < pm_column_dim; i++) {
         pm_matrix[i] += other.pm_matrix[i];
     }
@@ -283,6 +303,9 @@ Matrix operator+(Matrix first, const Matrix& second) {
 
 //Addition operators
 Matrix& Matrix::operator-=(const Matrix& other) {
+    //Preconditions
+    algebricSumPreconditions(other);
+    
     for (int i = 0; i < pm_column_dim; i++) {
         pm_matrix[i] -= other.pm_matrix[i];
     }
