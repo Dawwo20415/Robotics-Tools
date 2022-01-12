@@ -67,6 +67,10 @@ class Matrix {
         Matrix& operator-=(const Matrix& other);
         friend Matrix operator-(Matrix first, const Matrix& second);
 
+        //Multiplication by a Scalar operator
+        Matrix& operator*=(const float& value);
+        friend Matrix operator*(Matrix mat, const float& value);
+
         //FUNCTIONS -------------------------------------------------
 
         void Println() const;

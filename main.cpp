@@ -15,11 +15,10 @@ int main()
                  {3,3,3},
                  {4,4,4}});
 
-    Matrix mat2(3,3);
+    mat1 = mat1 * 2;
 
-    mat2 = mat3 - mat1;
+    mat1.Println();
 
-    mat2.Println();
 
     return 1;
 
