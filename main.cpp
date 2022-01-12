@@ -15,7 +15,7 @@ int main()
                  {3,3,3},
                  {4,4,4}});
 
-    mat1 = mat1 * 2;
+    mat1 = mat1 / 2;
 
     mat1.Println();
 

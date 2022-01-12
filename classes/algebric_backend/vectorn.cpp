@@ -405,6 +405,21 @@ Vectorn operator*(Vectorn initial, const float& value) {
     return initial;
 }
 
+//Vector / Scalar Operators
+Vectorn& Vectorn::operator/=(const float& value) {
+
+    for (int i = 0; i < pm_dimension; i++) {
+        pm_vector[i] /= value;
+    }
+
+    return *this;
+}
+
+Vectorn operator/(Vectorn initial, const float& value) {
+    initial /= value;
+    return initial;
+}
+
 //Dot Product Product Operator
 float Vectorn::dotProduct(const Vectorn& other) {
     //Preconditions

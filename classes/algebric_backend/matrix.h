@@ -71,6 +71,10 @@ class Matrix {
         Matrix& operator*=(const float& value);
         friend Matrix operator*(Matrix mat, const float& value);
 
+        //Division by a Scalar operator
+        Matrix& operator/=(const float& value);
+        friend Matrix operator/(Matrix mat, const float& value);
+
         //FUNCTIONS -------------------------------------------------
 
         void Println() const;

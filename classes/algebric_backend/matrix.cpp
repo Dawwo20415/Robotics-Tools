@@ -307,6 +307,19 @@ Matrix operator*(Matrix mat, const float& value) {
     return mat;
 }
 
+//Division by a Scalar operator
+Matrix& Matrix::operator/=(const float& value) {
+    for (int i = 0; i < pm_column_dim; i++) {
+        pm_matrix[i] /= value;
+    }
+    return *this;
+}
+
+Matrix operator/(Matrix mat, const float& value) {
+    mat /= value;
+    return mat;
+}
+
 #pragma endregion
 
 #pragma region Functions

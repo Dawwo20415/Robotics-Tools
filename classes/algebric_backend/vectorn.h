@@ -82,6 +82,10 @@ class Vectorn {
         Vectorn& operator*=(const float& other);
         friend Vectorn operator*(Vectorn initial, const float& other);
 
+        //Vector / Scalar Operators
+        Vectorn& operator/=(const float& other);
+        friend Vectorn operator/(Vectorn initial, const float& other);
+
         //Dot Product Operators
         float dotProduct(const Vectorn& other);
 
