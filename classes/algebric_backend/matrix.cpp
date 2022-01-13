@@ -618,6 +618,23 @@ float Matrix::determinant() {
 
 #pragma endregion
 
+#pragma region Statics
+
+Matrix Matrix::nullMatrix(unsigned int row, unsigned int column) {
+    return Matrix(row, column);
+}
+
+Matrix Matrix::identityMatrix(unsigned int N) {
+    Matrix tmp(N,N);
+
+    for (int i = 0; i < N; i++) {
+        tmp(i,i) = 1;
+    }
+    
+    return tmp;
+}
+
+#pragma endregion
 
 #if DEBUG
 unsigned int Vectorn::counter = 0;

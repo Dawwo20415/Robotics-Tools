@@ -104,7 +104,8 @@ class Matrix {
 
         //STATICS ---------------------------------------------------
 
-
+        static Matrix nullMatrix(unsigned int row, unsigned int column);
+        static Matrix identityMatrix(unsigned int N);
 
 };
 
