@@ -9,14 +9,11 @@ int main()
     //Need to completely remake both classes without Templates
     
 
-    Matrix mat4({{-2,2,-1},
-                 {6,-6,7},
-                 {3,-8,4}});
+    Matrix mat4({{7,2,3},
+                 {0,5,1},
+                 {6,7,9}});
 
-    mat4.println();
-
-    mat4.determinant();
-
+    std::cout << "Final Result = " << mat4.determinant() << std::endl;
 
     return 1;
 

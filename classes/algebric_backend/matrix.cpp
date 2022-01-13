@@ -569,50 +569,43 @@ float Matrix::determinant() {
     //Special case 2x2 matrix
     if (N == 2)
         return ( (pm_matrix[0])[0] * (pm_matrix[1])[1] ) - ( (pm_matrix[1])[0] * (pm_matrix[0])[1] );
-
     
     //General case
-    Matrix lowerTriangular_L(N,N);
     Matrix upperTriangular_U(*this);
-    float determinant = 0;
+    float determinant = 1;
+    bool sign = true;
 
     //Creating Upper Triangular
     for (int i = 0; i < N; i++) {
 
         if (upperTriangular_U(i,i) == 0) {
             int j = i + 1;
-            while (upperTriangular_U(j,i) == 0 && j < N) {
+            while (upperTriangular_U(j,i) == 0 && j < N)
                 j++;
-            }
 
-            if (j >= N) {
+            if (j >= N)
                 continue;
-            }
 
             upperTriangular_U.moveRow(i, j);
+            sign = !sign;
         }
 
         for (int j = i + 1; j < N; j++) {
 
             float ret = upperTriangular_U(i,j) / upperTriangular_U(i,i);
-
-            upperTriangular_U.pm_matrix[j] = upperTriangular_U.pm_matrix[j] - (upperTriangular_U.pm_matrix[i] * ret);
-
-            std::cout << ret << " ";
+            upperTriangular_U.pm_matrix[j] -= upperTriangular_U.pm_matrix[i] * ret;
         }
-        std::cout << std::endl;
     }
-
-    upperTriangular_U.println();
-    float determinant_U = 0;
 
     for (int i = 0; i < N; i++) {
-        determinant_U += upperTriangular_U(i,i);
+        determinant *= upperTriangular_U(i,i);
     }
 
-    std::cout << "Determinant of U " << determinant_U << std::endl;
-
-    return 0;
+    if (sign) {
+        return determinant;
+    } else {
+        return -determinant;
+    }
 
 }
 
