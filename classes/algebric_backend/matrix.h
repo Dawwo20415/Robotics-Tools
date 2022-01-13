@@ -22,6 +22,11 @@ class Matrix {
         void operatorPreconditions(const int row, const int column) const;
         void algebricSumPreconditions(const Matrix& other) const;
         void multiplicationPreconditions(const Matrix& other) const;
+        void determinantPreconditions() const;
+        void rowPreconditions(const int& index) const;
+
+        float& access(int row, int column);
+        const float& access(int row, int column) const;
 
         //Debug Controll
         #if DEBUG
@@ -86,8 +91,12 @@ class Matrix {
         void println() const;
         void print() const;
 
+        void moveRow(unsigned int row1, unsigned int row2);
+
         void rotate();
         Matrix getRotated();
+
+        float determinant();
 
         //Bools
         bool isSymmetric();

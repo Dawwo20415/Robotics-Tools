@@ -147,6 +147,38 @@ void Matrix::multiplicationPreconditions(const Matrix& other) const {
     }
 }
 
+void Matrix::determinantPreconditions() const {
+    try {
+        if (
+        //Conditions
+        pm_column_dim != pm_row_dim
+        ) {
+            //Exception
+            throw std::invalid_argument(
+                "Determinant cannot be calculated on non-square Matrix");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
+void Matrix::rowPreconditions(const int& index) const {
+    try {
+        if (
+        //Conditions
+        index < 0 || index > pm_row_dim
+        ) {
+            //Exception
+            throw std::out_of_range(
+                "Invalid row index has been passed to function");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -388,6 +420,18 @@ Matrix operator*(Matrix mat, const Matrix& other) {
 
 #pragma region Functions
 
+float& Matrix::access(int row, int column) {
+    operatorPreconditions(row,column);
+    
+    return (pm_matrix[row])[column];
+}
+
+const float& Matrix::access(int row, int column) const {
+    operatorPreconditions(row,column);
+    
+    return (pm_matrix[row])[column];
+}
+
 void Matrix::println() const {
     std::string tmp;
     for (int i = 0; i < pm_row_dim; i++) {
@@ -458,6 +502,15 @@ void Matrix::print() const {
     std::cout << tmp;
 }
 
+void Matrix::moveRow(unsigned int row1, unsigned int row2) {
+    //Preconditions
+    rowPreconditions(row1);
+    rowPreconditions(row2);
+
+    std::swap(pm_matrix[row1], pm_matrix[row2]);
+
+}
+
 void Matrix::rotate() {
 
     //Invert Matrix
@@ -501,6 +554,66 @@ bool Matrix::isSymmetric() {
             }
         } return result;
     } return false;
+}
+
+float Matrix::determinant() {
+    //Preconditions
+    determinantPreconditions();
+
+    unsigned int N = pm_row_dim;
+
+    //Special case 1x1 matrix
+    if (N == 1)
+        return (pm_matrix[0])[0];
+
+    //Special case 2x2 matrix
+    if (N == 2)
+        return ( (pm_matrix[0])[0] * (pm_matrix[1])[1] ) - ( (pm_matrix[1])[0] * (pm_matrix[0])[1] );
+
+    
+    //General case
+    Matrix lowerTriangular_L(N,N);
+    Matrix upperTriangular_U(*this);
+    float determinant = 0;
+
+    //Creating Upper Triangular
+    for (int i = 0; i < N; i++) {
+
+        if (upperTriangular_U(i,i) == 0) {
+            int j = i + 1;
+            while (upperTriangular_U(j,i) == 0 && j < N) {
+                j++;
+            }
+
+            if (j >= N) {
+                continue;
+            }
+
+            upperTriangular_U.moveRow(i, j);
+        }
+
+        for (int j = i + 1; j < N; j++) {
+
+            float ret = upperTriangular_U(i,j) / upperTriangular_U(i,i);
+
+            upperTriangular_U.pm_matrix[j] = upperTriangular_U.pm_matrix[j] - (upperTriangular_U.pm_matrix[i] * ret);
+
+            std::cout << ret << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    upperTriangular_U.println();
+    float determinant_U = 0;
+
+    for (int i = 0; i < N; i++) {
+        determinant_U += upperTriangular_U(i,i);
+    }
+
+    std::cout << "Determinant of U " << determinant_U << std::endl;
+
+    return 0;
+
 }
 
 #pragma endregion
