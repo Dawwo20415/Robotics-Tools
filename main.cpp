@@ -18,7 +18,8 @@ int main()
 
     Matrix mat3(3,4);
 
-    mat2.GetRotated().Println();
+    mat2.rotate();
+    mat2.println();
 
 
     return 1;

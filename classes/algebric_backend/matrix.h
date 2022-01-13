@@ -83,11 +83,14 @@ class Matrix {
 
         //FUNCTIONS -------------------------------------------------
 
-        void Println() const;
-        void Print() const;
+        void println() const;
+        void print() const;
 
-        void Rotate();
-        Matrix GetRotated();
+        void rotate();
+        Matrix getRotated();
+
+        //Bools
+        bool isSymmetric();
 
 
         //STATICS ---------------------------------------------------

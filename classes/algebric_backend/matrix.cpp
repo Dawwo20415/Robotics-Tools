@@ -388,7 +388,7 @@ Matrix operator*(Matrix mat, const Matrix& other) {
 
 #pragma region Functions
 
-void Matrix::Println() const {
+void Matrix::println() const {
     std::string tmp;
     for (int i = 0; i < pm_row_dim; i++) {
         std::string line;
@@ -423,7 +423,7 @@ void Matrix::Println() const {
     std::cout << tmp << std::endl;
 }
 
-void Matrix::Print() const {
+void Matrix::print() const {
     std::string tmp;
     for (int i = 0; i < pm_row_dim; i++) {
         std::string line;
@@ -458,14 +458,14 @@ void Matrix::Print() const {
     std::cout << tmp;
 }
 
-void Matrix::Rotate() {
+void Matrix::rotate() {
 
     //Invert Matrix
     Matrix tmp(pm_column_dim, pm_row_dim);
 
     for (int r = 0; r < pm_column_dim; r++) {
         for (int c = 0; c < pm_row_dim; c++) {
-            tmp(r,c) = (pm_matrix[c])[r];
+            tmp(c,r) = (pm_matrix[c])[r];
         }
     }
 
@@ -473,7 +473,7 @@ void Matrix::Rotate() {
 
 }
 
-Matrix Matrix::GetRotated() {
+Matrix Matrix::getRotated() {
 
     //Invert Matrix
     Matrix tmp(pm_column_dim, pm_row_dim);
