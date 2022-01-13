@@ -169,8 +169,8 @@ Matrix::Matrix(unsigned int row, unsigned int column) {
     pm_column_dim = column;
     pm_row_dim = row;
 
-    for (int i = 0; i < column; i++) {
-        pm_matrix.push_back(std::move(Vectorn(row)));
+    for (int i = 0; i < row; i++) {
+        pm_matrix.push_back(std::move(Vectorn(column)));
     }
 
 }
@@ -366,9 +366,6 @@ Matrix& Matrix::operator*=(const Matrix& other) {
 
     Matrix tmp(pm_row_dim, other.pm_column_dim);
 
-    Println();
-    other.Println();
-
     for (int r = 0; r < pm_row_dim; r++) {
         for (int c = 0; c < other.pm_column_dim; c++) {
             for (int i = 0; i < pm_column_dim; i++) {
@@ -386,7 +383,6 @@ Matrix operator*(Matrix mat, const Matrix& other) {
     mat *= other;
     return mat;
 }
-
 
 #pragma endregion
 
@@ -425,6 +421,71 @@ void Matrix::Println() const {
         tmp += line;
     }
     std::cout << tmp << std::endl;
+}
+
+void Matrix::Print() const {
+    std::string tmp;
+    for (int i = 0; i < pm_row_dim; i++) {
+        std::string line;
+        //Left Wall
+        if (i == 0) {
+            line += "⎡ ";
+        } else if (i == pm_row_dim - 1) {
+            line += "⎣ ";
+        } else {
+            line += "⎢ ";
+        }
+
+        //Contents
+        for (int j = 0; j < pm_column_dim; j++) {
+            if (j == pm_column_dim - 1){
+                line += std::to_string((pm_matrix[i])[j]);
+            } else {
+                line += std::to_string((pm_matrix[i])[j]) + " | ";
+            }      
+        }
+
+        //Right Wall
+        if (i == 0) {
+            line += "⎤\n";
+        } else if (i == pm_row_dim - 1) {
+            line += "⎦";
+        } else {
+            line += "⎥\n";
+        }
+        tmp += line;
+    }
+    std::cout << tmp;
+}
+
+void Matrix::Rotate() {
+
+    //Invert Matrix
+    Matrix tmp(pm_column_dim, pm_row_dim);
+
+    for (int r = 0; r < pm_column_dim; r++) {
+        for (int c = 0; c < pm_row_dim; c++) {
+            tmp(r,c) = (pm_matrix[c])[r];
+        }
+    }
+
+    *this = tmp;
+
+}
+
+Matrix Matrix::GetRotated() {
+
+    //Invert Matrix
+    Matrix tmp(pm_column_dim, pm_row_dim);
+
+    for (int r = 0; r < pm_column_dim; r++) {
+        for (int c = 0; c < pm_row_dim; c++) {
+            tmp(c,r) = (pm_matrix[c])[r];
+        }
+    }
+
+    return tmp;
+
 }
 
 #pragma endregion

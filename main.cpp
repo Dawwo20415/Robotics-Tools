@@ -16,11 +16,9 @@ int main()
                  {4,4,4},
                  {5,5,5}});
 
-    Matrix mat3(2,2);
+    Matrix mat3(3,4);
 
-    mat3 = mat1 * mat2;
-
-    mat3.Println();
+    mat2.GetRotated().Println();
 
 
     return 1;

@@ -84,6 +84,11 @@ class Matrix {
         //FUNCTIONS -------------------------------------------------
 
         void Println() const;
+        void Print() const;
+
+        void Rotate();
+        Matrix GetRotated();
+
 
         //STATICS ---------------------------------------------------
 
