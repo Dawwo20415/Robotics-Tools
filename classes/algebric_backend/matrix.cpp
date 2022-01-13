@@ -488,6 +488,21 @@ Matrix Matrix::getRotated() {
 
 }
 
+bool Matrix::isSymmetric() {
+    if (pm_column_dim == pm_row_dim) {
+        bool result = false;
+        for (int i = 0; i < pm_column_dim - 1; i++) {
+            for (int j = i + 1; j < pm_column_dim; j++) {
+                if ((*this)(j,i) == (*this)(i,j)) {
+                    result = true;
+                } else {
+                    return false;
+                }
+            }
+        } return result;
+    } return false;
+}
+
 #pragma endregion
 
 

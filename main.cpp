@@ -18,8 +18,12 @@ int main()
 
     Matrix mat3(3,4);
 
-    mat2.rotate();
-    mat2.println();
+    Matrix mat4({{0,2,2},
+                 {1,4,3},
+                 {2,3,5}});
+
+    if (mat4.isSymmetric())
+        std::cout << "is symmetric" << std::endl;
 
 
     return 1;
