@@ -27,6 +27,14 @@ class Matrix {
 
         float& access(int row, int column);
         const float& access(int row, int column) const;
+        
+        //Private operations
+        void moveRow(unsigned int row1, unsigned int row2);
+        void multiplyRow(unsigned int row, float value);
+        void replaceRow(unsigned int row1, unsigned int row2, float value);
+
+        void rowEchelonForm();
+        void rowEchelonForm(bool& determinant_sign);
 
         //Debug Controll
         #if DEBUG
@@ -90,8 +98,6 @@ class Matrix {
 
         void println() const;
         void print() const;
-
-        void moveRow(unsigned int row1, unsigned int row2);
 
         void rotate();
         Matrix getRotated();

@@ -511,6 +511,74 @@ void Matrix::moveRow(unsigned int row1, unsigned int row2) {
 
 }
 
+void Matrix::multiplyRow(unsigned int row, float value) {
+    //Preconditions
+    rowPreconditions(row);
+
+    pm_matrix[row] *= value;
+
+}
+
+void Matrix::replaceRow(unsigned int row1, unsigned int row2, float value) {
+    //Preconditions
+    rowPreconditions(row1);
+    rowPreconditions(row2);
+
+    pm_matrix[row1] -= pm_matrix[row2] * value;
+
+}
+
+void Matrix::rowEchelonForm() {
+    //Creating Upper Triangular
+    for (int i = 0; i < pm_row_dim; i++) {
+
+        //Reorder rows if needed (0 as pivot)
+        if (access(i,i) == 0) {
+            int j = i + 1;
+            while (access(i,j) == 0 && j < pm_row_dim)
+                j++;
+
+            if (j >= pm_row_dim)
+                continue;
+
+            moveRow(i, j);
+        }
+
+        //Row Replacement
+        for (int j = i + 1; j < pm_row_dim; j++) {
+
+            float k = access(j,i) / access(i,i);
+            replaceRow(j, i, k);
+        }
+    }
+}
+
+void Matrix::rowEchelonForm(bool& determinant_sign) {
+    //Creating Upper Triangular
+    for (int i = 0; i < pm_row_dim; i++) {
+
+        //Reorder rows if needed (0 as pivot)
+        if (access(i,i) == 0) {
+            int j = i + 1;
+            while (access(i,j) == 0 && j < pm_row_dim)
+                j++;
+
+            if (j >= pm_row_dim)
+                continue;
+
+            moveRow(i, j);
+            determinant_sign = !determinant_sign;
+        }
+
+        //Row Replacement
+        for (int j = i + 1; j < pm_row_dim; j++) {
+
+            float k = access(j,i) / access(i,i);
+            replaceRow(j, i, k);
+        }
+    }
+}
+
 void Matrix::rotate() {
 
     //Invert Matrix
@@ -575,27 +643,7 @@ float Matrix::determinant() {
     float determinant = 1;
     bool sign = true;
 
-    //Creating Upper Triangular
-    for (int i = 0; i < N; i++) {
-
-        if (upperTriangular_U(i,i) == 0) {
-            int j = i + 1;
-            while (upperTriangular_U(j,i) == 0 && j < N)
-                j++;
-
-            if (j >= N)
-                continue;
-
-            upperTriangular_U.moveRow(i, j);
-            sign = !sign;
-        }
-
-        for (int j = i + 1; j < N; j++) {
-
-            float ret = upperTriangular_U(i,j) / upperTriangular_U(i,i);
-            upperTriangular_U.pm_matrix[j] -= upperTriangular_U.pm_matrix[i] * ret;
-        }
-    }
+    upperTriangular_U.rowEchelonForm(sign);
 
     for (int i = 0; i < N; i++) {
         determinant *= upperTriangular_U(i,i);
