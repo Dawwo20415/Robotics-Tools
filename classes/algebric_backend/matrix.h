@@ -23,7 +23,9 @@ class Matrix {
         void algebricSumPreconditions(const Matrix& other) const;
         void multiplicationPreconditions(const Matrix& other) const;
         void determinantPreconditions() const;
+        void areTheSamePreconditions(unsigned int value1, unsigned int value2) const;
         void rowPreconditions(const int& index) const;
+        void columnPreconditions(const int& index) const;
 
         float& access(int row, int column);
         const float& access(int row, int column) const;
@@ -103,6 +105,13 @@ class Matrix {
         Matrix getRotated();
 
         float determinant();
+        Matrix inverse();
+
+        void rowAppend(const Matrix& other);
+        void columnAppend(const Matrix& other);
+
+        void rowDetatch(const unsigned int& row, bool direction);
+        void columnDetatch(const unsigned int& column, bool direction);
 
         //Bools
         bool isSymmetric();

@@ -100,6 +100,8 @@ class Vectorn {
         void print();
         void println();
         unsigned int getDimension();
+        void append(const Vectorn& other);
+        void detatch(const unsigned int& index, bool direction);
 
         //STATICS ---------------------------------------------------
 

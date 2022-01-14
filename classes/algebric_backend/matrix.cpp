@@ -163,11 +163,43 @@ void Matrix::determinantPreconditions() const {
     }
 }
 
+void Matrix::areTheSamePreconditions(unsigned int value1, unsigned int value2) const {
+    try {
+        if (
+        //Conditions
+        value1 != value2
+        ) {
+            //Exception
+            throw std::invalid_argument(
+                "Cannot Append matrixes of different sizes on append side");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 void Matrix::rowPreconditions(const int& index) const {
     try {
         if (
         //Conditions
         index < 0 || index > pm_row_dim
+        ) {
+            //Exception
+            throw std::out_of_range(
+                "Invalid row index has been passed to function");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
+void Matrix::columnPreconditions(const int& index) const {
+    try {
+        if (
+        //Conditions
+        index < 0 || index > pm_column_dim
         ) {
             //Exception
             throw std::out_of_range(
@@ -579,6 +611,48 @@ void Matrix::rowEchelonForm(bool& determinant_sign) {
     }
 }
 
+void Matrix::rowAppend(const Matrix& other) {
+    areTheSamePreconditions(pm_row_dim, other.pm_row_dim);
+    
+    pm_column_dim += other.pm_column_dim;
+
+    for (int i = 0; i < pm_row_dim; i++) {
+        pm_matrix[i].append(other.pm_matrix[i]);
+    }
+}
+
+void Matrix::columnAppend(const Matrix& other) {
+    areTheSamePreconditions(pm_column_dim, other.pm_column_dim);
+
+    pm_row_dim += other.pm_row_dim;
+
+    for (int i = 0; i < other.pm_row_dim; i++) {
+        pm_matrix.push_back(other.pm_matrix[i]);
+    }
+}
+
+void Matrix::rowDetatch(const unsigned int& row, bool direction) {
+    rowPreconditions(row);
+
+    if (direction) {
+        pm_matrix.erase(pm_matrix.begin(), pm_matrix.begin() + row);
+    } else {
+        pm_matrix.erase(pm_matrix.begin() + row + 1, pm_matrix.end() - 1);
+    }
+
+    pm_row_dim -= row;
+}
+
+void Matrix::columnDetatch(const unsigned int& column, bool direction) {
+    columnPreconditions(column);
+
+    for (int i = 0; i < pm_row_dim; i++) {
+        pm_matrix[i].detatch(column, direction);
+    }
+
+    pm_column_dim -= column;
+}
+
 void Matrix::rotate() {
 
     //Invert Matrix
@@ -654,6 +728,35 @@ float Matrix::determinant() {
     } else {
         return -determinant;
     }
+
+}
+
+Matrix Matrix::inverse() {
+    //Preconditions
+    
+    Matrix tmp(*this);
+
+    //Append Identity Matrix [A|I]
+    tmp.rowAppend(Matrix::identityMatrix(pm_row_dim));
+
+    //Put Matrix in row echelon form
+    tmp.rowEchelonForm();
+
+    //Get diagonals of A to 1
+    for (int i = 0; i < pm_row_dim; i++) {
+            tmp.multiplyRow(i, 1 / tmp(i,i) );
+    }
+
+    //Make A an identity matrix and get B
+    for (int i = 0; i < pm_row_dim - 1; i++) {
+        for (int j = i + 1; j < pm_row_dim; j++) {
+            tmp.replaceRow(i, j, tmp(j, i));
+        }
+    }
+
+    tmp.columnDetatch(pm_row_dim, true);
+
+    return tmp;
 
 }
 

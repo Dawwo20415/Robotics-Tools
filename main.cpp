@@ -11,7 +11,8 @@ int main()
                  {0,5,1},
                  {6,7,9}});
 
-    std::cout << "Final Result = " << mat4.determinant() << std::endl;
+    mat4.inverse().println();
+
 
     return 1;
 

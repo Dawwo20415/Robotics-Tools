@@ -492,6 +492,26 @@ unsigned int Vectorn::getDimension() {
     return pm_dimension;
 }
 
+void Vectorn::append(const Vectorn& other) {
+    pm_dimension += other.pm_dimension;
+
+    for (int i = 0; i < other.pm_dimension; i++) {
+        pm_vector.push_back(other[i]);
+    }
+}
+
+void Vectorn::detatch(const unsigned int& index, bool direction) {
+    selectionOperatorPreconditions(index);
+    
+    pm_dimension -= index;
+
+    if (direction) {
+        pm_vector.erase(pm_vector.begin(), pm_vector.begin() + index);
+    } else {
+        pm_vector.erase(pm_vector.begin() + index + 1, pm_vector.end() - 1);
+    }
+}
+
 #pragma endregion
 
 #pragma region Statics
