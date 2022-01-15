@@ -26,6 +26,7 @@ class Matrix {
         void areTheSamePreconditions(unsigned int value1, unsigned int value2) const;
         void rowPreconditions(const int& index) const;
         void columnPreconditions(const int& index) const;
+        void invertiblePreconditions(const Matrix& other) const;
 
         float& access(int row, int column);
         const float& access(int row, int column) const;
@@ -115,7 +116,6 @@ class Matrix {
 
         //Bools
         bool isSymmetric();
-
 
         //STATICS ---------------------------------------------------
 

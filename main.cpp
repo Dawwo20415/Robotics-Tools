@@ -8,8 +8,8 @@ int main()
 {
     
     Matrix mat4({{7,2,3},
-                 {0,5,1},
-                 {6,7,9}});
+                 {0,0,1},
+                 {0,0,9}});
 
     mat4.inverse().println();
 

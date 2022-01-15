@@ -211,6 +211,28 @@ void Matrix::columnPreconditions(const int& index) const {
     }
 }
 
+void Matrix::invertiblePreconditions(const Matrix& other) const {
+    try {
+        float determinant = 1;
+
+        for (int i = 0; i < other.pm_row_dim; i++) {
+            determinant *= other(i,i);
+        }
+
+        if (
+        //Conditions
+            determinant == 0
+        ) {
+            //Exception
+            throw std::invalid_argument(
+                "This Matrix cannot be inverted | Determinant = 0");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -579,6 +601,9 @@ void Matrix::rowEchelonForm() {
         //Row Replacement
         for (int j = i + 1; j < pm_row_dim; j++) {
 
+            if (access(i,i) == 0)
+                continue;
+
             float k = access(j,i) / access(i,i);
             replaceRow(j, i, k);
         }
@@ -741,6 +766,9 @@ Matrix Matrix::inverse() {
 
     //Put Matrix in row echelon form
     tmp.rowEchelonForm();
+
+    //Is matrix invertible?
+    invertiblePreconditions(tmp);
 
     //Get diagonals of A to 1
     for (int i = 0; i < pm_row_dim; i++) {
