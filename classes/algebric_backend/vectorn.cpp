@@ -488,7 +488,7 @@ void Vectorn::println() {
     std::cout << std::endl;
 }
 
-unsigned int Vectorn::getDimension() {
+unsigned int Vectorn::getDimension() const {
     return pm_dimension;
 }
 

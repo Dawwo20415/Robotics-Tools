@@ -10,6 +10,8 @@
                 "${file}",
                 "${workspaceFolder}/classes/algebric_backend/vectorn.cpp",
                 "${workspaceFolder}/classes/algebric_backend/matrix.cpp",
+                "${workspaceFolder}/classes/robot_structure/robot.cpp",
+                "${workspaceFolder}/classes/robot_structure/joint.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

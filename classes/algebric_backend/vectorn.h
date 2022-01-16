@@ -4,6 +4,9 @@
 //Print debug??
 #define DEBUG 0
 
+#define VERTICAL true
+#define HORIZONTAL false
+
 #include <iostream>
 #include <vector>
 
@@ -99,7 +102,7 @@ class Vectorn {
 
         void print();
         void println();
-        unsigned int getDimension();
+        unsigned int getDimension() const;
         void append(const Vectorn& other);
         void detatch(const unsigned int& index, bool direction);
 

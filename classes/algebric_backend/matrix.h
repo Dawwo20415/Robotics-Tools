@@ -62,6 +62,7 @@ class Matrix {
                 const Matrix& other);
 
         Matrix(const std::initializer_list<std::initializer_list<float>>& other);
+        Matrix(const Vectorn& vector, bool direction);
 
         //DESTRUCTORS -----------------------------------------------
         //~Matrix();

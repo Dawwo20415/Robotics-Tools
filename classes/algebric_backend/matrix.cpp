@@ -297,7 +297,7 @@ Matrix::Matrix(unsigned int n_rows, unsigned int n_columns, const Matrix& other)
     for (int c = 0; c < n_rows; c++) {
         Vectorn tmp(n_columns);
         for (int r = 0; r < n_columns; r++) {
-            tmp[r] = other(r,c);
+            tmp[r] = other(c,r);
         }
         pm_matrix.push_back(tmp);
     }
@@ -323,7 +323,7 @@ Matrix::Matrix(unsigned int row1, unsigned int column1, unsigned int row2, unsig
     for (int c = row1; c <= row2; c++) {
         Vectorn tmp(pm_column_dim);
         for (int r = column1; r <= column2; r++) {
-            tmp[r - column1] = other(r,c);
+            tmp[r - column1] = other(c,r);
         }
         pm_matrix.push_back(tmp);
     }
@@ -351,6 +351,22 @@ Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& other)
     }
 }
 
+Matrix::Matrix(const Vectorn& vector, bool direction) {
+    if (direction) {
+        //Vertical
+        pm_column_dim = 1;
+        pm_row_dim    = vector.getDimension();
+        for (int i = 0; i < pm_row_dim; i++) {
+            pm_matrix.push_back(Vectorn({vector[i]}));
+        }
+    } else {
+        //Horizontal
+        pm_column_dim = vector.getDimension();
+        pm_row_dim    = 1;
+        pm_matrix.push_back(vector);
+    }
+}
+
 #pragma endregion
 
 #pragma region Operators
@@ -359,13 +375,13 @@ Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& other)
 float& Matrix::operator()(int row, int column) {
     operatorPreconditions(row,column);
     
-    return (pm_matrix[column])[row];
+    return (pm_matrix[row])[column];
 }
 
 const float& Matrix::operator()(int row, int column) const{
     operatorPreconditions(row,column);
     
-    return (pm_matrix[column])[row];
+    return (pm_matrix[row])[column];
 }
 
 //Assignment operators
@@ -455,7 +471,7 @@ Matrix& Matrix::operator*=(const Matrix& other) {
     for (int r = 0; r < pm_row_dim; r++) {
         for (int c = 0; c < other.pm_column_dim; c++) {
             for (int i = 0; i < pm_column_dim; i++) {
-                tmp(r,c) += (pm_matrix[r])[i] * other(c,i);
+                tmp(r,c) += (pm_matrix[r])[i] * other(i,c);
             }
         }
     }
@@ -685,7 +701,7 @@ void Matrix::rotate() {
 
     for (int r = 0; r < pm_column_dim; r++) {
         for (int c = 0; c < pm_row_dim; c++) {
-            tmp(c,r) = (pm_matrix[c])[r];
+            tmp(r,c) = (pm_matrix[c])[r];
         }
     }
 
@@ -700,7 +716,7 @@ Matrix Matrix::getRotated() {
 
     for (int r = 0; r < pm_column_dim; r++) {
         for (int c = 0; c < pm_row_dim; c++) {
-            tmp(c,r) = (pm_matrix[c])[r];
+            tmp(r,c) = (pm_matrix[c])[r];
         }
     }
 
@@ -713,7 +729,7 @@ bool Matrix::isSymmetric() {
         bool result = false;
         for (int i = 0; i < pm_column_dim - 1; i++) {
             for (int j = i + 1; j < pm_column_dim; j++) {
-                if ((*this)(j,i) == (*this)(i,j)) {
+                if ((*this)(i,j) == (*this)(j,i)) {
                     result = true;
                 } else {
                     return false;
@@ -778,7 +794,7 @@ Matrix Matrix::inverse() {
     //Make A an identity matrix and get B
     for (int i = 0; i < pm_row_dim - 1; i++) {
         for (int j = i + 1; j < pm_row_dim; j++) {
-            tmp.replaceRow(i, j, tmp(j, i));
+            tmp.replaceRow(i, j, tmp(i, j));
         }
     }
 
