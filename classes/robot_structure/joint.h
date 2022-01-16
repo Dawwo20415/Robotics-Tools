@@ -28,8 +28,8 @@ class RevoluteJoint {
             RevoluteJoint(float length);
 
         //Functions -------------------------------------------
-            Matrix getRotationMatrix(float angle);
-            Vectorn rotate(float angle);
+            Matrix getRotationMatrix(float yaw, float pitch, float roll);
+            Vectorn rotate(float yaw, float pitch, float roll);
 
 };
 

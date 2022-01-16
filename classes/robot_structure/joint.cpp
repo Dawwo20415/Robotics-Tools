@@ -4,23 +4,33 @@
 
 RevoluteJoint::RevoluteJoint(float length) {    
     pm_length = length;
-    position = {0,length};
+    position = {5,0,0};
 
 }
 
-Matrix RevoluteJoint::getRotationMatrix(float angle) {
-    return Matrix( {{ cos(angle), sin(angle)},
-                    {-sin(angle), cos(angle)}} );
+Matrix RevoluteJoint::getRotationMatrix(float yaw, float pitch, float roll) {
+    Matrix yaw_matrix   ({{cos(yaw), -sin(yaw), 0},
+                          {sin(yaw),  cos(yaw), 0},
+                          {    0   ,    0     , 1}});
+
+    Matrix pitch_matrix ({{ cos(pitch), 0, sin(pitch)},
+                          {    0      , 1,     0     },
+                          {-sin(pitch), 0, cos(pitch)}});
+
+    Matrix roll_matrix  ({{    1  ,     0    ,     0     },
+                          {    0  , cos(roll), -sin(roll)},
+                          {    0  , sin(roll),  cos(roll)}});
+
+    return yaw_matrix * pitch_matrix * roll_matrix;
 }
 
-Vectorn RevoluteJoint::rotate(float angle) {
-    Matrix newposition(2,1);
+Vectorn RevoluteJoint::rotate(float yaw, float pitch, float roll) {
 
-    newposition = getRotationMatrix(angle) * Matrix(position, VERTICAL);
+    Matrix newposition = getRotationMatrix(yaw, pitch, roll) * Matrix(position, VERTICAL);
 
-    Vectorn posvector(2);
+    Vectorn posvector(3);
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         posvector[i] = newposition(i,0);
     }
 

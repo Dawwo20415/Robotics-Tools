@@ -6,9 +6,9 @@ int main()
 {
     RevoluteJoint joint(5);
 
-    Vectorn vec = joint.rotate(M_PI / 2);
+    Vectorn vec = joint.rotate(M_PI / 2, 0, 0);
+
     vec.println();
 
     return 1;
-
 }
