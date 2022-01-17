@@ -84,12 +84,48 @@ class RevoluteJoint : public Joint {
             Vectorn rototransform(Transform transform) override;
 };
 
+class UnidirectionalRevoluteJoint : public Joint {
+
+    public:
+
+        enum Axis : char {
+            Yaw, Pitch, Roll
+        };
+
+        Axis m_axis;
+
+        //Constructors ----------------------------------------
+            UnidirectionalRevoluteJoint(Link link, Axis axis) : Joint(link), m_axis(axis) {};
+
+        //Functions -------------------------------------------
+            Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Vectorn rototransform(Transform transform) override;
+};
+
 class PrismaticJoint : public Joint {
 
     public:
 
         //Constructors ----------------------------------------
             PrismaticJoint(Link link) : Joint(link) {};
+
+        //Functions -------------------------------------------
+            Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Vectorn rototransform(Transform transform) override;
+};
+
+class UnidirectionalPrismaticJoint : public Joint {
+
+    public:
+
+        enum Axis : char {
+            X, Y, Z
+        };
+
+        Axis m_axis;
+
+        //Constructors ----------------------------------------
+            UnidirectionalPrismaticJoint(Link link, Axis axis) : Joint(link), m_axis(axis) {};
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;

@@ -1,13 +1,11 @@
 #include "robot.h"
 
-#pragma region Constructor
+Vectorn Robot::getEndEffector () {
+    Vectorn current_position = pm_starting_position;
 
-Robot::Robot() {
-    pm_joints = {};
+    for (auto joint : pm_joints) {
+        current_position = joint.first.rototransform(joint.second);
+    }
+
+    return current_position;
 }
-
-Robot::Robot(std::list<RevoluteJoint> list) {
-    pm_joints = list;
-}
-
-#pragma endregion

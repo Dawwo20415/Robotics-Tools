@@ -1,97 +1,4 @@
 #include "joint.h"
-/*
-#pragma region Constructors
-
-RevoluteJoint::RevoluteJoint(float length) {    
-    pm_length = length;
-    position = {5,0,0};
-
-}
-
-Matrix RevoluteJoint::getRotationMatrix(float yaw, float pitch, float roll) {
-    Matrix yaw_matrix   ({{cos(yaw), -sin(yaw), 0},
-                          {sin(yaw),  cos(yaw), 0},
-                          {    0   ,    0     , 1}});
-
-    Matrix pitch_matrix ({{ cos(pitch), 0, sin(pitch)},
-                          {    0      , 1,     0     },
-                          {-sin(pitch), 0, cos(pitch)}});
-
-    Matrix roll_matrix  ({{    1  ,     0    ,     0     },
-                          {    0  , cos(roll), -sin(roll)},
-                          {    0  , sin(roll),  cos(roll)}});
-
-    return yaw_matrix * pitch_matrix * roll_matrix;
-}
-
-Vectorn RevoluteJoint::rotate(float yaw, float pitch, float roll) {
-
-    Matrix newposition = getRotationMatrix(yaw, pitch, roll) * Matrix(position, VERTICAL);
-
-    Vectorn posvector(3);
-
-    for (int i = 0; i < 3; i++) {
-        posvector[i] = newposition(i,0);
-    }
-
-    return posvector;
-}
-
-AbsoluteJoint::AbsoluteJoint(float length) {    
-    pm_length = length;
-    position = {5,0,0};
-
-}
-
-Matrix AbsoluteJoint::getRotationMatrix(float yaw, float pitch, float roll, Vectorn translation) {
-    Matrix yaw_matrix   ({{cos(yaw), -sin(yaw), 0},
-                          {sin(yaw),  cos(yaw), 0},
-                          {    0   ,    0     , 1}});
-
-    Matrix pitch_matrix ({{ cos(pitch), 0, sin(pitch)},
-                          {    0      , 1,     0     },
-                          {-sin(pitch), 0, cos(pitch)}});
-
-    Matrix roll_matrix  ({{    1  ,     0    ,     0     },
-                          {    0  , cos(roll), -sin(roll)},
-                          {    0  , sin(roll),  cos(roll)}});
-
-    Matrix rotation = yaw_matrix * pitch_matrix * roll_matrix;
-
-    rotation.columnAppend({{0,0,0}});
-
-    rotation.rowAppend(Matrix(translation, VERTICAL));
-
-    return rotation;
-}
-
-Vectorn AbsoluteJoint::rototranslate(float yaw, float pitch, float roll, Vectorn translation) {
-
-    Vectorn homogenous(4);
-    Vectorn h_translation(4);
-
-    for (int i = 0; i < 3; i++) {
-        homogenous[i] = position[i];
-        h_translation[i] = translation[i];
-    }
-
-    homogenous[3] = 1;
-    h_translation[3] = 1;
-
-    Matrix newposition = getRotationMatrix(yaw, pitch, roll, h_translation) * Matrix(homogenous, VERTICAL);
-
-    Vectorn posvector(3);
-
-    for (int i = 0; i < 3; i++) {
-        posvector[i] = newposition(i,0);
-    }
-
-    return posvector;
-}
-
-#pragma endregion
-
-*/
 
 #pragma region Absolute Joint
 
@@ -157,6 +64,66 @@ Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
 
     Matrix rotation = yaw_matrix * pitch_matrix * roll_matrix;
 
+    return rotation;
+}
+
+Vectorn RevoluteJoint::rototransform(Transform tr) {
+
+    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(pm_transform.position + pm_link.link_end, VERTICAL);
+
+    for (int i = 0; i < 3; i++) {
+        pm_joint_effector[i] = newposition(i,0);
+    }
+
+    return pm_joint_effector;
+}
+
+Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
+
+    Matrix rotation(3,3);
+
+    switch (m_axis) {
+        case Yaw:
+            rotation = {{cos(tr.yaw()), -sin(tr.yaw()), 0},
+                        {sin(tr.yaw()),  cos(tr.yaw()), 0},
+                        {      0      ,       0       , 1}};
+            break;
+        
+        case Pitch:
+            rotation = {{ cos(tr.pitch()), 0, sin(tr.pitch())},
+                        {        0       , 1,        0       },
+                        {-sin(tr.pitch()), 0, cos(tr.pitch())}};
+            break;
+        
+        case Roll:
+            rotation = {{ 1,       0       ,        0       },
+                        { 0, cos(tr.roll()), -sin(tr.roll())},
+                        { 0, sin(tr.roll()),  cos(tr.roll())}};
+            break;
+    }
+
+    return rotation;
+}
+
+Vectorn UnidirectionalRevoluteJoint::rototransform(Transform tr) {
+
+    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(pm_transform.position + pm_link.link_end, VERTICAL);
+
+    for (int i = 0; i < 3; i++) {
+        pm_joint_effector[i] = newposition(i,0);
+    }
+
+    return pm_joint_effector;
+}
+
+#pragma endregion
+
+#pragma region Prismatic Joint
+
+Matrix PrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
+
+    Matrix rotation ( Matrix::identityMatrix(3) );
+
     rotation.rowAppend(Matrix(tr.position, VERTICAL));
 
     rotation.columnAppend({{0,0,0,1}});
@@ -164,7 +131,7 @@ Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
     return rotation;
 }
 
-Vectorn RevoluteJoint::rototransform(Transform tr) {
+Vectorn PrismaticJoint::rototransform(Transform tr) {
 
     Vectorn homogenous(4);
 
@@ -183,34 +150,30 @@ Vectorn RevoluteJoint::rototransform(Transform tr) {
     return pm_joint_effector;
 }
 
-#pragma endregion
+Matrix UnidirectionalPrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
 
-#pragma region Prismatic Joint
+    Matrix rotation ( Matrix::identityMatrix(3) );
 
-Matrix PrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
+    switch (m_axis) {
+        case X:
+            rotation.rowAppend(Matrix({tr.x(),0,0}, VERTICAL));
+            break;
+        
+        case Y:
+            rotation.rowAppend(Matrix({0,tr.y(),0}, VERTICAL));
+            break;
 
-    Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0},
-                          {sin(tr.yaw()),  cos(tr.yaw()), 0},
-                          {    0   ,    0     , 1}});
-
-    Matrix pitch_matrix ({{ cos(tr.pitch()), 0, sin(tr.pitch())},
-                          {    0      , 1,     0     },
-                          {-sin(tr.pitch()), 0, cos(tr.pitch())}});
-
-    Matrix roll_matrix  ({{    1  ,     0    ,     0     },
-                          {    0  , cos(tr.roll()), -sin(tr.roll())},
-                          {    0  , sin(tr.roll()),  cos(tr.roll())}});
-
-    Matrix rotation = roll_matrix * pitch_matrix * yaw_matrix;
-
-    rotation.rowAppend(Matrix(tr.position, VERTICAL));
+        case Z:
+            rotation.rowAppend(Matrix({0,0,tr.z()}, VERTICAL));
+            break;
+    }
 
     rotation.columnAppend({{0,0,0,1}});
 
     return rotation;
 }
 
-Vectorn PrismaticJoint::rototransform(Transform tr) {
+Vectorn UnidirectionalPrismaticJoint::rototransform(Transform tr) {
 
     Vectorn homogenous(4);
 
