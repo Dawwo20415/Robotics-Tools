@@ -4,11 +4,11 @@
 
 int main()
 {
-    AbsoluteJoint joint(5);
+    AbsoluteJoint joint(Link(Vectorn({5,0,0})));
 
-    Vectorn vec = joint.rototranslate(M_PI / 2, 0, 0, {1,1,2});
+    Transform transform({1,0,0},{0,M_PI / 2,0});
 
-    vec.println();
+    joint.rototransform(transform).println();
 
     return 1;
 }

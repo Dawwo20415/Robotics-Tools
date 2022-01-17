@@ -4,51 +4,96 @@
 #include "../algebric_backend/matrix.h"
 #include <math.h>
 
+class Transform {
+
+    public:
+
+        Vectorn position; //  x   |   y   |  z
+        Vectorn rotation; // roll | pitch | yaw
+
+        Transform() : position({0,0,0,}), rotation({0,0,0}) {};
+        Transform(const Vectorn& pos, const Vectorn& rot) : position(pos), rotation(rot) {};
+
+        float roll  () { return rotation[0]; }
+        float pitch () { return rotation[1]; }
+        float yaw   () { return rotation[2]; }
+
+        float x () { return position[0]; }
+        float y () { return position[1]; }
+        float z () { return position[2]; }
+
+};
+
+class Link {
+
+    public:
+
+        Vectorn link_end;
+
+        Link(const Vectorn& lk) : link_end(lk) {};
+
+        float link_length () { return sqrt((link_end[0] * link_end[0]) + 
+                                           (link_end[1] * link_end[1]) + 
+                                           (link_end[2] * link_end[2])); }
+
+};
+
 //Parent class
 class Joint {
 
+    protected:
+
+        Transform pm_transform;
+        Vectorn pm_joint_effector;
+        Link pm_link;
+
     public:
 
-        
+        Joint(Link link) : pm_transform(), pm_joint_effector({0,0,0}), pm_link(link)  {};
 
+        //Virtual Functions
+        virtual Matrix  getHomogenousTransformationMatrix(Transform transform) = 0;
+        virtual Vectorn rototransform(Transform transform) = 0;
 
+    
 };
 
 //Subclasses
-class RevoluteJoint {
 
+class AbsoluteJoint : public Joint {
 
     public:
 
-        float pm_length;
-        Matrix rotation_matrix = Matrix(2,2);
-        Vectorn position = Vectorn(2);
-
         //Constructors ----------------------------------------
-            RevoluteJoint(float length);
+            AbsoluteJoint(Link link) : Joint(link) {};
 
         //Functions -------------------------------------------
-            Matrix getRotationMatrix(float yaw, float pitch, float roll);
-            Vectorn rotate(float yaw, float pitch, float roll);
-
+            Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Vectorn rototransform(Transform transform) override;
 };
 
-class AbsoluteJoint {
-
+class RevoluteJoint : public Joint {
 
     public:
 
-        float pm_length;
-        Matrix rotation_matrix = Matrix(2,2);
-        Vectorn position = Vectorn(2);
-
         //Constructors ----------------------------------------
-            AbsoluteJoint(float length);
+            RevoluteJoint(Link link) : Joint(link) {};
 
         //Functions -------------------------------------------
-            Matrix getRotationMatrix(float yaw, float pitch, float roll, Vectorn translation);
-            Vectorn rototranslate(float yaw, float pitch, float roll, Vectorn translation);
+            Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Vectorn rototransform(Transform transform) override;
+};
 
+class PrismaticJoint : public Joint {
+
+    public:
+
+        //Constructors ----------------------------------------
+            PrismaticJoint(Link link) : Joint(link) {};
+
+        //Functions -------------------------------------------
+            Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Vectorn rototransform(Transform transform) override;
 };
 
 //Functions
