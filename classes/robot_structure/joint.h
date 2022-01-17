@@ -52,8 +52,8 @@ class Joint {
         Joint(Link link) : pm_transform(), pm_joint_effector({0,0,0}), pm_link(link)  {};
 
         //Virtual Functions
-        virtual Matrix  getHomogenousTransformationMatrix(Transform transform) = 0;
-        virtual Vectorn rototransform(Transform transform) = 0;
+        virtual Matrix  getHomogenousTransformationMatrix(Transform transform) { return Matrix::identityMatrix(3); };
+        virtual Vectorn rototransform(Transform transform) { return Vectorn::nullVector(3); };
 
     
 };
