@@ -33,6 +33,24 @@ class RevoluteJoint {
 
 };
 
+class AbsoluteJoint {
+
+
+    public:
+
+        float pm_length;
+        Matrix rotation_matrix = Matrix(2,2);
+        Vectorn position = Vectorn(2);
+
+        //Constructors ----------------------------------------
+            AbsoluteJoint(float length);
+
+        //Functions -------------------------------------------
+            Matrix getRotationMatrix(float yaw, float pitch, float roll, Vectorn translation);
+            Vectorn rototranslate(float yaw, float pitch, float roll, Vectorn translation);
+
+};
+
 //Functions
 
 #endif

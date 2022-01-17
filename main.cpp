@@ -4,9 +4,9 @@
 
 int main()
 {
-    RevoluteJoint joint(5);
+    AbsoluteJoint joint(5);
 
-    Vectorn vec = joint.rotate(M_PI / 2, 0, 0);
+    Vectorn vec = joint.rototranslate(M_PI / 2, 0, 0, {1,1,2});
 
     vec.println();
 
