@@ -9,7 +9,7 @@ class Robot {
 
     private:
 
-        std::vector<Joint> pm_joints;
+        std::vector<Joint*> pm_joints;
         std::vector<Transform> pm_transforms;
         Vectorn pm_starting_position;
         Vectorn pm_endeffector;
@@ -20,7 +20,7 @@ class Robot {
             Robot() : pm_joints({}), 
                       pm_starting_position({0,0,0}), 
                       pm_endeffector(Vectorn::nullVector(3)) {};
-            Robot(std::vector<Joint> joint_list, std::vector<Transform> transform_list, Vectorn position) 
+            Robot(std::vector<Joint*> joint_list, std::vector<Transform> transform_list, Vectorn position) 
                     : pm_joints(joint_list),
                         pm_transforms(transform_list),
                         pm_starting_position(position), 

@@ -50,17 +50,20 @@ Vectorn AbsoluteJoint::rototransform(Transform tr) {
 
 Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
 
-    Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0},
-                          {sin(tr.yaw()),  cos(tr.yaw()), 0},
-                          {    0   ,    0     , 1}});
+    Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0, 0},
+                          {sin(tr.yaw()),  cos(tr.yaw()), 0, 0},
+                          {      0      ,        0      , 1, 0},
+                          {      0      ,        0      , 0, 1}});
 
-    Matrix pitch_matrix ({{ cos(tr.pitch()), 0, sin(tr.pitch())},
-                          {    0      , 1,     0     },
-                          {-sin(tr.pitch()), 0, cos(tr.pitch())}});
+    Matrix pitch_matrix ({{ cos(tr.pitch()), 0, sin(tr.pitch()),0},
+                          {        0       , 1,       0        ,0},
+                          {-sin(tr.pitch()), 0, cos(tr.pitch()),0},
+                          {        0       , 0,       0        ,1}});
 
-    Matrix roll_matrix  ({{    1  ,     0    ,     0     },
-                          {    0  , cos(tr.roll()), -sin(tr.roll())},
-                          {    0  , sin(tr.roll()),  cos(tr.roll())}});
+    Matrix roll_matrix  ({{1,        0      ,         0      ,0},
+                          {0, cos(tr.roll()), -sin(tr.roll()),0},
+                          {0, sin(tr.roll()),  cos(tr.roll()),0},
+                          {0,        0      ,         0      ,1}});
 
     Matrix rotation = yaw_matrix * pitch_matrix * roll_matrix;
 
@@ -193,3 +196,13 @@ Vectorn UnidirectionalPrismaticJoint::rototransform(Transform tr) {
 }
 
 #pragma endregion
+
+Matrix Joint::linkMatrix() {
+    Matrix translation ( Matrix::identityMatrix(3) );
+
+    translation.rowAppend(Matrix(pm_link.link_end, VERTICAL));
+
+    translation.columnAppend({{0,0,0,1}});
+
+    return translation;
+}
