@@ -10,7 +10,7 @@
 int main()
 {
     //Joints
-    RevoluteJoint prism1(Link({0,1,0}));
+    RevoluteJoint prism1(Link({0,2,0}));
     RevoluteJoint prism2(Link({0,1,0}));
 
     std::vector<Joint*> components = { &prism1, &prism2 };

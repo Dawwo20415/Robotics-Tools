@@ -198,11 +198,6 @@ Vectorn UnidirectionalPrismaticJoint::rototransform(Transform tr) {
 #pragma endregion
 
 Matrix Joint::linkMatrix() {
-    Matrix translation ( Matrix::identityMatrix(3) );
 
-    translation.rowAppend(Matrix(pm_link.link_end, VERTICAL));
-
-    translation.columnAppend({{0,0,0,1}});
-
-    return translation;
+    return pm_link.link_matrix();
 }

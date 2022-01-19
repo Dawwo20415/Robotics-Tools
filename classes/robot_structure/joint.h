@@ -35,6 +35,11 @@ class Link {
         float link_length () { return sqrt((link_end[0] * link_end[0]) + 
                                            (link_end[1] * link_end[1]) + 
                                            (link_end[2] * link_end[2])); }
+        
+        Matrix link_matrix () {return Matrix({{1,0,0,link_end[0]},
+                                              {0,1,0,link_end[1]},
+                                              {0,0,1,link_end[2]},
+                                              {0,0,0,    1      }});}
 
 };
 
