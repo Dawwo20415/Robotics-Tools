@@ -7,18 +7,28 @@
 //Pitch -   Y
 //Yaw   -   Z
 
+//All the actions to affect the Joints
+std::vector<Transform> getActions() {
+
+    return {Transform({0,0,0},{M_PI/2,0,0}),
+            Transform({0,1,0},{0,0,0})};
+
+}
+
 int main()
 {
-    //Joints
-    RevoluteJoint prism1(Link({0,2,0}));
-    RevoluteJoint prism2(Link({0,1,0}));
+    //Declaration of all components
+    RevoluteJoint  prism1(Link({0,1,0}));
+    PrismaticJoint prism2(Link({0,1,0}));
 
-    std::vector<Joint*> components = { &prism1, &prism2 };
+    std::vector<Joint*> tmp;
 
-    std::vector<Transform> actions ({ {Transform({0,0,0},{M_PI/2,0,0})},
-                                      {Transform({0,0,0},{M_PI/2,0,0})}});
+    #pragma region Filling the List
+    tmp.push_back(&prism1);
+    tmp.push_back(&prism2);
+    #pragma endregion
     
-    Robot bot(components, actions, {0,1,0});
+    Robot bot(tmp, getActions(), Link({0,1,0}));
 
     bot.getEndEffector().println();
 

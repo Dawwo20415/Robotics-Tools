@@ -11,23 +11,24 @@ class Robot {
 
         std::vector<Joint*> pm_joints;
         std::vector<Transform> pm_transforms;
-        Vectorn pm_starting_position;
+        Link pm_source_link;
         Vectorn pm_endeffector;
 
     public:
 
         //Constructors ----------------------------------------
             Robot() : pm_joints({}), 
-                      pm_starting_position({0,0,0}), 
+                      pm_source_link({0,0,0}), 
                       pm_endeffector(Vectorn::nullVector(3)) {};
-            Robot(std::vector<Joint*> joint_list, std::vector<Transform> transform_list, Vectorn position) 
+            Robot(std::vector<Joint*> joint_list, std::vector<Transform> transform_list, Link position) 
                     : pm_joints(joint_list),
                         pm_transforms(transform_list),
-                        pm_starting_position(position), 
+                        pm_source_link(position), 
                         pm_endeffector(Vectorn::nullVector(3)) {};
 
         //Functions -------------------------------------------
             Vectorn getEndEffector();
+            Vectorn homogenousToCoordinates(Matrix homogenous);
             //Vectorn redefineJoints();
 
 
