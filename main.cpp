@@ -18,8 +18,8 @@ std::vector<Transform> getActions() {
 int main()
 {
     //Declaration of all components
-    RevoluteJoint  prism1(Link({0,1,0}));
-    PrismaticJoint prism2(Link({0,1,0}));
+    RevoluteJoint  prism1(Link({0,1,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}));
+    PrismaticJoint prism2(Link({0,1,0}), Transform({2,2,2},{0,0,0}), Transform({0,0,0},{0,0,0}));
 
     std::vector<Joint*> tmp;
 

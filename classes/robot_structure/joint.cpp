@@ -4,6 +4,8 @@
 
 Matrix AbsoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
 
+    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
+
     Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0},
                           {sin(tr.yaw()),  cos(tr.yaw()), 0},
                           {    0   ,    0     , 1}});
@@ -25,23 +27,16 @@ Matrix AbsoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
     return rotation;
 }
 
-Vectorn AbsoluteJoint::rototransform(Transform tr) {
+bool AbsoluteJoint::applyTransform(Transform tr) {
 
-    Vectorn homogenous(4);
+    if (tr.x() < pm_lower_limit.x() || tr.x() > pm_upper_limit.x()) return false;
+    if (tr.y() < pm_lower_limit.y() || tr.y() > pm_upper_limit.y()) return false;
+    if (tr.z() < pm_lower_limit.z() || tr.z() > pm_upper_limit.z()) return false;
+    if (tr.yaw() < pm_lower_limit.yaw() || tr.yaw() > pm_upper_limit.yaw()) return false;
+    if (tr.roll() < pm_lower_limit.roll() || tr.roll() > pm_upper_limit.roll()) return false;
+    if (tr.pitch() < pm_lower_limit.pitch() || tr.pitch() > pm_upper_limit.pitch()) return false;
 
-    for (int i = 0; i < 3; i++) {
-        homogenous[i] = pm_transform.position[i] + pm_link.link_end[i];
-    }
-
-    homogenous[3] = 1;
-
-    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(homogenous, VERTICAL);
-
-    for (int i = 0; i < 3; i++) {
-        pm_joint_effector[i] = newposition(i,0);
-    }
-
-    return pm_joint_effector;
+    return true;
 }
 
 #pragma endregion
@@ -49,6 +44,8 @@ Vectorn AbsoluteJoint::rototransform(Transform tr) {
 #pragma region Revolute Joint
 
 Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
+
+    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
     Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0, 0},
                           {sin(tr.yaw()),  cos(tr.yaw()), 0, 0},
@@ -70,18 +67,18 @@ Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
     return rotation;
 }
 
-Vectorn RevoluteJoint::rototransform(Transform tr) {
+bool RevoluteJoint::applyTransform(Transform tr) {
 
-    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(pm_transform.position + pm_link.link_end, VERTICAL);
+    if (tr.yaw() < pm_lower_limit.yaw() || tr.yaw() > pm_upper_limit.yaw()) return false;
+    if (tr.roll() < pm_lower_limit.roll() || tr.roll() > pm_upper_limit.roll()) return false;
+    if (tr.pitch() < pm_lower_limit.pitch() || tr.pitch() > pm_upper_limit.pitch()) return false;
 
-    for (int i = 0; i < 3; i++) {
-        pm_joint_effector[i] = newposition(i,0);
-    }
-
-    return pm_joint_effector;
+    return true;
 }
 
 Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
+
+    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
     Matrix rotation(3,3);
 
@@ -108,15 +105,21 @@ Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix(Transform 
     return rotation;
 }
 
-Vectorn UnidirectionalRevoluteJoint::rototransform(Transform tr) {
-
-    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(pm_transform.position + pm_link.link_end, VERTICAL);
-
-    for (int i = 0; i < 3; i++) {
-        pm_joint_effector[i] = newposition(i,0);
+bool UnidirectionalRevoluteJoint::applyTransform(Transform tr) {
+    
+    switch (m_axis) {
+    case Yaw:
+        if (tr.yaw() < pm_lower_limit.yaw() || tr.yaw() > pm_upper_limit.yaw()) return false;
+        break;
+    case Pitch:
+        if (tr.pitch() < pm_lower_limit.pitch() || tr.pitch() > pm_upper_limit.pitch()) return false;
+        break;
+    case Roll:
+        if (tr.roll() < pm_lower_limit.roll() || tr.roll() > pm_upper_limit.roll()) return false;
+        break;
     }
 
-    return pm_joint_effector;
+    return true;
 }
 
 #pragma endregion
@@ -124,6 +127,8 @@ Vectorn UnidirectionalRevoluteJoint::rototransform(Transform tr) {
 #pragma region Prismatic Joint
 
 Matrix PrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
+
+    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
     Matrix rotation ( Matrix::identityMatrix(3) );
 
@@ -134,26 +139,18 @@ Matrix PrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
     return rotation;
 }
 
-Vectorn PrismaticJoint::rototransform(Transform tr) {
+bool PrismaticJoint::applyTransform(Transform tr) {
 
-    Vectorn homogenous(4);
+    if (tr.x() < pm_lower_limit.x() || tr.x() > pm_upper_limit.x()) return false;
+    if (tr.y() < pm_lower_limit.y() || tr.y() > pm_upper_limit.y()) return false;
+    if (tr.z() < pm_lower_limit.z() || tr.z() > pm_upper_limit.z()) return false;
 
-    for (int i = 0; i < 3; i++) {
-        homogenous[i] = pm_transform.position[i] + pm_link.link_end[i];
-    }
-
-    homogenous[3] = 1;
-
-    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(homogenous, VERTICAL);
-
-    for (int i = 0; i < 3; i++) {
-        pm_joint_effector[i] = newposition(i,0);
-    }
-
-    return pm_joint_effector;
+    return true;
 }
 
 Matrix UnidirectionalPrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
+
+    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
     Matrix rotation ( Matrix::identityMatrix(3) );
 
@@ -176,28 +173,25 @@ Matrix UnidirectionalPrismaticJoint::getHomogenousTransformationMatrix(Transform
     return rotation;
 }
 
-Vectorn UnidirectionalPrismaticJoint::rototransform(Transform tr) {
-
-    Vectorn homogenous(4);
-
-    for (int i = 0; i < 3; i++) {
-        homogenous[i] = pm_transform.position[i] + pm_link.link_end[i];
+bool UnidirectionalPrismaticJoint::applyTransform(Transform tr) {
+    
+    switch (m_axis) {
+    case X:
+        if (tr.x() < pm_lower_limit.x() || tr.x() > pm_upper_limit.x()) return false;
+        break;
+    case Y:
+        if (tr.y() < pm_lower_limit.y() || tr.y() > pm_upper_limit.y()) return false;
+        break;
+    case Z:
+        if (tr.z() < pm_lower_limit.z() || tr.z() > pm_upper_limit.z()) return false;
+        break;
     }
-
-    homogenous[3] = 1;
-
-    Matrix newposition = getHomogenousTransformationMatrix(tr) * Matrix(homogenous, VERTICAL);
-
-    for (int i = 0; i < 3; i++) {
-        pm_joint_effector[i] = newposition(i,0);
-    }
-
-    return pm_joint_effector;
+    
+    return true;
 }
 
 #pragma endregion
 
 Matrix Joint::linkMatrix() {
-
     return pm_link.link_matrix();
 }

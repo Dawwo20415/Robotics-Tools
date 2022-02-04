@@ -48,17 +48,17 @@ class Joint {
 
     protected:
 
-        Transform pm_transform;
-        Vectorn pm_joint_effector;
+        Transform pm_upper_limit;
+        Transform pm_lower_limit;
         Link pm_link;
 
     public:
 
-        Joint(Link link) : pm_transform(), pm_joint_effector({0,0,0}), pm_link(link)  {};
+        Joint(Link link, Transform upper, Transform lower) :  pm_link(link), pm_upper_limit(upper), pm_lower_limit(lower)  {};
 
         //Virtual Functions
+        virtual bool applyTransform(Transform tr) = 0;
         virtual Matrix  getHomogenousTransformationMatrix(Transform transform) = 0;
-        virtual Vectorn rototransform(Transform transform) = 0;
         virtual Matrix  linkMatrix();
 
     
@@ -71,11 +71,11 @@ class AbsoluteJoint : public Joint {
     public:
 
         //Constructors ----------------------------------------
-            AbsoluteJoint(Link link) : Joint(link) {};
+            AbsoluteJoint(Link link, Transform upper, Transform lower) : Joint(link, upper, lower) {};
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
-            Vectorn rototransform(Transform transform) override;
+            virtual bool applyTransform(Transform tr);
 };
 
 class RevoluteJoint : public Joint {
@@ -83,11 +83,11 @@ class RevoluteJoint : public Joint {
     public:
 
         //Constructors ----------------------------------------
-            RevoluteJoint(Link link) : Joint(link) {};
+            RevoluteJoint(Link link, Transform upper, Transform lower) : Joint(link, upper, lower) {};
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
-            Vectorn rototransform(Transform transform) override;
+            virtual bool applyTransform(Transform tr);
 };
 
 class UnidirectionalRevoluteJoint : public Joint {
@@ -101,11 +101,11 @@ class UnidirectionalRevoluteJoint : public Joint {
         Axis m_axis;
 
         //Constructors ----------------------------------------
-            UnidirectionalRevoluteJoint(Link link, Axis axis) : Joint(link), m_axis(axis) {};
+            UnidirectionalRevoluteJoint(Link link, Transform upper, Transform lower, Axis axis) : Joint(link, upper, lower), m_axis(axis) {};
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
-            Vectorn rototransform(Transform transform) override;
+            virtual bool applyTransform(Transform tr);
 };
 
 class PrismaticJoint : public Joint {
@@ -113,11 +113,11 @@ class PrismaticJoint : public Joint {
     public:
 
         //Constructors ----------------------------------------
-            PrismaticJoint(Link link) : Joint(link) {};
+            PrismaticJoint(Link link, Transform upper, Transform lower) : Joint(link, upper, lower) {};
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
-            Vectorn rototransform(Transform transform) override;
+            virtual bool applyTransform(Transform tr);
 };
 
 class UnidirectionalPrismaticJoint : public Joint {
@@ -131,11 +131,11 @@ class UnidirectionalPrismaticJoint : public Joint {
         Axis m_axis;
 
         //Constructors ----------------------------------------
-            UnidirectionalPrismaticJoint(Link link, Axis axis) : Joint(link), m_axis(axis) {};
+            UnidirectionalPrismaticJoint(Link link, Transform upper, Transform lower, Axis axis) : Joint(link, upper, lower), m_axis(axis) {};
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
-            Vectorn rototransform(Transform transform) override;
+            virtual bool applyTransform(Transform tr);
 };
 
 //Functions
