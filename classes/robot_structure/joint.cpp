@@ -6,6 +6,8 @@ Matrix AbsoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
 
     if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
+    pm_current_tr = tr;
+
     Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0},
                           {sin(tr.yaw()),  cos(tr.yaw()), 0},
                           {    0   ,    0     , 1}});
@@ -47,6 +49,8 @@ Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
 
     if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
+    pm_current_tr = tr;
+
     Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0, 0},
                           {sin(tr.yaw()),  cos(tr.yaw()), 0, 0},
                           {      0      ,        0      , 1, 0},
@@ -79,6 +83,8 @@ bool RevoluteJoint::applyTransform(Transform tr) {
 Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
 
     if (!applyTransform(tr)) return Matrix::identityMatrix(4);
+
+    pm_current_tr = tr;
 
     Matrix rotation(3,3);
 
@@ -130,6 +136,8 @@ Matrix PrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
 
     if (!applyTransform(tr)) return Matrix::identityMatrix(4);
 
+    pm_current_tr = tr;
+
     Matrix rotation ( Matrix::identityMatrix(3) );
 
     rotation.rowAppend(Matrix(tr.position, VERTICAL));
@@ -151,6 +159,8 @@ bool PrismaticJoint::applyTransform(Transform tr) {
 Matrix UnidirectionalPrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
 
     if (!applyTransform(tr)) return Matrix::identityMatrix(4);
+
+    pm_current_tr = tr;
 
     Matrix rotation ( Matrix::identityMatrix(3) );
 

@@ -48,6 +48,7 @@ class Joint {
 
     protected:
 
+        Transform pm_current_tr = Transform({0,0,0},{0,0,0});
         Transform pm_upper_limit;
         Transform pm_lower_limit;
         Link pm_link;
