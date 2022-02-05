@@ -32,6 +32,8 @@ class Robot {
             //Vectorn redefineJoints();
             //Returns wether or not the objective is reachable
             bool inverseKinematic(Transform objective);
+            //Prints the status of all the joints that are part of the chain
+            void printStatus();
 
 
 };

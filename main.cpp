@@ -32,5 +32,7 @@ int main()
 
     bot.getEndEffector().println();
 
+    bot.printStatus();
+
     return 1;
 }

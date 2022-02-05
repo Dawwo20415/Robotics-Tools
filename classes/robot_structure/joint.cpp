@@ -205,3 +205,7 @@ bool UnidirectionalPrismaticJoint::applyTransform(Transform tr) {
 Matrix Joint::linkMatrix() {
     return pm_link.link_matrix();
 }
+
+void Joint::printStatus() {
+    std::cout << pm_current_tr.getString(); 
+}

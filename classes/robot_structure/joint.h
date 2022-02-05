@@ -22,6 +22,10 @@ class Transform {
         float y () { return position[1]; }
         float z () { return position[2]; }
 
+        std::string getString () {
+            return "[ Translation => X: " + std::to_string(position[0]) + " Y: " + std::to_string(position[1]) + " Z: " + std::to_string(position[2]) + " | " +
+                   "Rotation => roll: " + std::to_string(rotation[0]) + " pitch: " + std::to_string(rotation[1]) + " yaw: " + std::to_string(rotation[2]) + " ]";
+        };
 };
 
 class Link {
@@ -61,6 +65,8 @@ class Joint {
         virtual bool applyTransform(Transform tr) = 0;
         virtual Matrix  getHomogenousTransformationMatrix(Transform transform) = 0;
         virtual Matrix  linkMatrix();
+
+        virtual void printStatus();
 
     
 };

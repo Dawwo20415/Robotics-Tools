@@ -32,5 +32,27 @@ Vectorn Robot::getEndEffector () {
 }
 
 bool Robot::inverseKinematic (Transform objective) {
+    //extract position from the transform
 
+    //With that we have a vector from origin to end effector
+
+    //With the vector we can calculate the 3 total angles that the sum of the joints need to end up having
+
+    //Then divide the angle in how many joints can have an effect on this angle
+
+    //How do we get how each joint effects the angle?
+
+    //the vector of the end effector is just the sum of the vector of each joint + link
+
+    //That vector is determined by the vector link with the applied rotation
+
+    return true;
+}
+
+void Robot::printStatus() {
+    for (int i = 0; i < pm_joints.size(); i++) {
+        std::cout << "Joint #" << i << " ";
+        pm_joints[i]->printStatus();
+        std::cout << std::endl; 
+    }
 }
