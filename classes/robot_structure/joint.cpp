@@ -209,3 +209,20 @@ Matrix Joint::linkMatrix() {
 void Joint::printStatus() {
     std::cout << pm_current_tr.getString(); 
 }
+
+Vectorn Joint::jointVector() {
+    Vectorn tmp ({pm_link.link_end[0], pm_link.link_end[1], pm_link.link_end[2],1});
+
+    Matrix mat = getHomogenousTransformationMatrix(pm_current_tr) * Matrix(tmp, VERTICAL);
+
+    for (int i = 0; i < 3; i++) {
+        tmp[i] = mat(i,0);
+    }
+
+    return Vectorn({tmp[0], tmp[1], tmp[2]});
+
+}
+
+void Joint::printVector() {
+    jointVector().print();
+}

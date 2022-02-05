@@ -51,8 +51,12 @@ bool Robot::inverseKinematic (Transform objective) {
 
 void Robot::printStatus() {
     for (int i = 0; i < pm_joints.size(); i++) {
-        std::cout << "Joint #" << i << " ";
+        std::cout << "Joint #" << i << " Status ";
         pm_joints[i]->printStatus();
+        std::cout << std::endl;
+
+        std::cout << "Joint #" << i << " Vector ";
+        pm_joints[i]->printVector();
         std::cout << std::endl; 
     }
 }

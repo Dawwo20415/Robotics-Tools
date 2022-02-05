@@ -67,7 +67,8 @@ class Joint {
         virtual Matrix  linkMatrix();
 
         virtual void printStatus();
-
+        virtual Vectorn jointVector();
+        virtual void printVector();
     
 };
 
