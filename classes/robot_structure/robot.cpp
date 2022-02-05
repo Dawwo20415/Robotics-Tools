@@ -30,3 +30,7 @@ Vectorn Robot::getEndEffector () {
     return pm_endeffector;
 
 }
+
+bool Robot::inverseKinematic (Transform objective) {
+
+}

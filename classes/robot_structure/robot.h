@@ -30,6 +30,8 @@ class Robot {
             Vectorn getEndEffector();
             Vectorn homogenousToCoordinates(Matrix homogenous);
             //Vectorn redefineJoints();
+            //Returns wether or not the objective is reachable
+            bool inverseKinematic(Transform objective);
 
 
 };
