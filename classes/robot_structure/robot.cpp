@@ -1,15 +1,5 @@
 #include "robot.h"
 
-Vectorn Robot::homogenousToCoordinates (Matrix homogenous) {
-    Vectorn tmp(3);
-
-    for (int i = 0; i < 3; i++) {
-        tmp[i] = homogenous(i,0);
-    }
-
-    return tmp;
-}
-
 Vectorn Robot::getEndEffector () {
 
     //First link transformation matrix
