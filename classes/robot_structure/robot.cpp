@@ -39,7 +39,8 @@ Matrix Robot::getJacobian() {
 bool Robot::inverseKinematic (Transform objective) {
     //Jacobian inverse technique
     //link https://en.wikipedia.org/wiki/Inverse_kinematics
-    
+    //Next step is to calculate the moonrooe pseudo inverse of the jacobian
+    //link https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse
 
     //With that we have a vector from origin to end effector
 
