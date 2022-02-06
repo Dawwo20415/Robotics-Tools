@@ -211,15 +211,16 @@ void Joint::printStatus() {
 }
 
 Vectorn Joint::jointVector() {
-    Vectorn tmp ({pm_link.link_end[0], pm_link.link_end[1], pm_link.link_end[2],1});
+    Vectorn tmp (pm_link.link_end);
+    Vectorn::toHomogenous(tmp);
 
     Matrix mat = getHomogenousTransformationMatrix(pm_current_tr) * Matrix(tmp, VERTICAL);
 
-    for (int i = 0; i < 3; i++) {
-        tmp[i] = mat(i,0);
-    }
+    tmp = Matrix::toVector(mat);
 
-    return Vectorn({tmp[0], tmp[1], tmp[2]});
+    Vectorn::toCoordinates(tmp);
+
+    return tmp;
 
 }
 

@@ -25,10 +25,10 @@ Vectorn Robot::getEndEffector () {
     Matrix current_position = homogenous_matrix * Matrix({0,0,0,1}, VERTICAL);
 
     //from [x,y,z,1] to [x,y,z]
-    pm_endeffector = homogenousToCoordinates(current_position);
+    pm_endeffector = Matrix::toVector(current_position);
+    Vectorn::toCoordinates(pm_endeffector);
 
     return pm_endeffector;
-
 }
 
 bool Robot::inverseKinematic (Transform objective) {

@@ -233,6 +233,23 @@ void Matrix::invertiblePreconditions(const Matrix& other) const {
     }
 }
 
+void Matrix::toVectorConditions(const Matrix& subject){
+    try {
+
+        if (
+        //Conditions
+            subject.pm_column_dim != 1 && subject.pm_row_dim != 1
+        ) {
+            //Exception
+            throw std::invalid_argument(
+                "This Matrix cannot be translated into a Vector | Not a single dimension matrix");
+        }
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 #pragma endregion
 
 #pragma region Constructors
@@ -820,6 +837,28 @@ Matrix Matrix::identityMatrix(unsigned int N) {
     }
     
     return tmp;
+}
+
+Vectorn Matrix::toVector(const Matrix& mat) {
+    toVectorConditions(mat);
+
+    if (mat.pm_column_dim == 1) {
+        Vectorn tmp(mat.pm_row_dim);
+
+        for (int i = 0; i < 3; i++) {
+            tmp[i] = mat(i,0);
+        }
+
+        return tmp;
+    } else {
+        Vectorn tmp(mat.pm_column_dim);
+
+        for (int i = 0; i < 3; i++) {
+            tmp[i] = mat(0,1);
+        }
+
+        return tmp;
+    }
 }
 
 #pragma endregion

@@ -505,11 +505,21 @@ void Vectorn::detatch(const unsigned int& index, bool direction) {
     
     pm_dimension -= index;
 
-    if (direction) {
-        pm_vector.erase(pm_vector.begin(), pm_vector.begin() + index);
+    if (index > 1) {
+        if (direction) {
+            pm_vector.erase(pm_vector.begin(), pm_vector.begin() + index);
+        } else {
+            pm_vector.erase(pm_vector.begin() + index + 1, pm_vector.end() - 1);
+        }
     } else {
-        pm_vector.erase(pm_vector.begin() + index + 1, pm_vector.end() - 1);
+        if (direction) {
+            pm_vector.erase(pm_vector.begin());
+        } else {
+            pm_vector.pop_back();
+        }
     }
+
+    
 }
 
 #pragma endregion
@@ -522,6 +532,14 @@ Vectorn Vectorn::unitVector(int dimension) {
 
 Vectorn Vectorn::nullVector(int dimension) {
     return Vectorn(dimension);
+}
+
+void Vectorn::toHomogenous(Vectorn& other) {
+    other.append(Vectorn({1}));
+}
+
+void Vectorn::toCoordinates(Vectorn& other) {
+    other.detatch(1, END_TO_BEGIN);
 }
 
 #pragma endregion

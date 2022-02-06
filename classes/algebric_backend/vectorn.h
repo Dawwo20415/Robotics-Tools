@@ -6,6 +6,8 @@
 
 #define VERTICAL true
 #define HORIZONTAL false
+#define BEGIN_TO_END true
+#define END_TO_BEGIN false
 
 #include <iostream>
 #include <vector>
@@ -110,6 +112,8 @@ class Vectorn {
 
         static Vectorn unitVector(int dimension);
         static Vectorn nullVector(int dimension);
+        static void toHomogenous(Vectorn& other);
+        static void toCoordinates(Vectorn& other);
 };
 
 #endif

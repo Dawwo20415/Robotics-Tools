@@ -27,6 +27,7 @@ class Matrix {
         void rowPreconditions(const int& index) const;
         void columnPreconditions(const int& index) const;
         void invertiblePreconditions(const Matrix& other) const;
+        static void toVectorConditions(const Matrix& subject);
 
         float& access(int row, int column);
         const float& access(int row, int column) const;
@@ -122,6 +123,7 @@ class Matrix {
 
         static Matrix nullMatrix(unsigned int row, unsigned int column);
         static Matrix identityMatrix(unsigned int N);
+        static Vectorn toVector(const Matrix& mat);
 
 };
 
