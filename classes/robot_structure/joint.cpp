@@ -41,6 +41,26 @@ bool AbsoluteJoint::applyTransform(Transform tr) {
     return true;
 }
 
+Matrix AbsoluteJoint::getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) {
+    Matrix tmp(6,1);
+    Vectorn upper(3);
+    Vectorn precedentPosition(3);
+
+    for (int i = 0; i < 3; i++) {
+        upper[i] = homogenous(i,2);
+        tmp(i+3,0) = homogenous(i,2);
+        precedentPosition[i] = homogenous(i,3);
+    }
+
+    upper *= (endEffector - precedentPosition);
+
+    for (int i = 0; i < 3; i++) {
+        tmp(i,0) = upper[i];
+    }
+
+    return tmp;
+}
+
 #pragma endregion
 
 #pragma region Revolute Joint
@@ -128,6 +148,46 @@ bool UnidirectionalRevoluteJoint::applyTransform(Transform tr) {
     return true;
 }
 
+Matrix RevoluteJoint::getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) {
+    Matrix tmp(6,1);
+    Vectorn upper(3);
+    Vectorn precedentPosition(3);
+
+    for (int i = 0; i < 3; i++) {
+        upper[i] = homogenous(i,2);
+        tmp(i+3,0) = homogenous(i,2);
+        precedentPosition[i] = homogenous(i,3);
+    }
+
+    upper *= (endEffector - precedentPosition);
+
+    for (int i = 0; i < 3; i++) {
+        tmp(i,0) = upper[i];
+    }
+
+    return tmp;
+}
+
+Matrix UnidirectionalRevoluteJoint::getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) {
+    Matrix tmp(6,1);
+    Vectorn upper(3);
+    Vectorn precedentPosition(3);
+
+    for (int i = 0; i < 3; i++) {
+        upper[i] = homogenous(i,2);
+        tmp(i+3,0) = homogenous(i,2);
+        precedentPosition[i] = homogenous(i,3);
+    }
+
+    upper *= (endEffector - precedentPosition);
+
+    for (int i = 0; i < 3; i++) {
+        tmp(i,0) = upper[i];
+    }
+
+    return tmp;
+}
+
 #pragma endregion
 
 #pragma region Prismatic Joint
@@ -200,6 +260,26 @@ bool UnidirectionalPrismaticJoint::applyTransform(Transform tr) {
     return true;
 }
 
+Matrix PrismaticJoint::getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) {
+    Matrix tmp(6,1);
+
+    for (int i = 0; i < 3; i++) {
+        tmp(i,0) = homogenous(i,2);
+    }
+
+    return tmp;
+}
+
+Matrix UnidirectionalPrismaticJoint::getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) {
+    Matrix tmp(6,1);
+
+    for (int i = 0; i < 3; i++) {
+        tmp(i,0) = homogenous(i,2);
+    }
+
+    return tmp;
+}
+
 #pragma endregion
 
 Matrix Joint::linkMatrix() {
@@ -226,4 +306,8 @@ Vectorn Joint::jointVector() {
 
 void Joint::printVector() {
     jointVector().print();
+}
+
+Matrix Joint::getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) {
+    return Matrix(6,1);
 }

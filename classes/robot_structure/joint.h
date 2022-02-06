@@ -69,6 +69,7 @@ class Joint {
         virtual void printStatus();
         virtual Vectorn jointVector();
         virtual void printVector();
+        virtual Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector);
     
 };
 
@@ -83,6 +84,7 @@ class AbsoluteJoint : public Joint {
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
 };
 
@@ -95,6 +97,7 @@ class RevoluteJoint : public Joint {
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
 };
 
@@ -113,6 +116,7 @@ class UnidirectionalRevoluteJoint : public Joint {
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
 };
 
@@ -125,6 +129,7 @@ class PrismaticJoint : public Joint {
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
 };
 
@@ -143,6 +148,7 @@ class UnidirectionalPrismaticJoint : public Joint {
 
         //Functions -------------------------------------------
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
+            Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
 };
 

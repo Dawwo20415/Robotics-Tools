@@ -21,8 +21,42 @@ Vectorn Robot::getEndEffector () {
     return pm_endeffector;
 }
 
+Matrix Robot::getJacobian() {
+    Matrix jacobian ({{0},{0},{1},{0},{0},{0}});
+    Matrix homogenous_matrix = pm_source_link.link_matrix();
+
+    for (int i = 0; i < pm_joints.size(); i++) {
+
+        jacobian.rowAppend(pm_joints[i]->getJacobianSection(homogenous_matrix, pm_endeffector));
+
+        homogenous_matrix *= pm_joints[i]->getHomogenousTransformationMatrix(pm_transforms[i]);
+        homogenous_matrix *= pm_joints[i]->linkMatrix();
+
+    }
+
+    return jacobian;
+}
+
 bool Robot::inverseKinematic (Transform objective) {
     //extract position from the transform
+
+    //Take the angles necessary to be reached by sum of all others
+    Vectorn angles(3);
+
+    float magnitude = sqrt(pow(objective.x(),2) + pow(objective.y(),2) + pow(objective.z(),2));
+
+    //roll
+    angles[0] = atan2(sqrt(pow(objective.y(),2) + pow(objective.z(),2)), objective.x());
+
+    //pitch
+    angles[1] = acos(objective.y() / magnitude);
+
+    //yaw
+    angles[2] = acos(objective.z() / magnitude);
+
+    angles *= (180 / M_PI);
+
+    angles.println();
 
     //With that we have a vector from origin to end effector
 
