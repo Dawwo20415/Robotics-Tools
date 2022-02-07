@@ -13,7 +13,7 @@ void Vectorn::constructorPreconditions(const int& dimension) {
             throw std::out_of_range(
                 "In creation of Vectorn: passed parameter dimension " +
                 std::to_string(dimension) + 
-                " out of range for std::vector<float>"); //Out of scope dimension
+                " out of range for std::vector<double>"); //Out of scope dimension
         }
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
@@ -32,7 +32,7 @@ void Vectorn::constructorPreconditions(const int& selectedDimension, const int& 
             throw std::out_of_range(
                 "In creation of Vectorn: passed parameter dimension " +
                 std::to_string(selectedDimension) + 
-                " out of range for std::vector<float>"); //Out of scope dimension
+                " out of range for std::vector<double>"); //Out of scope dimension
         } 
 
         if (
@@ -58,7 +58,7 @@ void Vectorn::constructorPreconditions(const int& selectedBeginning, const int& 
             throw std::out_of_range(
                 "In creation of Vectorn: passed parameter beginning=" +
                 std::to_string(selectedBeginning) + " or end=" + std::to_string(selectedEnd) +
-                " out of range for std::vector<float>"); //Out of scope dimension
+                " out of range for std::vector<double>"); //Out of scope dimension
         } if (originalDimension <= 0) {
             throw std::invalid_argument("In creation of Vectorn: invalid vector passed as argument in constructor, size="
                     + std::to_string(originalDimension));
@@ -130,7 +130,7 @@ Vectorn::Vectorn(unsigned int dimension) {
 }
 
 //Single Value Constructor
-Vectorn::Vectorn(unsigned int dimension, float value) {
+Vectorn::Vectorn(unsigned int dimension, double value) {
 
     constructorPreconditions(dimension);
 
@@ -206,7 +206,7 @@ Vectorn::Vectorn(const Vectorn& other) {
 }
 
 //Copy Constructor | std::vector | Specified dimension
-Vectorn::Vectorn(unsigned int dimension, const std::vector<float>& other) {
+Vectorn::Vectorn(unsigned int dimension, const std::vector<double>& other) {
 
     constructorPreconditions(dimension, other.size());
 
@@ -225,7 +225,7 @@ Vectorn::Vectorn(unsigned int dimension, const std::vector<float>& other) {
 }
 
 //Copy Constructor | std::vector | Index Range
-Vectorn::Vectorn(unsigned int beginning, unsigned int end, const std::vector<float>& other) {
+Vectorn::Vectorn(unsigned int beginning, unsigned int end, const std::vector<double>& other) {
 
     constructorPreconditions(beginning, end, other.size());
 
@@ -245,7 +245,7 @@ Vectorn::Vectorn(unsigned int beginning, unsigned int end, const std::vector<flo
 }
 
 //Copy Constructor | std::vector | Whole Vector
-Vectorn::Vectorn(const std::vector<float>& other) {
+Vectorn::Vectorn(const std::vector<double>& other) {
 
     constructorPreconditions(other.size());
 
@@ -264,7 +264,7 @@ Vectorn::Vectorn(const std::vector<float>& other) {
 }
 
 //Copy Constructor | initializer_list | Whole Vector
-Vectorn::Vectorn(const std::initializer_list<float>& other) {
+Vectorn::Vectorn(const std::initializer_list<double>& other) {
 
     constructorPreconditions(other.size());
 
@@ -293,14 +293,14 @@ Vectorn::~Vectorn() {
 #pragma region Operators
 
 //Selection operators
-float& Vectorn::operator[](int _i) {
+double& Vectorn::operator[](int _i) {
     //preconditions
     selectionOperatorPreconditions(_i);
 
     return pm_vector[_i];
 }
 
-const float& Vectorn::operator[](int _i) const {
+const double& Vectorn::operator[](int _i) const {
     //preconditions
     selectionOperatorPreconditions(_i);
 
@@ -332,7 +332,7 @@ Vectorn& Vectorn::operator+=(const Vectorn& other) {
     return *this;
 }
 
-Vectorn& Vectorn::operator+=(const std::initializer_list<float>& other) {
+Vectorn& Vectorn::operator+=(const std::initializer_list<double>& other) {
     //Preconditions
     algebricOperatorPreconditions(pm_dimension, other.size());
 
@@ -350,7 +350,7 @@ Vectorn operator+(Vectorn initial, const Vectorn& other) {
     return initial;
 }
 
-Vectorn operator+(Vectorn initial, const std::initializer_list<float>& other) {
+Vectorn operator+(Vectorn initial, const std::initializer_list<double>& other) {
     initial += other;
     return initial;
 }
@@ -367,7 +367,7 @@ Vectorn& Vectorn::operator-=(const Vectorn& other) {
     return *this;
 }
 
-Vectorn& Vectorn::operator-=(const std::initializer_list<float>& other) {
+Vectorn& Vectorn::operator-=(const std::initializer_list<double>& other) {
     //Preconditions
     algebricOperatorPreconditions(pm_dimension, other.size());
 
@@ -385,13 +385,13 @@ Vectorn operator-(Vectorn initial, const Vectorn& other) {
     return initial;
 }
 
-Vectorn operator-(Vectorn initial, const std::initializer_list<float>& other) {
+Vectorn operator-(Vectorn initial, const std::initializer_list<double>& other) {
     initial -= other;
     return initial;
 }
 
 //Vector * Scalar Operators
-Vectorn& Vectorn::operator*=(const float& value) {
+Vectorn& Vectorn::operator*=(const double& value) {
 
     for (int i = 0; i < pm_dimension; i++) {
         pm_vector[i] *= value;
@@ -400,13 +400,13 @@ Vectorn& Vectorn::operator*=(const float& value) {
     return *this;
 }
 
-Vectorn operator*(Vectorn initial, const float& value) {
+Vectorn operator*(Vectorn initial, const double& value) {
     initial *= value;
     return initial;
 }
 
 //Vector / Scalar Operators
-Vectorn& Vectorn::operator/=(const float& value) {
+Vectorn& Vectorn::operator/=(const double& value) {
 
     for (int i = 0; i < pm_dimension; i++) {
         pm_vector[i] /= value;
@@ -415,17 +415,17 @@ Vectorn& Vectorn::operator/=(const float& value) {
     return *this;
 }
 
-Vectorn operator/(Vectorn initial, const float& value) {
+Vectorn operator/(Vectorn initial, const double& value) {
     initial /= value;
     return initial;
 }
 
 //Dot Product Product Operator
-float Vectorn::dotProduct(const Vectorn& other) {
+double Vectorn::dotProduct(const Vectorn& other) {
     //Preconditions
     algebricOperatorPreconditions(pm_dimension, other.pm_dimension);
     
-    float tmp = 0;
+    double tmp = 0;
 
     for (int i = 0; i < pm_dimension; i++) {
         tmp += pm_vector[i] * other[i];
@@ -440,7 +440,7 @@ Vectorn& Vectorn::operator*=(const Vectorn& other) {
     crossProductPreconditions(pm_dimension);
     crossProductPreconditions(other.pm_dimension);
 
-    float tmp[3];
+    double tmp[3];
     tmp[0] = ( pm_vector[1] * other[2] ) - ( pm_vector[2] * other[1] );
     tmp[1] = ( pm_vector[2] * other[0] ) - ( pm_vector[0] * other[2] );
     tmp[2] = ( pm_vector[0] * other[1] ) - ( pm_vector[1] * other[0] ); 
@@ -451,7 +451,7 @@ Vectorn& Vectorn::operator*=(const Vectorn& other) {
     return *this;
 }
 
-Vectorn& Vectorn::operator*=(const std::initializer_list<float>& other) {
+Vectorn& Vectorn::operator*=(const std::initializer_list<double>& other) {
 
     Vectorn tmp (other);
 
@@ -465,7 +465,7 @@ Vectorn operator*(Vectorn initial, const Vectorn& other) {
     return initial;
 }
 
-Vectorn operator*(Vectorn initial, const std::initializer_list<float>& other) {
+Vectorn operator*(Vectorn initial, const std::initializer_list<double>& other) {
     initial *= other;
     return initial;
 }

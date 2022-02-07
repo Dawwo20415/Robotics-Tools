@@ -14,13 +14,13 @@ class Transform {
         Transform() : position({0,0,0,}), rotation({0,0,0}) {};
         Transform(const Vectorn& pos, const Vectorn& rot) : position(pos), rotation(rot) {};
 
-        float roll  () { return rotation[0]; }
-        float pitch () { return rotation[1]; }
-        float yaw   () { return rotation[2]; }
+        double roll  () { return rotation[0]; }
+        double pitch () { return rotation[1]; }
+        double yaw   () { return rotation[2]; }
 
-        float x () { return position[0]; }
-        float y () { return position[1]; }
-        float z () { return position[2]; }
+        double x () { return position[0]; }
+        double y () { return position[1]; }
+        double z () { return position[2]; }
 
         std::string getString () {
             return "[ Translation => X: " + std::to_string(position[0]) + " Y: " + std::to_string(position[1]) + " Z: " + std::to_string(position[2]) + " | " +
@@ -36,9 +36,9 @@ class Link {
 
         Link(const Vectorn& lk) : link_end(lk) {};
 
-        float link_length () { return sqrt((link_end[0] * link_end[0]) + 
-                                           (link_end[1] * link_end[1]) + 
-                                           (link_end[2] * link_end[2])); }
+        double link_length () { return sqrt((link_end[0] * link_end[0]) + 
+                                            (link_end[1] * link_end[1]) + 
+                                            (link_end[2] * link_end[2])); }
         
         Matrix link_matrix () {return Matrix({{1,0,0,link_end[0]},
                                               {0,1,0,link_end[1]},

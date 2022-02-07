@@ -18,7 +18,7 @@ class Matrix {
         void constructorPreconditions(const int row1, const int row2, 
                                         const int column1, const int column2, 
                                         const int otherRow, const int otherColumn) const;
-        void constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const;
+        void constructorPreconditions(const std::initializer_list<std::initializer_list<double>>& other) const;
         void operatorPreconditions(const int row, const int column) const;
         void algebricSumPreconditions(const Matrix& other) const;
         void multiplicationPreconditions(const Matrix& other) const;
@@ -29,13 +29,13 @@ class Matrix {
         void invertiblePreconditions(const Matrix& other) const;
         static void toVectorConditions(const Matrix& subject);
 
-        float& access(int row, int column);
-        const float& access(int row, int column) const;
+        double& access(int row, int column);
+        const double& access(int row, int column) const;
         
         //Private operations
         void moveRow(unsigned int row1, unsigned int row2);
-        void multiplyRow(unsigned int row, float value);
-        void replaceRow(unsigned int row1, unsigned int row2, float value);
+        void multiplyRow(unsigned int row, double value);
+        void replaceRow(unsigned int row1, unsigned int row2, double value);
 
         void rowEchelonForm();
         void rowEchelonForm(bool& determinant_sign);
@@ -62,7 +62,7 @@ class Matrix {
                 unsigned int column1, unsigned int column2, 
                 const Matrix& other);
 
-        Matrix(const std::initializer_list<std::initializer_list<float>>& other);
+        Matrix(const std::initializer_list<std::initializer_list<double>>& other);
         Matrix(const Vectorn& vector, bool direction);
 
         //DESTRUCTORS -----------------------------------------------
@@ -72,8 +72,8 @@ class Matrix {
         //OPERATORS -------------------------------------------------
 
         //Selection operators
-        float& operator()(int row, int column);
-        const float& operator()(int row, int column) const;
+        double& operator()(int row, int column);
+        const double& operator()(int row, int column) const;
 
         //Assignment operators
         Matrix& operator=(const Matrix& other);
@@ -88,12 +88,12 @@ class Matrix {
         friend Matrix operator-(Matrix first, const Matrix& second);
 
         //Multiplication by a Scalar operator
-        Matrix& operator*=(const float& value);
-        friend Matrix operator*(Matrix mat, const float& value);
+        Matrix& operator*=(const double& value);
+        friend Matrix operator*(Matrix mat, const double& value);
 
         //Division by a Scalar operator
-        Matrix& operator/=(const float& value);
-        friend Matrix operator/(Matrix mat, const float& value);
+        Matrix& operator/=(const double& value);
+        friend Matrix operator/(Matrix mat, const double& value);
 
         //Multiplication by a Matrix operator
         Matrix& operator*=(const Matrix& other);
@@ -107,7 +107,7 @@ class Matrix {
         void rotate();
         Matrix getRotated();
 
-        float determinant();
+        double determinant();
         Matrix inverse();
 
         void rowAppend(const Matrix& other);

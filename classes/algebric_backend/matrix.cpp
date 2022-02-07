@@ -14,7 +14,7 @@ void Matrix::constructorPreconditions(const int row, const int column) const {
             throw std::out_of_range(
                 "In creation of Matrix: passed parameter row:" +
                 std::to_string(row) + " column:" + std::to_string(column) +
-                " out of range for std::vector<float>"); //Out of scope dimension
+                " out of range for std::vector<double>"); //Out of scope dimension
         }
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
@@ -85,7 +85,7 @@ void Matrix::constructorPreconditions(const int row1, const int row2, const int 
     }
 }
 
-void Matrix::constructorPreconditions(const std::initializer_list<std::initializer_list<float>>& other) const {
+void Matrix::constructorPreconditions(const std::initializer_list<std::initializer_list<double>>& other) const {
     try {
         int row = other.begin()->size();
         int column = other.size();
@@ -106,7 +106,7 @@ void Matrix::constructorPreconditions(const std::initializer_list<std::initializ
             throw std::out_of_range(
                 "In creation of Matrix: passed parameter row:" +
                 std::to_string(row) + " column:" + std::to_string(column) +
-                " out of range for std::vector<float>"); //Out of scope dimension
+                " out of range for std::vector<double>"); //Out of scope dimension
         }
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
@@ -213,7 +213,7 @@ void Matrix::columnPreconditions(const int& index) const {
 
 void Matrix::invertiblePreconditions(const Matrix& other) const {
     try {
-        float determinant = 1;
+        double determinant = 1;
 
         for (int i = 0; i < other.pm_row_dim; i++) {
             determinant *= other(i,i);
@@ -346,7 +346,7 @@ Matrix::Matrix(unsigned int row1, unsigned int column1, unsigned int row2, unsig
     }
 }
 
-Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& other) {
+Matrix::Matrix(const std::initializer_list<std::initializer_list<double>>& other) {
     //Preconditions
     constructorPreconditions(other);
     
@@ -389,13 +389,13 @@ Matrix::Matrix(const Vectorn& vector, bool direction) {
 #pragma region Operators
 
 //Selection operators
-float& Matrix::operator()(int row, int column) {
+double& Matrix::operator()(int row, int column) {
     operatorPreconditions(row,column);
     
     return (pm_matrix[row])[column];
 }
 
-const float& Matrix::operator()(int row, int column) const{
+const double& Matrix::operator()(int row, int column) const{
     operatorPreconditions(row,column);
     
     return (pm_matrix[row])[column];
@@ -453,27 +453,27 @@ Matrix operator-(Matrix first, const Matrix& second) {
 }
 
 //Multiplication by a Scalar operator
-Matrix& Matrix::operator*=(const float& value) {
+Matrix& Matrix::operator*=(const double& value) {
     for (int i = 0; i < pm_column_dim; i++) {
         pm_matrix[i] *= value;
     }
     return *this;
 }
 
-Matrix operator*(Matrix mat, const float& value) {
+Matrix operator*(Matrix mat, const double& value) {
     mat *= value;
     return mat;
 }
 
 //Division by a Scalar operator
-Matrix& Matrix::operator/=(const float& value) {
+Matrix& Matrix::operator/=(const double& value) {
     for (int i = 0; i < pm_column_dim; i++) {
         pm_matrix[i] /= value;
     }
     return *this;
 }
 
-Matrix operator/(Matrix mat, const float& value) {
+Matrix operator/(Matrix mat, const double& value) {
     mat /= value;
     return mat;
 }
@@ -507,13 +507,13 @@ Matrix operator*(Matrix mat, const Matrix& other) {
 
 #pragma region Functions
 
-float& Matrix::access(int row, int column) {
+double& Matrix::access(int row, int column) {
     operatorPreconditions(row,column);
     
     return (pm_matrix[row])[column];
 }
 
-const float& Matrix::access(int row, int column) const {
+const double& Matrix::access(int row, int column) const {
     operatorPreconditions(row,column);
     
     return (pm_matrix[row])[column];
@@ -598,7 +598,7 @@ void Matrix::moveRow(unsigned int row1, unsigned int row2) {
 
 }
 
-void Matrix::multiplyRow(unsigned int row, float value) {
+void Matrix::multiplyRow(unsigned int row, double value) {
     //Preconditions
     rowPreconditions(row);
 
@@ -606,7 +606,7 @@ void Matrix::multiplyRow(unsigned int row, float value) {
 
 }
 
-void Matrix::replaceRow(unsigned int row1, unsigned int row2, float value) {
+void Matrix::replaceRow(unsigned int row1, unsigned int row2, double value) {
     //Preconditions
     rowPreconditions(row1);
     rowPreconditions(row2);
@@ -637,7 +637,7 @@ void Matrix::rowEchelonForm() {
             if (access(i,i) == 0)
                 continue;
 
-            float k = access(j,i) / access(i,i);
+            double k = access(j,i) / access(i,i);
             replaceRow(j, i, k);
         }
     }
@@ -663,7 +663,7 @@ void Matrix::rowEchelonForm(bool& determinant_sign) {
         //Row Replacement
         for (int j = i + 1; j < pm_row_dim; j++) {
 
-            float k = access(j,i) / access(i,i);
+            double k = access(j,i) / access(i,i);
             replaceRow(j, i, k);
         }
     }
@@ -756,7 +756,7 @@ bool Matrix::isSymmetric() {
     } return false;
 }
 
-float Matrix::determinant() {
+double Matrix::determinant() {
     //Preconditions
     determinantPreconditions();
 
@@ -772,7 +772,7 @@ float Matrix::determinant() {
     
     //General case
     Matrix upperTriangular_U(*this);
-    float determinant = 1;
+    double determinant = 1;
     bool sign = true;
 
     upperTriangular_U.rowEchelonForm(sign);

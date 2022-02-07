@@ -17,7 +17,7 @@ class Vectorn {
     private:
 
         unsigned int pm_dimension;
-        std::vector<float> pm_vector;
+        std::vector<double> pm_vector;
 
         //Constructors Exceptions Handlers
         void constructorPreconditions(const int& dimension);
@@ -41,18 +41,18 @@ class Vectorn {
         
         //Default Constructor
         Vectorn(unsigned int dimension);
-        Vectorn(unsigned int dimension, float value);
+        Vectorn(unsigned int dimension, double value);
 
         //Copy Constructors
         Vectorn(unsigned int dimension, const Vectorn& other);
         Vectorn(unsigned int beginning, unsigned int end, const Vectorn& other);
         Vectorn(const Vectorn& other);
 
-        Vectorn(unsigned int dimension, const std::vector<float>& other);
-        Vectorn(unsigned int beginning, unsigned int end, const std::vector<float>& other);
-        Vectorn(const std::vector<float>& other);
+        Vectorn(unsigned int dimension, const std::vector<double>& other);
+        Vectorn(unsigned int beginning, unsigned int end, const std::vector<double>& other);
+        Vectorn(const std::vector<double>& other);
 
-        Vectorn(const std::initializer_list<float>& other);
+        Vectorn(const std::initializer_list<double>& other);
 
         //Move Constructor
         Vectorn(Vectorn&& other) = default;
@@ -64,8 +64,8 @@ class Vectorn {
         //OPERATORS -------------------------------------------------
 
         //Selection Operators
-        float& operator[](int _i);
-        const float& operator[](int _i) const;
+        double& operator[](int _i);
+        const double& operator[](int _i) const;
 
         //Assignment Operators
         Vectorn& operator=(const Vectorn& other);
@@ -74,31 +74,31 @@ class Vectorn {
         //Addition Operators
         Vectorn& operator+=(const Vectorn& other);
         friend Vectorn operator+(Vectorn initial, const Vectorn& other);
-        Vectorn& operator+=(const std::initializer_list<float>& other);
-        friend Vectorn operator+(Vectorn initial, const std::initializer_list<float>& other);
+        Vectorn& operator+=(const std::initializer_list<double>& other);
+        friend Vectorn operator+(Vectorn initial, const std::initializer_list<double>& other);
 
         //Subtraction Operators
         Vectorn& operator-=(const Vectorn& other);
         friend Vectorn operator-(Vectorn initial, const Vectorn& other);
-        Vectorn& operator-=(const std::initializer_list<float>& other);
-        friend Vectorn operator-(Vectorn initial, const std::initializer_list<float>& other);
+        Vectorn& operator-=(const std::initializer_list<double>& other);
+        friend Vectorn operator-(Vectorn initial, const std::initializer_list<double>& other);
 
         //Vector * Scalar Operators
-        Vectorn& operator*=(const float& other);
-        friend Vectorn operator*(Vectorn initial, const float& other);
+        Vectorn& operator*=(const double& other);
+        friend Vectorn operator*(Vectorn initial, const double& other);
 
         //Vector / Scalar Operators
-        Vectorn& operator/=(const float& other);
-        friend Vectorn operator/(Vectorn initial, const float& other);
+        Vectorn& operator/=(const double& other);
+        friend Vectorn operator/(Vectorn initial, const double& other);
 
         //Dot Product Operators
-        float dotProduct(const Vectorn& other);
+        double dotProduct(const Vectorn& other);
 
         //Cross Product
         Vectorn& operator*=(const Vectorn& other);
         friend Vectorn operator*(Vectorn initial, const Vectorn& other);
-        Vectorn& operator*=(const std::initializer_list<float>& other);
-        friend Vectorn operator*(Vectorn initial, const std::initializer_list<float>& other);
+        Vectorn& operator*=(const std::initializer_list<double>& other);
+        friend Vectorn operator*(Vectorn initial, const std::initializer_list<double>& other);
 
         //FUNCTIONS -------------------------------------------------
 
