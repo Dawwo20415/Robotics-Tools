@@ -475,12 +475,16 @@ Vectorn operator*(Vectorn initial, const std::initializer_list<double>& other) {
 #pragma region Functions
 
 void Vectorn::print() {
-    std::string output = "[|";
+    std::stringstream output;
+    output << std::fixed << std::setprecision(2) << "[";
+
     for (int i = 0; i < pm_dimension; i++) {
-        output += " " + std::to_string(pm_vector[i]) + " |";
+        pm_vector[i] < 0 ? output << " " << pm_vector[i] : output << "  " << pm_vector[i];
+        if (i != pm_dimension - 1)
+            output << " |";
     }
-    output += "]"; 
-    std::cout << output;
+    output << " ]"; 
+    std::cout << output.str();
 }
 
 void Vectorn::println() {

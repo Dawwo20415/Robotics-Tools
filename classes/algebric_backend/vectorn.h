@@ -10,6 +10,8 @@
 #define END_TO_BEGIN false
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <vector>
 
 class Vectorn {

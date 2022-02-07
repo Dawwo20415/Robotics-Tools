@@ -520,71 +520,42 @@ const double& Matrix::access(int row, int column) const {
 }
 
 void Matrix::println() const {
-    std::string tmp;
-    for (int i = 0; i < pm_row_dim; i++) {
-        std::string line;
-        //Left Wall
-        if (i == 0) {
-            line += "⎡ ";
-        } else if (i == pm_row_dim - 1) {
-            line += "⎣ ";
-        } else {
-            line += "⎢ ";
-        }
-
-        //Contents
-        for (int j = 0; j < pm_column_dim; j++) {
-            if (j == pm_column_dim - 1){
-                line += std::to_string((pm_matrix[i])[j]);
-            } else {
-                line += std::to_string((pm_matrix[i])[j]) + " | ";
-            }      
-        }
-
-        //Right Wall
-        if (i == 0) {
-            line += "⎤\n";
-        } else if (i == pm_row_dim - 1) {
-            line += "⎦";
-        } else {
-            line += "⎥\n";
-        }
-        tmp += line;
-    }
-    std::cout << tmp << std::endl;
+    this->print();
+    std::cout << std::endl;
 }
 
 void Matrix::print() const {
     std::string tmp;
     for (int i = 0; i < pm_row_dim; i++) {
-        std::string line;
+        std::stringstream line;
+        line << std::fixed << std::setprecision(2);
         //Left Wall
         if (i == 0) {
-            line += "⎡ ";
+            line << "⎡ ";
         } else if (i == pm_row_dim - 1) {
-            line += "⎣ ";
+            line << "⎣ ";
         } else {
-            line += "⎢ ";
+            line << "⎢ ";
         }
 
         //Contents
         for (int j = 0; j < pm_column_dim; j++) {
             if (j == pm_column_dim - 1){
-                line += std::to_string((pm_matrix[i])[j]);
+                (pm_matrix[i])[j] < 0 ? line << (pm_matrix[i])[j] << " " : line << " " << (pm_matrix[i])[j] << " ";
             } else {
-                line += std::to_string((pm_matrix[i])[j]) + " | ";
+                (pm_matrix[i])[j] < 0 ? line << (pm_matrix[i])[j] << "  | " : line << " " << (pm_matrix[i])[j] << "  | ";
             }      
         }
 
         //Right Wall
         if (i == 0) {
-            line += "⎤\n";
+            line << " ⎤\n";
         } else if (i == pm_row_dim - 1) {
-            line += "⎦";
+            line << " ⎦";
         } else {
-            line += "⎥\n";
+            line << " ⎥\n";
         }
-        tmp += line;
+        tmp += line.str();
     }
     std::cout << tmp;
 }
