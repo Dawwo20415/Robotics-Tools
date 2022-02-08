@@ -18,25 +18,21 @@ bool UnidirectionalRevoluteJoint::setPosition(Transform tr) {
     return true;
 }
 
-Matrix RevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
+Matrix RevoluteJoint::getHomogenousTransformationMatrix() {
 
-    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
-
-    pm_current_tr = tr;
-
-    Matrix yaw_matrix   ({{cos(tr.yaw()), -sin(tr.yaw()), 0, 0},
-                          {sin(tr.yaw()),  cos(tr.yaw()), 0, 0},
+    Matrix yaw_matrix   ({{cos(pm_current_tr.yaw()), -sin(pm_current_tr.yaw()), 0, 0},
+                          {sin(pm_current_tr.yaw()),  cos(pm_current_tr.yaw()), 0, 0},
                           {      0      ,        0      , 1, 0},
                           {      0      ,        0      , 0, 1}});
 
-    Matrix pitch_matrix ({{ cos(tr.pitch()), 0, sin(tr.pitch()),0},
+    Matrix pitch_matrix ({{ cos(pm_current_tr.pitch()), 0, sin(pm_current_tr.pitch()),0},
                           {        0       , 1,       0        ,0},
-                          {-sin(tr.pitch()), 0, cos(tr.pitch()),0},
+                          {-sin(pm_current_tr.pitch()), 0, cos(pm_current_tr.pitch()),0},
                           {        0       , 0,       0        ,1}});
 
     Matrix roll_matrix  ({{1,        0      ,         0      ,0},
-                          {0, cos(tr.roll()), -sin(tr.roll()),0},
-                          {0, sin(tr.roll()),  cos(tr.roll()),0},
+                          {0, cos(pm_current_tr.roll()), -sin(pm_current_tr.roll()),0},
+                          {0, sin(pm_current_tr.roll()),  cos(pm_current_tr.roll()),0},
                           {0,        0      ,         0      ,1}});
 
     Matrix rotation = yaw_matrix * pitch_matrix * roll_matrix;
@@ -53,31 +49,27 @@ bool RevoluteJoint::applyTransform(Transform tr) {
     return true;
 }
 
-Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix(Transform tr) {
-
-    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
-
-    pm_current_tr = tr;
+Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix() {
 
     Matrix rotation(3,3);
 
     switch (m_axis) {
         case Yaw:
-            rotation = {{cos(tr.yaw()), -sin(tr.yaw()), 0},
-                        {sin(tr.yaw()),  cos(tr.yaw()), 0},
+            rotation = {{cos(pm_current_tr.yaw()), -sin(pm_current_tr.yaw()), 0},
+                        {sin(pm_current_tr.yaw()),  cos(pm_current_tr.yaw()), 0},
                         {      0      ,       0       , 1}};
             break;
         
         case Pitch:
-            rotation = {{ cos(tr.pitch()), 0, sin(tr.pitch())},
+            rotation = {{ cos(pm_current_tr.pitch()), 0, sin(pm_current_tr.pitch())},
                         {        0       , 1,        0       },
-                        {-sin(tr.pitch()), 0, cos(tr.pitch())}};
+                        {-sin(pm_current_tr.pitch()), 0, cos(pm_current_tr.pitch())}};
             break;
         
         case Roll:
             rotation = {{ 1,       0       ,        0       },
-                        { 0, cos(tr.roll()), -sin(tr.roll())},
-                        { 0, sin(tr.roll()),  cos(tr.roll())}};
+                        { 0, cos(pm_current_tr.roll()), -sin(pm_current_tr.roll())},
+                        { 0, sin(pm_current_tr.roll()),  cos(pm_current_tr.roll())}};
             break;
     }
 
@@ -214,15 +206,11 @@ bool UnidirectionalPrismaticJoint::setPosition(Transform tr) {
     return true;
 }
 
-Matrix PrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
-
-    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
-
-    pm_current_tr = tr;
+Matrix PrismaticJoint::getHomogenousTransformationMatrix() {
 
     Matrix rotation ( Matrix::identityMatrix(3) );
 
-    rotation.rowAppend(Matrix(tr.position, VERTICAL));
+    rotation.rowAppend(Matrix(pm_current_tr.position, VERTICAL));
 
     rotation.columnAppend({{0,0,0,1}});
 
@@ -238,25 +226,20 @@ bool PrismaticJoint::applyTransform(Transform tr) {
     return true;
 }
 
-Matrix UnidirectionalPrismaticJoint::getHomogenousTransformationMatrix(Transform tr) {
-
-    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
-
-    pm_current_tr = tr;
-
+Matrix UnidirectionalPrismaticJoint::getHomogenousTransformationMatrix() {
     Matrix rotation ( Matrix::identityMatrix(3) );
 
     switch (m_axis) {
         case X:
-            rotation.rowAppend(Matrix({tr.x(),0,0}, VERTICAL));
+            rotation.rowAppend(Matrix({pm_current_tr.x(),0,0}, VERTICAL));
             break;
         
         case Y:
-            rotation.rowAppend(Matrix({0,tr.y(),0}, VERTICAL));
+            rotation.rowAppend(Matrix({0,pm_current_tr.y(),0}, VERTICAL));
             break;
 
         case Z:
-            rotation.rowAppend(Matrix({0,0,tr.z()}, VERTICAL));
+            rotation.rowAppend(Matrix({0,0,pm_current_tr.z()}, VERTICAL));
             break;
     }
 
@@ -363,7 +346,7 @@ Vectorn Joint::jointVector() {
     Vectorn tmp (pm_link.link_end);
     Vectorn::toHomogenous(tmp);
 
-    Matrix mat = getHomogenousTransformationMatrix(pm_current_tr) * Matrix(tmp, VERTICAL);
+    Matrix mat = getHomogenousTransformationMatrix() * Matrix(tmp, VERTICAL);
 
     tmp = Matrix::toVector(mat);
 

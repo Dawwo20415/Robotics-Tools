@@ -4,6 +4,7 @@
 #include "joint.h"
 #include <list>
 #include <map>
+#include <functional>
 
 class Robot {
 
@@ -13,6 +14,9 @@ class Robot {
         std::vector<Transform> pm_transforms;
         Link pm_source_link;
         Vectorn pm_endeffector;
+
+        void cycleJoints(const std::function<void(Joint*)>& function);
+        void cycleJoints(const std::function<void(Joint*,int)>& function);
 
     public:
 
@@ -27,6 +31,7 @@ class Robot {
                         pm_endeffector(Vectorn::nullVector(3)) {};
 
         //Functions -------------------------------------------
+            
             Vectorn getEndEffector();
             Matrix getJacobian();
             Vectorn getConfigurationSpace();

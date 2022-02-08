@@ -1,15 +1,27 @@
 #include "robot.h"
 
+void Robot::cycleJoints (const std::function<void(Joint*)>& function) {
+    for (int i = 0; i < pm_joints.size(); i++) {
+        function(pm_joints[i]);
+    }
+}
+
+void Robot::cycleJoints (const std::function<void(Joint*,int)>& function) {
+    for (int i = 0; i < pm_joints.size(); i++) {
+        function(pm_joints[i],i);
+    }
+}
+
 Vectorn Robot::getEndEffector () {
 
     //First link transformation matrix
     Matrix homogenous_matrix = pm_source_link.link_matrix();
 
     //Cycle trough all the joints and associated links
-    for (int i = 0; i < pm_joints.size(); i++) {
-        homogenous_matrix *= pm_joints[i]->getHomogenousTransformationMatrix(pm_transforms[i]);
-        homogenous_matrix *= pm_joints[i]->linkMatrix();
-    }
+    cycleJoints( [&homogenous_matrix](Joint* j) mutable {
+        homogenous_matrix *= j->getHomogenousTransformationMatrix();
+        homogenous_matrix *= j->linkMatrix();
+    });
 
     //Calculate actual position
     Matrix current_position = homogenous_matrix * Matrix({0,0,0,1}, VERTICAL);
@@ -27,13 +39,11 @@ Matrix Robot::getJacobian() {
 
     homogenous_matrix.println();
 
-    for (int i = 0; i < pm_joints.size(); i++) {
-
-        pm_joints[i]->getJacobianSection(jacobian, homogenous_matrix, pm_endeffector);
-
-        homogenous_matrix *= pm_joints[i]->getHomogenousTransformationMatrix(pm_transforms[i]);
-        homogenous_matrix *= pm_joints[i]->linkMatrix();
-    }
+    cycleJoints( [this, &jacobian, &homogenous_matrix](Joint* j) mutable {
+        j->getJacobianSection(jacobian, homogenous_matrix, pm_endeffector);
+        homogenous_matrix *= j->getHomogenousTransformationMatrix();
+        homogenous_matrix *= j->linkMatrix();
+    });
 
     return jacobian;
 }
@@ -41,11 +51,11 @@ Matrix Robot::getJacobian() {
 Vectorn Robot::getConfigurationSpace() {
     Vectorn tmp(1);
 
-    tmp = pm_joints[0]->getConfigurationSpace();
+    cycleJoints( [&tmp](Joint* j) mutable {
+        tmp.append(j->getConfigurationSpace());
+    });
 
-    for (int i = 1; i < pm_joints.size(); i++) {
-        tmp.append(pm_joints[i]->getConfigurationSpace());
-    }
+    tmp.detatch(1, BEGIN_TO_END);
 
     return tmp;
 }
@@ -72,13 +82,14 @@ bool Robot::inverseKinematic (Transform objective) {
 }
 
 void Robot::printStatus() {
-    for (int i = 0; i < pm_joints.size(); i++) {
+
+    cycleJoints([](Joint* j, int i){
         std::cout << "Joint #" << i << " Status ";
-        pm_joints[i]->printStatus();
+        j->printStatus();
         std::cout << std::endl;
 
         std::cout << "Joint #" << i << " Vector ";
-        pm_joints[i]->printVector();
+        j->printVector();
         std::cout << std::endl; 
-    }
+    });
 }
