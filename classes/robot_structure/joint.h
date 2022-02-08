@@ -2,7 +2,6 @@
 #define JOINT_CLASS
 
 #include "../algebric_backend/matrix.h"
-#include <math.h>
 
 class Transform {
 
@@ -23,8 +22,13 @@ class Transform {
         double z () { return position[2]; }
 
         std::string getString () {
-            return "[ Translation => X: " + std::to_string(position[0]) + " Y: " + std::to_string(position[1]) + " Z: " + std::to_string(position[2]) + " | " +
-                   "Rotation => roll: " + std::to_string(rotation[0]) + " pitch: " + std::to_string(rotation[1]) + " yaw: " + std::to_string(rotation[2]) + " ]";
+            std::stringstream tmp;
+            tmp << std::fixed << std::setprecision(2);
+
+            tmp << "[ Translation => X: " << position[0] << " Y: " << position[1] << " Z: " << position[2] << " | " <<
+                     "Rotation => roll: " << rotation[0] << " pitch: " << rotation[1] << " yaw: " << rotation[2] << " ]";
+
+            return tmp.str();
         };
 };
 

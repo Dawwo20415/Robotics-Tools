@@ -526,6 +526,14 @@ void Vectorn::detatch(const unsigned int& index, bool direction) {
     
 }
 
+double Vectorn::getMagnitude() {
+    double magnitude = 0;
+    for (int i = 0; i < pm_dimension; i++) {
+        magnitude += pm_vector[i] * pm_vector[i];
+    }
+    return sqrt(magnitude);
+}
+
 #pragma endregion
 
 #pragma region Statics

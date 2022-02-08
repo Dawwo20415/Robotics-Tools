@@ -13,6 +13,7 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include <math.h>
 
 class Vectorn {
 
@@ -109,6 +110,7 @@ class Vectorn {
         unsigned int getDimension() const;
         void append(const Vectorn& other);
         void detatch(const unsigned int& index, bool direction);
+        double getMagnitude();
 
         //STATICS ---------------------------------------------------
 

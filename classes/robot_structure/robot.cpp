@@ -12,6 +12,25 @@ void Robot::cycleJoints (const std::function<void(Joint*,int)>& function) {
     }
 }
 
+void Robot::setPosition(std::vector<Transform> transformsList) {
+    cycleJoints([&transformsList](Joint* j, int i){
+        j->setPosition(transformsList[i]);
+    });
+}
+
+Matrix Robot::getHomogenousMatrix() {
+    //First link transformation matrix
+    Matrix homogenous_matrix = pm_source_link.link_matrix();
+
+    //Cycle trough all the joints and associated links
+    cycleJoints( [&homogenous_matrix](Joint* j) mutable {
+        homogenous_matrix *= j->getHomogenousTransformationMatrix();
+        homogenous_matrix *= j->linkMatrix();
+    });
+
+    return homogenous_matrix;
+}
+
 Vectorn Robot::getEndEffector () {
 
     //First link transformation matrix
@@ -36,8 +55,6 @@ Vectorn Robot::getEndEffector () {
 Matrix Robot::getJacobian() {
     Matrix jacobian ({{0},{0},{1},{0},{0},{0}});
     Matrix homogenous_matrix = pm_source_link.link_matrix();
-
-    homogenous_matrix.println();
 
     cycleJoints( [this, &jacobian, &homogenous_matrix](Joint* j) mutable {
         j->getJacobianSection(jacobian, homogenous_matrix, pm_endeffector);

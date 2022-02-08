@@ -31,18 +31,27 @@ int main()
     tmp.push_back(&joint3);
     #pragma endregion
     
-    Robot bot(tmp, getActions(), Link({0,0,0}));
+    Robot bot(tmp, Link({0,0,0}));
 
+    bot.setPosition(getActions());
+
+    std::cout << "END EFFECTOR:" << std::endl;
     bot.getEndEffector().println();
-
     std::cout << std::endl;
 
-    //bot.printStatus();
+    std::cout << "HOMOGENOUS MATRIX:" << std::endl;
+    bot.getHomogenousMatrix().println();
+    std::cout << std::endl;
 
+    std::cout << "STATUS:" << std::endl;
+    bot.printStatus();
+    std::cout << std::endl;
+
+    std::cout << "JACOBIAN:" << std::endl;
     bot.getJacobian().println();
-
     std::cout << std::endl;
 
+    std::cout << "CONFIGURATION SPACE:" << std::endl;
     bot.getConfigurationSpace().println();
 
     return 1;

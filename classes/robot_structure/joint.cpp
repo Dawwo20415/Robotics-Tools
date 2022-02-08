@@ -358,6 +358,7 @@ Vectorn Joint::jointVector() {
 
 void Joint::printVector() {
     jointVector().print();
+    std::cout << " [" << jointVector().getMagnitude() << "]";
 }
 
 Matrix Joint::getJacobianSection(Matrix& jacobian, const Matrix& homogenous, const Vectorn& endEffector) {

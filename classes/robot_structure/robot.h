@@ -11,7 +11,6 @@ class Robot {
     private:
 
         std::vector<Joint*> pm_joints;
-        std::vector<Transform> pm_transforms;
         Link pm_source_link;
         Vectorn pm_endeffector;
 
@@ -24,14 +23,15 @@ class Robot {
             Robot() : pm_joints({}), 
                       pm_source_link({0,0,0}), 
                       pm_endeffector(Vectorn::nullVector(3)) {};
-            Robot(std::vector<Joint*> joint_list, std::vector<Transform> transform_list, Link position) 
+            Robot(std::vector<Joint*> joint_list, Link position) 
                     : pm_joints(joint_list),
-                        pm_transforms(transform_list),
                         pm_source_link(position), 
                         pm_endeffector(Vectorn::nullVector(3)) {};
 
         //Functions -------------------------------------------
             
+            void setPosition(std::vector<Transform> transformsList);
+            Matrix getHomogenousMatrix();
             Vectorn getEndEffector();
             Matrix getJacobian();
             Vectorn getConfigurationSpace();
