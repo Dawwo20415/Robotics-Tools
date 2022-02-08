@@ -41,5 +41,9 @@ int main()
 
     bot.getJacobian().println();
 
+    std::cout << std::endl;
+
+    bot.getConfigurationSpace().println();
+
     return 1;
 }

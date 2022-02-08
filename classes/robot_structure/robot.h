@@ -29,6 +29,7 @@ class Robot {
         //Functions -------------------------------------------
             Vectorn getEndEffector();
             Matrix getJacobian();
+            Vectorn getConfigurationSpace();
             //Vectorn redefineJoints();
             //Returns wether or not the objective is reachable
             bool inverseKinematic(Transform objective);

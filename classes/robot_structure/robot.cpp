@@ -36,6 +36,18 @@ Matrix Robot::getJacobian() {
     return jacobian;
 }
 
+Vectorn Robot::getConfigurationSpace() {
+    Vectorn tmp(1);
+
+    tmp = pm_joints[0]->getConfigurationSpace();
+
+    for (int i = 1; i < pm_joints.size(); i++) {
+        tmp.append(pm_joints[i]->getConfigurationSpace());
+    }
+
+    return tmp;
+}
+
 bool Robot::inverseKinematic (Transform objective) {
     //Jacobian inverse technique
     //link https://en.wikipedia.org/wiki/Inverse_kinematics

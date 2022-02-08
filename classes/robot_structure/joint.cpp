@@ -61,6 +61,11 @@ Matrix AbsoluteJoint::getJacobianSection(const Matrix& homogenous, const Vectorn
     return tmp;
 }
 
+Vectorn AbsoluteJoint::getConfigurationSpace() {
+    return Vectorn( {pm_current_tr.x()   , pm_current_tr.y()    , pm_current_tr.z(),
+                     pm_current_tr.roll(), pm_current_tr.pitch(), pm_current_tr.yaw()} );
+}
+
 #pragma endregion
 
 #pragma region Revolute Joint
@@ -188,6 +193,27 @@ Matrix UnidirectionalRevoluteJoint::getJacobianSection(const Matrix& homogenous,
     return tmp;
 }
 
+Vectorn RevoluteJoint::getConfigurationSpace() {
+    return Vectorn( {pm_current_tr.roll(), pm_current_tr.pitch(), pm_current_tr.yaw()} );
+}
+
+Vectorn UnidirectionalRevoluteJoint::getConfigurationSpace() {
+    switch (m_axis)
+    {
+    case Roll:
+        return Vectorn( {pm_current_tr.roll()} );
+        break;
+    case Pitch:
+        return Vectorn( {pm_current_tr.pitch()} );
+        break;
+    case Yaw:
+        return Vectorn( {pm_current_tr.yaw()} );
+        break;
+    }
+
+    return Vectorn::unitVector(1);
+}
+
 #pragma endregion
 
 #pragma region Prismatic Joint
@@ -278,6 +304,26 @@ Matrix UnidirectionalPrismaticJoint::getJacobianSection(const Matrix& homogenous
     }
 
     return tmp;
+}
+
+Vectorn PrismaticJoint::getConfigurationSpace() {
+    return Vectorn( {pm_current_tr.x(), pm_current_tr.y(), pm_current_tr.z()} );
+}
+
+Vectorn UnidirectionalPrismaticJoint::getConfigurationSpace() {
+    switch (m_axis)
+    {
+    case X:
+        return Vectorn( {pm_current_tr.x()} );
+        break;
+    case Y:
+        return Vectorn( {pm_current_tr.y()} );
+        break;
+    case Z:
+        return Vectorn( {pm_current_tr.z()} );
+        break;
+    }
+    return Vectorn::unitVector(1);
 }
 
 #pragma endregion

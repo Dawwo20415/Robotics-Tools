@@ -64,6 +64,7 @@ class Joint {
         //Virtual Functions
         virtual bool applyTransform(Transform tr) = 0;
         virtual Matrix  getHomogenousTransformationMatrix(Transform transform) = 0;
+        virtual Vectorn getConfigurationSpace() = 0;
         virtual Matrix  linkMatrix();
 
         virtual void printStatus();
@@ -86,6 +87,7 @@ class AbsoluteJoint : public Joint {
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
             Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
+            Vectorn getConfigurationSpace();
 };
 
 class RevoluteJoint : public Joint {
@@ -99,6 +101,7 @@ class RevoluteJoint : public Joint {
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
             Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
+            Vectorn getConfigurationSpace();
 };
 
 class UnidirectionalRevoluteJoint : public Joint {
@@ -118,6 +121,7 @@ class UnidirectionalRevoluteJoint : public Joint {
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
             Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
+            Vectorn getConfigurationSpace();
 };
 
 class PrismaticJoint : public Joint {
@@ -131,6 +135,7 @@ class PrismaticJoint : public Joint {
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
             Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
+            Vectorn getConfigurationSpace();
 };
 
 class UnidirectionalPrismaticJoint : public Joint {
@@ -150,6 +155,7 @@ class UnidirectionalPrismaticJoint : public Joint {
             Matrix  getHomogenousTransformationMatrix(Transform transform) override;
             Matrix getJacobianSection(const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
+            Vectorn getConfigurationSpace();
 };
 
 //Functions
