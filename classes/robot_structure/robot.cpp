@@ -25,9 +25,11 @@ Matrix Robot::getJacobian() {
     Matrix jacobian ({{0},{0},{1},{0},{0},{0}});
     Matrix homogenous_matrix = pm_source_link.link_matrix();
 
+    homogenous_matrix.println();
+
     for (int i = 0; i < pm_joints.size(); i++) {
 
-        jacobian.rowAppend(pm_joints[i]->getJacobianSection(homogenous_matrix, pm_endeffector));
+        pm_joints[i]->getJacobianSection(jacobian, homogenous_matrix, pm_endeffector);
 
         homogenous_matrix *= pm_joints[i]->getHomogenousTransformationMatrix(pm_transforms[i]);
         homogenous_matrix *= pm_joints[i]->linkMatrix();
