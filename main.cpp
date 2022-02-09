@@ -16,6 +16,8 @@
 * - The robot simulation software doesn't provide parsed data from the sensors, therefore
     sensors data will need to be partsed and probably a camera controller will need to be made, I have no idea if it needs to be attached 
     to the robotic arm, but for now it seems that we can use both cameras and lasers;
+* - Probably will need to make a class called "Robot Controller" that will determin how the robot will act and decide in what position it should be in
+    for instance determine path and interpolation of positions, handle sensor input and implement the object finding behaviour
 */
 
 //All the actions to affect the Joints
