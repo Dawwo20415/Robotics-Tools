@@ -55,21 +55,24 @@ Matrix UnidirectionalRevoluteJoint::getHomogenousTransformationMatrix() {
 
     switch (m_axis) {
         case Yaw:
-            rotation = {{cos(pm_current_tr.yaw()), -sin(pm_current_tr.yaw()), 0},
-                        {sin(pm_current_tr.yaw()),  cos(pm_current_tr.yaw()), 0},
-                        {      0      ,       0       , 1}};
+            rotation = {{cos(pm_current_tr.yaw()), -sin(pm_current_tr.yaw()), 0, 0},
+                        {sin(pm_current_tr.yaw()),  cos(pm_current_tr.yaw()), 0, 0},
+                        {      0      ,        0      , 1, 0},
+                        {      0      ,        0      , 0, 1}};
             break;
         
         case Pitch:
-            rotation = {{ cos(pm_current_tr.pitch()), 0, sin(pm_current_tr.pitch())},
-                        {        0       , 1,        0       },
-                        {-sin(pm_current_tr.pitch()), 0, cos(pm_current_tr.pitch())}};
+            rotation = {{ cos(pm_current_tr.pitch()), 0, sin(pm_current_tr.pitch()),0},
+                        {        0       , 1,       0        ,0},
+                        {-sin(pm_current_tr.pitch()), 0, cos(pm_current_tr.pitch()),0},
+                        {        0       , 0,       0        ,1}};
             break;
         
         case Roll:
-            rotation = {{ 1,       0       ,        0       },
-                        { 0, cos(pm_current_tr.roll()), -sin(pm_current_tr.roll())},
-                        { 0, sin(pm_current_tr.roll()),  cos(pm_current_tr.roll())}};
+            rotation = {{1,        0      ,         0      ,0},
+                        {0, cos(pm_current_tr.roll()), -sin(pm_current_tr.roll()),0},
+                        {0, sin(pm_current_tr.roll()),  cos(pm_current_tr.roll()),0},
+                        {0,        0      ,         0      ,1}};
             break;
     }
 

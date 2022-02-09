@@ -10,16 +10,16 @@
 //All the actions to affect the Joints
 std::vector<Transform> getActions() {
 
-    return {Transform({0,0,0},{M_PI_2 / 4,M_PI_4,M_PI_2 / 3}),
-            Transform({0,0,0},{0,0,M_PI_2 / 3})};
+    return {Transform({0,0,0},{M_PI_2,M_PI_2,M_PI_2}),
+            Transform({0,0,0},{M_PI_4,M_PI_4,M_PI_4})};
 
 }
 
 int main()
 {
     //Declaration of all components
-    UnidirectionalRevoluteJoint  joint1(Link({sqrt(2),0,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}));
-    UnidirectionalRevoluteJoint  joint2(Link({1,0,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}));
+    UnidirectionalRevoluteJoint  joint1(Link({0,1,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}), UnidirectionalRevoluteJoint::Pitch);
+    UnidirectionalRevoluteJoint  joint2(Link({0,sqrt(2),0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}), UnidirectionalRevoluteJoint::Yaw);
     RevoluteJoint  joint3(Link({sqrt(2),0,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}));
 
     std::vector<Joint*> tmp;
