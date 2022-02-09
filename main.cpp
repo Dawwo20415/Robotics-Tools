@@ -7,6 +7,17 @@
 //Pitch -   Y
 //Yaw   -   Z
 
+/*
+* TO DO LIST FOR WHEN COMING BACK:
+* - Check if the jacobian calculation is correct, 
+    it would seem to be correct but I have no counterparts to compare it with
+* - Make function to generate the pseudoinverse of the Jacobian with SVD
+* - Use the inverse jacobian to iteratively do the inverse kinematic
+* - The robot simulation software doesn't provide parsed data from the sensors, therefore
+    sensors data will need to be partsed and probably a camera controller will need to be made, I have no idea if it needs to be attached 
+    to the robotic arm, but for now it seems that we can use both cameras and lasers;
+*/
+
 //All the actions to affect the Joints
 std::vector<Transform> getActions() {
 
@@ -19,7 +30,7 @@ int main()
 {
     //Declaration of all components
     UnidirectionalRevoluteJoint  joint1(Link({0,1,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}), UnidirectionalRevoluteJoint::Pitch);
-    UnidirectionalRevoluteJoint  joint2(Link({0,sqrt(2),0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}), UnidirectionalRevoluteJoint::Yaw);
+    UnidirectionalRevoluteJoint  joint2(Link({1,0,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}), UnidirectionalRevoluteJoint::Yaw);
     RevoluteJoint  joint3(Link({sqrt(2),0,0}), Transform({0,0,0},{M_PI,M_PI,M_PI}), Transform({0,0,0},{0,0,0}));
 
     std::vector<Joint*> tmp;
@@ -47,6 +58,10 @@ int main()
     std::cout << std::endl;
 
     std::cout << "JACOBIAN:" << std::endl;
+    bot.jacobianSteps();
+    std::cout << std::endl;
+
+    std::cout << "JACOBIAN OLD:" << std::endl;
     bot.getJacobian().println();
     std::cout << std::endl;
 

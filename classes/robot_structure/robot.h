@@ -34,6 +34,7 @@ class Robot {
             Matrix getHomogenousMatrix();
             Vectorn getEndEffector();
             Matrix getJacobian();
+            Matrix jacobianSteps();
             Vectorn getConfigurationSpace();
             //Vectorn redefineJoints();
             //Returns wether or not the objective is reachable

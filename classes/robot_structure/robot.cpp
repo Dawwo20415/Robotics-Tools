@@ -54,7 +54,6 @@ Vectorn Robot::getEndEffector () {
 
     homogenous_matrix.columnDetatch(1, END_TO_BEGIN);
     homogenous_matrix.rowDetatch(1, END_TO_BEGIN);
-    homogenous_matrix.println();
 
     Matrix rotated_normal = homogenous_matrix * Matrix({0,1,0}, VERTICAL);
     Vectorn new_normal = Matrix::toVector(rotated_normal);
@@ -122,4 +121,66 @@ void Robot::printStatus() {
         j->printVector();
         std::cout << std::endl; 
     });
+}
+
+Matrix Robot::jacobianSteps() {
+    Matrix rotation (Matrix::identityMatrix(4));
+    Matrix jacobian (6,1);
+
+    for (int i = 0; i < pm_joints.size(); i++) {
+        std::cout << "For Joint i:" << i+1 << " R 0 to " << i << " Displacement d end - d" << i <<std::endl;
+        std::cout << "R 0|" << i << std::endl;
+        if (i > 0)
+            rotation *= pm_joints[i-1]->getHomogenousTransformationMatrix();
+        
+        rotation.println();
+
+        std::cout << "d 0|" << i << std::endl;
+        if (i > 0) 
+            rotation *= pm_joints[i-1]->displacementMatrix();
+        
+        rotation.println();
+
+        Vectorn displacement(3);
+        Vectorn d0i(3);
+
+        for (int j = 0; j < 3; j++) {
+            d0i[j] = rotation(j,3);
+        }
+
+        displacement = pm_endeffector - d0i;
+        std::cout << "Displacement vector:" << std::endl;
+        displacement.println();
+
+        Vectorn Z(3);
+
+        if (i == 0) {
+            for (int j = 0; j < 3; j++) {
+                Z[j] = rotation(j,2);
+                jacobian(j+3,0) = rotation(j,2);
+            }
+            Vectorn result = Z * displacement;
+            for (int j = 0; j < 3; j++) {
+                jacobian(j,0) = result[j];
+            }
+        } else {
+            Matrix jPiece(6,1);
+
+            for (int j = 0; j < 3; j++) {
+                Z[j] = rotation(j,2);
+                jPiece(j+3,0) = rotation(j,2);
+            }
+            Vectorn result = Z * displacement;
+            for (int j = 0; j < 3; j++) {
+                jPiece(j,0) = result[j];
+            }
+            jacobian.rowAppend(jPiece);
+        }
+
+        jacobian.println();
+    
+    }
+
+    return Matrix::identityMatrix(4);
+    
 }
