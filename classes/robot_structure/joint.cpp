@@ -93,29 +93,26 @@ bool UnidirectionalRevoluteJoint::applyTransform(Transform tr) {
     return true;
 }
 
-Matrix RevoluteJoint::getHomogenousTransformationMatrixSteps (Transform tr, int step) {
-    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
+Matrix RevoluteJoint::getHomogenousTransformationMatrixSteps (int step) {
 
     Matrix rotation(4,4);
-
-    pm_current_tr = tr;
 
     switch (step) {
         case 0:
             rotation = Matrix({{1,        0      ,         0      ,0},
-                               {0, cos(tr.roll()), -sin(tr.roll()),0},
-                               {0, sin(tr.roll()),  cos(tr.roll()),0},
+                               {0, cos(pm_current_tr.roll()), -sin(pm_current_tr.roll()),0},
+                               {0, sin(pm_current_tr.roll()),  cos(pm_current_tr.roll()),0},
                                {0,        0      ,         0      ,1}});
             break;
         case 1:
-            rotation = Matrix({{ cos(tr.pitch()), 0, sin(tr.pitch()),0},
+            rotation = Matrix({{ cos(pm_current_tr.pitch()), 0, sin(pm_current_tr.pitch()),0},
                                {        0       , 1,       0        ,0},
-                               {-sin(tr.pitch()), 0, cos(tr.pitch()),0},
+                               {-sin(pm_current_tr.pitch()), 0, cos(pm_current_tr.pitch()),0},
                                {        0       , 0,       0        ,1}});
             break;
         case 2:
-            rotation = Matrix({{cos(tr.yaw()), -sin(tr.yaw()), 0, 0},
-                               {sin(tr.yaw()),  cos(tr.yaw()), 0, 0},
+            rotation = Matrix({{cos(pm_current_tr.yaw()), -sin(pm_current_tr.yaw()), 0, 0},
+                               {sin(pm_current_tr.yaw()),  cos(pm_current_tr.yaw()), 0, 0},
                                {      0      ,        0      , 1, 0},
                                {      0      ,        0      , 0, 1}});
             break;
@@ -127,21 +124,30 @@ Matrix RevoluteJoint::getHomogenousTransformationMatrixSteps (Transform tr, int 
 
 Matrix RevoluteJoint::getJacobianSection(Matrix& jacobian, const Matrix& homogenous, const Vectorn& endEffector) {
     Matrix tmp(6,1);
+    Matrix A = homogenous;
     Vectorn upper(3);
     Vectorn precedentPosition(3);
 
-    for (int i = 0; i < 3; i++) {
-        upper[i] = homogenous(i,2);
-        tmp(i+3,0) = homogenous(i,2);
-        precedentPosition[i] = homogenous(i,3);
-    }
-
-    upper *= (endEffector - precedentPosition);
 
     for (int i = 0; i < 3; i++) {
-        tmp(i,0) = upper[i];
-    }
+        if (i != 0)
+            A *= getHomogenousTransformationMatrixSteps(i);
 
+        for (int i = 0; i < 3; i++) {
+            upper[i] = A(i,2);
+            tmp(i+3,0) = A(i,2);
+            precedentPosition[i] = A(i,3);
+        }
+
+        upper *= (endEffector - precedentPosition);
+
+        for (int i = 0; i < 3; i++) {
+            tmp(i,0) = upper[i];
+        }
+
+        jacobian.rowAppend(tmp);
+    }
+    
     return tmp;
 }
 
@@ -161,6 +167,8 @@ Matrix UnidirectionalRevoluteJoint::getJacobianSection(Matrix& jacobian, const M
     for (int i = 0; i < 3; i++) {
         tmp(i,0) = upper[i];
     }
+
+    jacobian.rowAppend(tmp);
 
     return tmp;
 }
@@ -265,22 +273,18 @@ bool UnidirectionalPrismaticJoint::applyTransform(Transform tr) {
     return true;
 }
 
-Matrix PrismaticJoint::getHomogenousTransformationMatrixSteps (Transform tr, int step) {
-    if (!applyTransform(tr)) return Matrix::identityMatrix(4);
-
+Matrix PrismaticJoint::getHomogenousTransformationMatrixSteps (int step) {
     Matrix rotation ( Matrix::identityMatrix(3) );
-
-    pm_current_tr = tr;
 
     switch (step) {
         case 0:
-            rotation.rowAppend(Matrix({tr.x(),0,0}, VERTICAL));
+            rotation.rowAppend(Matrix({pm_current_tr.x(),0,0}, VERTICAL));
             break;
         case 1:
-            rotation.rowAppend(Matrix({0,tr.y(),0}, VERTICAL));
+            rotation.rowAppend(Matrix({0,pm_current_tr.y(),0}, VERTICAL));
             break;
         case 2:
-            rotation.rowAppend(Matrix({0,0,tr.z()}, VERTICAL));
+            rotation.rowAppend(Matrix({0,0,pm_current_tr.z()}, VERTICAL));
             break;
     }
 
@@ -297,7 +301,7 @@ Matrix PrismaticJoint::getJacobianSection(Matrix& jacobian, const Matrix& homoge
         tmp(i,0) = homogenous(i,2);
     }
 
-
+    jacobian.rowAppend(tmp);
 
     return tmp;
 }
@@ -308,6 +312,8 @@ Matrix UnidirectionalPrismaticJoint::getJacobianSection(Matrix& jacobian, const 
     for (int i = 0; i < 3; i++) {
         tmp(i,0) = homogenous(i,2);
     }
+
+    jacobian.rowAppend(tmp);
 
     return tmp;
 }

@@ -62,6 +62,8 @@ Matrix Robot::getJacobian() {
         homogenous_matrix *= j->linkMatrix();
     });
 
+    jacobian.columnDetatch(1, BEGIN_TO_END);
+
     return jacobian;
 }
 

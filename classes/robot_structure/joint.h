@@ -91,7 +91,7 @@ class RevoluteJoint : public Joint {
         //Functions -------------------------------------------
             bool setPosition(Transform tr);
             Matrix  getHomogenousTransformationMatrix() override;
-            Matrix  getHomogenousTransformationMatrixSteps(Transform transform, int step);
+            Matrix  getHomogenousTransformationMatrixSteps(int step);
             Matrix getJacobianSection(Matrix& jacobian, const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
             Vectorn getConfigurationSpace();
@@ -128,7 +128,7 @@ class PrismaticJoint : public Joint {
         //Functions -------------------------------------------
             bool setPosition(Transform tr);
             Matrix  getHomogenousTransformationMatrix() override;
-            Matrix  getHomogenousTransformationMatrixSteps(Transform transform, int step);
+            Matrix  getHomogenousTransformationMatrixSteps(int step);
             Matrix getJacobianSection(Matrix& jacobian, const Matrix& homogenous, const Vectorn& endEffector) override;
             virtual bool applyTransform(Transform tr);
             Vectorn getConfigurationSpace();
