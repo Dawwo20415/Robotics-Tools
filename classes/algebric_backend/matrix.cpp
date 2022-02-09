@@ -543,7 +543,7 @@ void Matrix::print() const {
             if (j == pm_column_dim - 1){
                 (pm_matrix[i])[j] < 0 ? line << (pm_matrix[i])[j] << " " : line << " " << (pm_matrix[i])[j] << " ";
             } else {
-                (pm_matrix[i])[j] < 0 ? line << (pm_matrix[i])[j] << "  | " : line << " " << (pm_matrix[i])[j] << "  | ";
+                (pm_matrix[i])[j] < 0 ? line << (pm_matrix[i])[j] << " | " : line << " " << (pm_matrix[i])[j] << " | ";
             }      
         }
 
