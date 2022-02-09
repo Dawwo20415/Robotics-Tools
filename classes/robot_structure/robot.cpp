@@ -20,12 +20,12 @@ void Robot::setPosition(std::vector<Transform> transformsList) {
 
 Matrix Robot::getHomogenousMatrix() {
     //First link transformation matrix
-    Matrix homogenous_matrix = pm_source_link.link_matrix();
+    Matrix homogenous_matrix = pm_source_link.displacementMatrix();
 
     //Cycle trough all the joints and associated links
     cycleJoints( [&homogenous_matrix](Joint* j) mutable {
         homogenous_matrix *= j->getHomogenousTransformationMatrix();
-        homogenous_matrix *= j->linkMatrix();
+        homogenous_matrix *= j->displacementMatrix();
     });
 
     return homogenous_matrix;
@@ -34,12 +34,15 @@ Matrix Robot::getHomogenousMatrix() {
 Vectorn Robot::getEndEffector () {
 
     //First link transformation matrix
-    Matrix homogenous_matrix = pm_source_link.link_matrix();
+    Matrix homogenous_matrix = pm_source_link.displacementMatrix();
+    homogenous_matrix.println();
 
     //Cycle trough all the joints and associated links
     cycleJoints( [&homogenous_matrix](Joint* j) mutable {
         homogenous_matrix *= j->getHomogenousTransformationMatrix();
-        homogenous_matrix *= j->linkMatrix();
+        homogenous_matrix.println();
+        homogenous_matrix *= j->displacementMatrix();
+        homogenous_matrix.println();
     });
 
     //Calculate actual position
@@ -49,17 +52,25 @@ Vectorn Robot::getEndEffector () {
     pm_endeffector = Matrix::toVector(current_position);
     Vectorn::toCoordinates(pm_endeffector);
 
+    homogenous_matrix.columnDetatch(1, END_TO_BEGIN);
+    homogenous_matrix.rowDetatch(1, END_TO_BEGIN);
+    homogenous_matrix.println();
+
+    Matrix rotated_normal = homogenous_matrix * Matrix({0,1,0}, VERTICAL);
+    Vectorn new_normal = Matrix::toVector(rotated_normal);
+    new_normal.println();
+
     return pm_endeffector;
 }
 
 Matrix Robot::getJacobian() {
     Matrix jacobian ({{0},{0},{1},{0},{0},{0}});
-    Matrix homogenous_matrix = pm_source_link.link_matrix();
+    Matrix homogenous_matrix = pm_source_link.displacementMatrix();
 
     cycleJoints( [this, &jacobian, &homogenous_matrix](Joint* j) mutable {
         j->getJacobianSection(jacobian, homogenous_matrix, pm_endeffector);
         homogenous_matrix *= j->getHomogenousTransformationMatrix();
-        homogenous_matrix *= j->linkMatrix();
+        homogenous_matrix *= j->displacementMatrix();
     });
 
     jacobian.columnDetatch(1, BEGIN_TO_END);

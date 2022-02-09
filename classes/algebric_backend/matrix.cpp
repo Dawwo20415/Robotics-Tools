@@ -664,9 +664,17 @@ void Matrix::rowDetatch(const unsigned int& row, bool direction) {
     rowPreconditions(row);
 
     if (direction) {
-        pm_matrix.erase(pm_matrix.begin(), pm_matrix.begin() + row);
+        if (row == 1) {
+            pm_matrix.erase(pm_matrix.begin());
+        } else {
+            pm_matrix.erase(pm_matrix.begin(), pm_matrix.begin() + row);
+        }     
     } else {
-        pm_matrix.erase(pm_matrix.begin() + row + 1, pm_matrix.end() - 1);
+        if (row == 1) {
+            pm_matrix.pop_back();
+        } else {
+            pm_matrix.erase(pm_matrix.begin() + row + 1, pm_matrix.end() - 1);
+        }
     }
 
     pm_row_dim -= row;

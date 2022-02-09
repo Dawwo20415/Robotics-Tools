@@ -44,10 +44,10 @@ class Link {
                                             (link_end[1] * link_end[1]) + 
                                             (link_end[2] * link_end[2])); }
         
-        Matrix link_matrix () {return Matrix({{1,0,0,link_end[0]},
-                                              {0,1,0,link_end[1]},
-                                              {0,0,1,link_end[2]},
-                                              {0,0,0,    1      }});}
+        Matrix displacementMatrix () {return Matrix({{1,0,0,link_end[0]},
+                                                     {0,1,0,link_end[1]},
+                                                     {0,0,1,link_end[2]},
+                                                     {0,0,0,    1      }});}
 
 };
 
@@ -70,7 +70,7 @@ class Joint {
         virtual bool setPosition(Transform tr) = 0;
         virtual Matrix  getHomogenousTransformationMatrix() = 0;
         virtual Vectorn getConfigurationSpace() = 0;
-        virtual Matrix  linkMatrix();
+        virtual Matrix  displacementMatrix();
 
         virtual void printStatus();
         virtual Vectorn jointVector();

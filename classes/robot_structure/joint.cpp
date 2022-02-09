@@ -343,8 +343,8 @@ Vectorn UnidirectionalPrismaticJoint::getConfigurationSpace() {
 
 #pragma endregion
 
-Matrix Joint::linkMatrix() {
-    return pm_link.link_matrix();
+Matrix Joint::displacementMatrix() {
+    return pm_link.displacementMatrix();
 }
 
 void Joint::printStatus() {
